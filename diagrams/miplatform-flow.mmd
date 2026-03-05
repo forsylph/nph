@@ -1,0 +1,45 @@
+flowchart TB
+    subgraph MiClient["MiPlatform Client"]
+        Form["Form (XML)<br/>Window, Grid, Button"]
+        Dataset["Dataset"]
+        Script["Script (JavaScript)"]
+    end
+
+    subgraph Transaction["Transaction"]
+        cfTransaction["cf_Transaction()"]
+        VariableList["VariableList"]
+        DatasetList["DatasetList"]
+    end
+
+    subgraph Server["MiPlatform Servlet"]
+        PlatformReq["PlatformRequest"]
+        PlatformRes["PlatformResponse"]
+    end
+
+    subgraph DevOn["DevOn Framework"]
+        MiReq["MiplatformRequest"]
+        MiRes["MiplatformResponse"]
+        Converter["MiplatformConverter"]
+        LData["LData/LMultiData"]
+    end
+
+    Form -->|사용자 액션| Script
+    Script -->|데이터 준비| Dataset
+    Script -->|호출| cfTransaction
+
+    cfTransaction -->|HTTP POST| PlatformReq
+    PlatformReq -->|수신| MiReq
+    MiReq -->|VariableList| LData
+
+    Dataset -->|변환| Converter
+    Converter -->|LMultiData| LData
+
+    LData -->|처리 결과| Converter
+    Converter -->|Dataset| MiRes
+    MiRes -->|sendData()| PlatformRes
+    PlatformRes -->|HTTP 응답| Form
+
+    style MiClient fill:#e3f2fd
+    style Transaction fill:#fff9c4
+    style Server fill:#ffccbc
+    style DevOn fill:#d1c4e9

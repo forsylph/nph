@@ -3,6 +3,8 @@
 > 국립의료원 병원정보시스템(NPH) 소스코드 분석
 > 분석일: 2025-03-05
 
+**📊 상세 분석 보고서**: [detailed-analysis.md](detailed-analysis.md) - 다이어그램 포함 상세 설명
+
 ---
 
 ## 개요
@@ -28,17 +30,144 @@
 | DB | Oracle / Tibero | - | - |
 | JDK | Java | 1.7.0_80 | - |
 
-### MiPlatform 버전 현황
+### MiPlatform 버전 현황 (정량 분석)
 
 | 프로젝트 | JAR | 실행 환경 | 비고 |
 |---------|-----|----------|------|
 | COMMON | 3.2 | 3.2 | 단일 버전 |
-| NPH_HIS | 3.2 | 3.2 + 3.3 | **병행 사용** |
+| NPH_HIS | 3.2 | **3.3 (97.2%)** | **주력 버전** |
 | NPH_ECS | - | - | 미사용 |
 
-> **참고**: NPH_HIS는 MiPlatform 3.2와 3.3을 병행 사용 중입니다.
-> - 주요 화면 (index.jsp, login-new.jsp): 3.3
-> - 레거시 화면 (sp_ray, login-se.jsp): 3.2
+#### NPH_HIS MiPlatform 버전 상세
+
+**JSP 파일 기준 정량 분석 (총 395개)**
+
+| 버전 | 파일 수 | 비율 | 주요 용도 |
+|------|---------|------|-----------|
+| **3.3** | 11개 | **2.8%** | 설치/인덱스/로그인 |
+| **3.2** | 7개 | **1.8%** | SP-Ray(영상의학팀) |
+| 미지정 | 377개 | 95.4% | 업무 로직 (인덱스에 따라 버전 결정) |
+
+**주요 진입점 버전 현황**
+
+| 진입점 | 버전 | 설명 |
+|--------|------|------|
+| `index.jsp` | 미지정 | 기본 진입점 (런처 호출) |
+| `index330.jsp` | **3.3** | 주력 인덱스 (권장) |
+| `index320.jsp` | **3.2** | 레거시 인덱스 |
+| `login-new.jsp` | **3.3** | 주력 로그인 |
+| `login-new320.jsp` | **3.2** | 레거시 로그인 |
+| `jsp/sp_ray/index.jsp` | **3.2** | 영상의학팀 전용 |
+
+**결론**: MiPlatform 3.3이 주력이며, 3.2는 영상의학팀(SP-Ray) 일부에서만 유지됩니다.
+
+---
+
+## MiPlatform 아키텍처 분석
+
+### 매뉴얼 기준 구조 vs 실제 프로젝트 매핑
+
+#### 1. AppGroup 구조
+
+| 매뉴얼 개념 | 실제 프로젝트 | 예시 |
+|-------------|---------------|------|
+| AppGroup | `/webapp/ui/NPH_start.xml` | `<AppGroup Prefix="AZ_COM" Type="form">` |
+| Prefix | 업무 코드 | AZ_COM, MD_OPN, SP |
+| Type | form / js / Bs / File | form: 화면, js: 라이브러리 |
+| BaseUrl | 상대 경로 | AZ/COM/, SP/ |
+
+**실제 AppGroup 목록 (NPH_start.xml):**
+- LIBs (js): 공통 JavaScript 라이브러리
+- com (form): 공통 폼
+- ROOT (form): 루트 폼
+- MAIN (form): 메인 화면
+- AZ_COM, AZ_UTL: 공통업무
+- ER_ACC: 회계/재무
+- MD_OPN: 외래진료
+- MR_COM: 원무/수납
+- SP: 검사/방사선
+
+#### 2. Form (XML) 구조
+
+**매뉴얼 구조:**
+```xml
+<Window>
+  <Form Id="화면ID" Title="제목">
+    <Datasets>...</Datasets>
+    <Grid .../>
+    <Button .../>
+    <Script><![CDATA[...]]></Script>
+  </Form>
+</Window>
+```
+
+**실제 예시 (Login3.xml):**
+```xml
+<Form Height="802" Id="SP_CEL01010M" Title="검체인수확인"
+      OnLoadCompleted="Form_OnLoadCompleted"
+      OnKeyDown="Form_OnKeyDown">
+  <Datasets>
+    <Dataset Id="ds_PtInfo" UseClientLayout="1">
+      <colinfo id="pid" type="STRING"/>
+    </Dataset>
+  </Datasets>
+  <Grid BindDataset="ds_PtInfo" .../>
+  <Script><![CDATA[...]]></Script>
+</Form>
+```
+
+**파일 위치:** `/webapp/ui/{업무}/{화면코드}.xml`
+- 예: `ui/AZ/COM/AZ_COM99005M.xml` (휴일관리)
+- 예: `ui/SP/CEL/SP_CEL01010M.xml` (검체인수확인)
+
+#### 3. Dataset 사용 패턴
+
+| 속성 | 설명 | 예시 |
+|------|------|------|
+| `Id` | 데이터셋 식별자 | ds_PtInfo, ds_List |
+| `DataSetType` | 유형 | Dataset |
+| `UseClientLayout` | 클라이언트 레이아웃 | 1 |
+| `_rowStatus` | 행 상태 | C(생성), U(수정), D(삭제) |
+
+**Transaction 연결:**
+```javascript
+Transaction("SavePbhlCd",
+  "/az/bizcom/cmcdNavi/SaveDetail.mhi",
+  "ds_detail=ds_PbhlCd:u",
+  "",
+  "",
+  "fTrCallBack");
+```
+
+#### 4. MiPlatform → DevOn 연동 플로우
+
+```
+[MiPlatform Client]
+       │
+       ▼ cf_Transaction()
+[MiplatformServlet] (*.mhi)
+       │
+       ├── beforeCatchService()
+       │      ├── new MiplatformRequest(req)
+       │      │      └── receiveData()
+       │      │             ├── VariableList 파싱
+       │      │             └── DatasetList 파싱
+       │      ├── new MiplatformResponse(res)
+       │      └── ActionContext 저장
+       │
+       └── catchService()
+              ├── Command.invoke()
+              │      ├── AbstractMiplatformCommand()
+              │      │      └── validateByRequisite()
+              │      └── execute()
+              │             ├── getMultiDatasetWithJobType()
+              │             │      └── Dataset → LMultiData 변환
+              │             ├── PC 호출 (TxServiceUtil)
+              │             └── addDataset(result)
+              │                   └── LMultiData → Dataset 변환
+              └── sendData()
+                     └── HTTP 응답
+```
 
 ---
 
@@ -58,6 +187,251 @@ workspace/
         ├── EMR_DATA/       # EMR 데이터 처리
         └── ui/             # MiPlatform 화면 파일
 ```
+
+---
+
+## DevOn Framework (LG CNS) 심층 분석
+
+### 개요
+
+| 항목 | 내용 |
+|------|------|
+| **프레임워크** | DevOn Framework |
+| **개발사** | LG CNS, Inc. |
+| **버전** | 3.0.0 ~ 4.1.0 |
+| **연락처** | devon@lgcns.com |
+| **홈페이지** | http://www.dev-on.com |
+| **목적** | 엔터프라이즈 시스템 개발 표준화 및 생산성 향상 |
+
+### DevOn Framework 설계 목적
+
+DevOn Framework는 다음을 위해 설계되었습니다:
+
+1. **표준화**: 일관된 아키텍처와 코딩 규칙 적용
+2. **생산성**: 반복적 코드 작성 최소화
+3. **유지보수성**: 선언적 설정으로 변경 용이
+4. **확장성**: 모듈식 구조로 기능 확장 가능
+5. **MiPlatform 연동**: RIA 시스템 개발 지원
+
+---
+
+### DevOn 실행 플로우
+
+#### 전체 아키텍처 플로우
+
+```
+[Client] → [Servlet] → [Interceptor] → [Command] → [PC] → [DAO] → [DB]
+              ↑___________________________↓
+                        Navigation
+```
+
+#### 상세 실행 순서
+
+**1. HTTP Request 수신**
+```
+1.1 사용자가 *.mhi URL 호출
+1.2 web.xml → MiPlatformChannelServlet 매핑
+1.3 MiplatformServlet.doPost() 실행
+```
+
+**2. Request/Response 초기화**
+```
+2.1 beforeCatchService()
+    ├── new MiplatformRequest(HttpServletRequest)
+    │   └── PlatformRequest 생성
+    │   └── receiveData() - MiPlatform 프로토콜 파싱
+    │       ├── VariableList (파라미터)
+    │       └── DatasetList (데이터셋)
+    ├── new MiplatformResponse(HttpServletResponse)
+    └── ActionContext에 저장 (ThreadLocal)
+```
+
+**3. Navigation 라우팅**
+```
+3.1 Navigation XML 로딩
+    예: /az/bizcom/cmcdNavi/SaveDetail.mhi
+        → az/bizcom/cmcdNavi.xml
+
+3.2 Action 매핑
+    <action name="SaveDetail">
+        <command>nph.his.az.bizcom.cmcd.cmd.SaveDetailCMD</command>
+        <interceptor>defaultStack</interceptor>
+    </action>
+```
+
+**4. Interceptor Chain 실행**
+```
+4.1 defaultStack 순차 실행
+    ├── loginCheck      : 로그인 여부 확인
+    ├── converter       : 데이터 변환
+    └── command         : Command 실행
+
+4.2 각 Interceptor는 doIntercept()로 체인 진행
+```
+
+**5. Command 실행**
+```
+5.1 AbstractMiplatformCommand 생성자
+    ├── platformRequest/Response 획득
+    ├── paramData 추출
+    └── Requisite 유효성 검증
+
+5.2 execute() 메소드 실행
+    ├── Input Dataset 변환
+    │   └── Dataset → LMultiData (CUD 구분)
+    ├── PC (Process Component) 호출
+    │   └── TxServiceUtil.getNTxService()
+    ├── 비즈니스 로직 실행
+    └── Output Dataset 변환
+        └── LMultiData → Dataset
+```
+
+**6. Transaction 처리**
+```
+6.1 TxServiceUtil을 통한 트랜잭션 관리
+    ├── Transaction 시작
+    ├── 비즈니스 로직 실행
+    └── Commit 또는 Rollback
+
+6.2 JDBC 기반 트랜잭션
+    (devon-framework.xml의 transaction 매니저)
+```
+
+**7. XML Query 실행**
+```
+7.1 LQueryService를 통한 쿼리 실행
+    └── devonhome/xmlquery/*.xml
+
+7.2 예: app/emp/login.xml
+    <statement name="retrieveUserInfo">
+        SELECT * FROM users WHERE id = ${usid}
+    </statement>
+```
+
+**8. Response 전송**
+```
+8.1 catchService() finally 블록
+    └── platformRes.sendData()
+        ├── 결과 Dataset 변환
+        └── HTTP Response 전송
+```
+
+---
+
+### DevOn-MiPlatform 데이터 변환 플로우
+
+```
+[MiPlatform Client]
+       │ Dataset
+       ▼
+[MiplatformRequest]
+       │ receiveData()
+       ▼
+[PlatformRequest]
+       │ getDatasetList()
+       ▼
+[MiplatformConverter]
+       │ convertToLMultiDataWithJobType()
+       ▼
+[LMultiData] ──┐
+               │ Command.execute()
+               ▼
+[PC] ──────────┤
+               │
+               ▼
+[MiplatformConverter]
+       │ convertToDataset()
+       ▼
+[Dataset] → [MiplatformResponse] → [Client]
+```
+
+---
+
+### 핵심 컴포넌트
+
+### 핵심 컴포넌트
+
+#### 1. Servlet 계층
+
+| 클래스 | 파일 경로 | 설명 |
+|--------|-----------|------|
+| `GeneralServlet` | `COMMON/src/devonx/nph/system/servlet/GeneralServlet.java` | 일반 HTTP 요청 처리 |
+| `MiplatformServlet` | `COMMON/src/devonx/nph/system/servlet/MiplatformServlet.java` | MiPlatform 연동 서블릿 |
+
+#### 2. Command 계층
+
+| 클래스 | 파일 경로 | 설명 |
+|--------|-----------|------|
+| `AbstractMiplatformCommand` | `COMMON/src/devonx/nph/system/cmd/AbstractMiplatformCommand.java` | MiPlatform 연동 Command 기본 클래스 |
+| `LBlobImageCommand` | `NPH_HIS/src/nph/his/core/cmd/LBlobImageCommand.java` | BLOB 이미지 출력 |
+| `LFileDownLoadCommand` | `NPH_HIS/src/nph/his/core/cmd/LFileDownLoadCommand.java` | 파일 다운로드 |
+
+#### 3. MiPlatform 연동
+
+| 클래스 | 파일 경로 | 핵심 기능 |
+|--------|-----------|-----------|
+| `MiplatformConverter` | `COMMON/src/devonx/nph/miplatform/MiplatformConverter.java` | Dataset ↔ LData/LMultiData 변환 |
+| `MiplatformRequest` | `COMMON/src/devonx/nph/miplatform/MiplatformRequest.java` | MiPlatform 요청 처리 |
+| `MiplatformResponse` | `COMMON/src/devonx/nph/miplatform/MiplatformResponse.java` | MiPlatform 응답 처리 |
+
+### 설정 파일 구조
+
+```
+devonhome/
+├── conf/
+│   ├── devon.xml                 # 메인 설정
+│   ├── devon-core.xml            # Core 설정
+│   ├── devon-framework.xml       # Framework 설정
+│   ├── requisite.xml             # 입력값 검증
+│   └── product/
+│       ├── devon-batch-core.xml
+│       └── devon-batch-scheduler.xml
+├── navigation/                   # Navigation 설정
+│   ├── his/                      # 병원정보시스템
+│   ├── mhi/                      # MiPlatform 네비게이션
+│   ├── img/                      # 이미지업무
+│   └── ajax/                     # AJAX 네비게이션
+└── xmlquery/                     # XML 기반 SQL
+    ├── app/
+    ├── md/
+    └── er/
+```
+
+### 주요 설정 (devon-framework.xml)
+
+#### DataSource 설정
+```xml
+<datasource name="default">
+    <jndi-name>java:comp/env/jdbc/NPHDB</jndi-name>
+</datasource>
+<datasource name="encdb">
+    <jndi-name>java:comp/env/jdbc/NPHENCDB</jndi-name>
+</datasource>
+```
+
+#### Navigation 설정
+```xml
+<navigation name="his">
+    <directory>#home/navigation/his</directory>
+    <encoding-type>EUC-KR</encoding-type>
+    <default-handler>forward</default-handler>
+</navigation>
+```
+
+#### Interceptor Stack
+```xml
+<interceptor-stack name="defaultStack">
+    <interceptor-ref name="loginCheck"/>
+    <interceptor-ref name="converter"/>
+    <interceptor-ref name="command"/>
+</interceptor-stack>
+```
+
+### LG CNS 라이선스 주의사항
+
+> **주의**: 소스를 변경하여 사용하는 경우 DevOn 개발담당자에게 변경된 소스 전체와 변경된 사항을 알려야 한다. 원저자의 허락없이 재배포 할 수 없으며 LG CNS 외부로의 유출을 하여서는 안 된다.
+>
+> (MiplatformConverter.java 저작권 주석)
 
 ---
 
