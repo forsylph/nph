@@ -9,7 +9,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| **프로젝트명** | NPH (National Medical Center Hospital Information System) |
+| **프로젝트명** | NPH (National XXX Hospital Information System) |
 | **분석 대상** | `/mnt/n/99.SourceCode Backup/NPH/AADEV_NPH/workspace` |
 | **총 파일 수** | 약 17,800개 |
 | **구성 프로젝트** | COMMON, NPH_ECS, NPH_HIS, NPH_BAT, NPH_BUILD |
