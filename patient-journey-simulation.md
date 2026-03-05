@@ -1266,3 +1266,110 @@ devonhome/navigation/mhi/
 ---
 
 *피어리뷰 완료: 2026-03-06*
+
+---
+
+## 🏥 추가 발견: 보험/보험심사 모듈 (ER_INS)
+
+> **@리뷰어코멘트**: 피어리뷰 중 보험/보험심사 관련 로직이 누락되어 있어 추가합니다.
+> 이는 환자가 직접 보지 못하는 중요한 백엔드 로직입니다.
+
+### 발견된 보험 관련 모듈
+
+| 모듈 코드 | 모듈명 | 설명 | 화면 수 |
+|-----------|--------|------|---------|
+| **ER_INS** | Insurance | 보험심사/보험청구 | 100+ 화면 |
+| **ER_INC** | Income | 수익/수입 관리 | 60+ 화면 |
+| **ER_PAY** | Payment | 수납/결제 | Navigation 존재 |
+| **ER_ACC** | Account | 회계 | Navigation 존재 |
+
+### 보험심사 플로우 (ER_INS)
+
+```mermaid
+flowchart TB
+    subgraph Stage_INS["보험심사 프로세스 (Backend)"]
+        direction TB
+        
+        INS1["보험자격확인<br/>ER_INS01001M"]
+        
+        subgraph Review["심사 단계"]
+            R1["예비심사<br/>PreRevw"]
+            R2["본심사<br/>MccsClcl"]
+            R3["심사결과<br/>PostRevwReClcl"]
+        end
+        
+        subgraph Claim["청구 처리"]
+            C1["청구생성<br/>ClamCrtn"]
+            C2["청구심사<br/>ClaimReview"]
+            C3["지급결정<br/>Payment"]
+        end
+        
+        INS1 --> R1
+        R1 --> R2
+        R2 --> R3
+        R3 --> C1
+        C1 --> C2
+        C2 --> C3
+    end
+    
+    style Stage_INS fill:#fff9c4
+```
+
+### 주요 보험심사 화면 (ER_INS)
+
+| 화면 ID | 화면명 | 경로 |
+|---------|--------|------|
+| ER_INS01001M | 보험자격확인 | ui/ER/INS/ER_INS01001M.xml |
+| ER_INS01012M | 보험심사메인 | ui/ER/INS/ER_INS01012M.xml |
+| ER_INS02001M | 보험청구 | ui/ER/INS/ER_INS02001M.xml |
+| ER_INS03001M | 심사결과조회 | ui/ER/INS/ER_INS03001M.xml |
+| ER_INS04001M | 지급관리 | ui/ER/INS/ER_INS04001M.xml |
+| ER_INS05001M | 통계관리 | ui/ER/INS/ER_INS05001M.xml |
+| ER_INS06001M | 보험심사상세 | ui/ER/INS/ER_INS06001M.xml |
+
+### 주요 보험심사 Java 클래스
+
+| 클래스명 | 경로 | 설명 |
+|----------|------|------|
+| `RetrieveInsuranceListCMD.java` | sp/rehabilitation/cmd | 보험목록조회 |
+| `ClamCrtnUC.java` | hp/com/uc | 청구생성 |
+| `MccsClclUC.java` | hp/com/uc | 의료비심사계산 |
+| `PostRevwReClclUC.java` | hp/com/uc | 심사후재계산 |
+| `PreRevwMngmPC.java` | hp/dms/revw/pc | 예비심사관리 |
+
+### 보험심사 Navigation 파일
+
+```
+devonhome/navigation/mhi/er/ins/
+├── comnNavi.xml          # 보험공통
+├── eduNavi.xml           # 교육
+├── gvodNavi.xml          # ?
+├── hiremngmNavi.xml      # 채용관리?
+├── hrafinfoNavi.xml      # 인사정보
+├── isuemngmNavi.xml      # 이슈관리
+├── tmatmngmNavi.xml      # ?
+└── tmlgNavi.xml          # ?
+```
+
+### 환자 여정에서의 보험심사 위치
+
+```
+Patient Journey 확장:
+접수(AZ) → 수납(MR) → 진료(MD) → 검사(SP) → 조제(SP_PHA) → 퇴원(HP)
+                                          │
+                                          ↓
+                                    보험심사(ER_INS)
+                                          │
+                                          ↓
+                                    청구처리(ER_ACC)
+                                          │
+                                          ↓
+                                    수납완료(MR)
+```
+
+> **참고**: 보험심사는 환자가 직접 보지 못하는 백엔드 프로세스이지만, 
+> 병원 운영에서 매우 중요한 역할을 합니다.
+
+---
+
+**@보험심사추가**: 2026-03-06 피어리뷰 후 보험심사 모듈 추가됨

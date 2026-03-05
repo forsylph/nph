@@ -4,6 +4,8 @@
 > 분석일: 2025-03-05
 
 **📊 상세 분석 보고서**: [detailed-analysis.md](detailed-analysis.md) - 다이어그램 포함 상세 설명
+**📋 Patient Journey**: [patient-journey-simulation.md](patient-journey-simulation.md) - 환자 여정 시뮬레이션 (⚠️ 개념 문서)
+**🔍 피어리뷰 결과**: [patient-journey-simulation-peer-review.md](patient-journey-simulation-peer-review.md) - 검증 결과
 
 ---
 

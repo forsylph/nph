@@ -76,8 +76,8 @@
 │                      Server (NPH_ECS)                          │
 ├─────────────────────────────────────────────────────────────────┤
 │  Servlet Layer                                                  │
-│    ├── EMRDataServlet.java                                      │
-│    └── BK_ajax.java                                             │
+│    ├── BK_ajax.java                                             │
+│    └── @WebServlet 계열 EMR 처리 클래스                         │
 │                                                                 │
 │  EMR 데이터 연동                                                │
 │    ├── ExternalDBPusher.java                                    │
@@ -222,77 +222,39 @@ EMR 데이터 구조
 ### 4.1 NPH_HIS와의 연동
 
 ```java
-// NPH_HIS에서 EDViewer 호출 (JSP)
-// webapp/jsp/md/opn/emrView.jsp
+// 확인된 경로:
+// - NPH_HIS/webapp/eView/EdViewer.jsp
+// - NPH_HIS/webapp/jsp/md_mobile/emr/EdViewer.jsp
+//
+// 실제 호출 패턴(요약): OBJECT classid + 메서드 호출
 
-<%@ page language="java" contentType="text/html; charset=EUC-KR" %>
-<html>
-<head>
-    <script>
-        function openEmrViewer(pid, visitDate) {
-            // EDViewer ActiveX 객체 생성
-            var edviewer = new ActiveXObject("EDViewer.Control");
+<OBJECT ID="edvA"
+        classid="clsid:879DF37E-E2E1-4C52-979D-60E0806C6E97"
+        width="100%"
+        height="100%">
+</OBJECT>
 
-            // EMR 데이터 로드
-            var emrDataUrl = "/ecs/emrNavi/RetrieveEmrData.mhi" +
-                            "?pid=" + pid +
-                            "&visitDate=" + visitDate;
-
-            edviewer.LoadDocument(emrDataUrl);
-            edviewer.Show();
-        }
-    </script>
-</head>
-<body>
-    <button onclick="openEmrViewer('P12345', '20240305')">
-        EMR 조회
-    </button>
-
-    <!-- EDViewer 컨테이너 -->
-    <div id="edviewer-container" style="width:100%; height:600px;">
-    </div>
-</body>
-</html>
+<script>
+  var ED_OBJ = document.getElementById("edvA");
+  // EDViewer 데이터 전달 (실소스: FV_CommonCall 사용)
+  ED_OBJ.FV_CommonCall(payloadString);
+</script>
 ```
 
 ### 4.2 NPH_ECS와의 연동
 
 ```java
-// NPH_ECS - EMR 데이터 제공
+// NPH_ECS - 확인된 클래스
 // src/BKSNP/EMR/ExternalDBPusher.java
 
 public class ExternalDBPusher {
-
-    /**
-     * 외부 EMR 데이터 조회
-     */
-    public String retrieveEmrData(String pid, String visitDate) {
-        // HIS DB 연결
-        Connection conn = getHISConnection();
-
-        // EMR 데이터 조회
-        String emrXml = queryEmrData(conn, pid, visitDate);
-
-        // EDViewer 형식으로 변환
-        String edviewerFormat = convertToEdviewerFormat(emrXml);
-
-        return edviewerFormat;
-    }
-
-    /**
-     * EMR 서명 데이터 저장
-     */
-    public boolean saveEmrSignature(String pid, String docId,
-                                     byte[] signatureData) {
-        // 전자서명 검증
-        if (!verifySignature(signatureData)) {
-            return false;
-        }
-
-        // 서명 데이터 저장
-        return saveSignatureToDB(pid, docId, signatureData);
-    }
+    public void CallExternalDB(ArrayList Al1) throws IOException { ... }
+    public void MakeLog(ArrayList Al1) throws IOException { ... }
 }
+
+// 참고:
+// retrieveEmrData / saveEmrSignature 메서드는
+// 현재 백업 코드셋에서 직접 확인되지 않음.
 ```
 
 ### 4.3 데이터 흐름
@@ -307,8 +269,8 @@ EMR 조회 흐름
 │
 ├── 3. EMR 데이터 요청
 │   └── NPH_ECS로 데이터 요청
-│       ├── ExternalDBPusher.retrieveEmrData()
-│       └── HIS DB에서 데이터 조회
+│       ├── AjaxXmlDirectConnection 요청 (NPH_HIS)
+│       └── NPH_ECS @WebServlet 계열/EMR_DATA 리소스 처리
 │
 ├── 4. 데이터 변환
 │   └── EDViewer 형식(XML/HTML)으로 변환
@@ -493,17 +455,14 @@ NPH 프로젝트
 │   │
 │   └── webapp/
 │       ├── EMR_DATA/                   # EMR 데이터 저장
-│       └── jsp/
-│           └── emr/
-│               ├── edviewer.jsp        # EDViewer 호출 페이지
-│               └── emrViewer.jsp       # EMR 조회
+│       └── (참고) jsp/emr 경로는 본 백업셋에서 미확인
 │
 └── NPH_HIS/
     └── webapp/
-        └── jsp/
-            ├── md_mobile/emr/          # 모바일 EMR
-            └── md/opn/
-                └── emrView.jsp         # EMR 뷰어 연동
+        ├── eView/EdViewer.jsp
+        └── jsp/md_mobile/emr/
+            ├── EdViewer.jsp
+            └── emrView.jsp
 ```
 
 ### 8.2 데이터 흐름
@@ -520,8 +479,8 @@ NPH 프로젝트
 │    │                                                           │
 │    ▼                                                           │
 │  NPH_ECS                                                        │
-│    ├── ExternalDBPusher.retrieveEmrData()                     │
-│    └── EMR XML 생성                                             │
+│    ├── AjaxXmlDirectConnection/BK_ajax 처리                    │
+│    └── EMR XML/문서 데이터 생성                                 │
 │         │                                                      │
 │         ▼                                                      │
 │    EDViewer ActiveX                                             │

@@ -1,6 +1,7 @@
 # MiPlatform 전체 구조 트리
 
 > NPH 프로젝트 MiPlatform 화면 및 구성요소 섹션별 트리 구조
+> 주의: 일부 Transaction/Command/PC 이름은 흐름 설명을 위한 예시 표기이며, 실제 운영명과 1:1 일치하지 않을 수 있습니다.
 
 ---
 
@@ -358,53 +359,54 @@ NPH_start.xml (ConnectGroup)
 
 ---
 
-## 6. Patient Journey 시뮬레이션
+## 6. Patient Journey 시뮬레이션 (개념 예시)
 
-환자 입원부터 퇴원까지 MiPlatform 화면 흐름:
+아래는 환자 입원부터 퇴원까지의 **개념적 흐름 예시**입니다.
+실제 운영 트랜잭션명(`*.mhi`) 및 Command/PC 매핑은 업무별 Navigation/XML Query에서 별도 검증이 필요합니다.
 
 ```
 [Patient Journey - 환자 여정 시뮬레이션]
 
 1단계: 접수/예약 (AZ)
 ├── AZ_COM01001M.xml (접수등록)
-│   └── Transaction: SavePatient.mhi
-│   └── Command: SavePatientCMD.java
-│   └── PC: PatientPC.java
+│   └── Transaction: (예시) SavePatient.mhi
+│   └── Command: (예시) SavePatientCMD.java
+│   └── PC: (예시) PatientPC.java
 │   └── 다음: 진료대기
 │
 2단계: 원무/수납 (MR)
 ├── MR_COM01001M.xml (수납)
-│   └── Transaction: CalculateFee.mhi
-│   └── Command: CalculateFeeCMD.java
-│   └── PC: ReceiptPC.java
+│   └── Transaction: (예시) CalculateFee.mhi
+│   └── Command: (예시) CalculateFeeCMD.java
+│   └── PC: (예시) ReceiptPC.java
 │   └── 다음: 진료
 │
 3단계: 진료 (MD)
 ├── MD_OPN01001M.xml (진료대기) → MD_OPN01002M.xml (진료작성)
-│   └── Transaction: SaveOpnChart.mhi
-│   └── Command: SaveOpnChartCMD.java
-│   └── PC: OpnPC.java
+│   └── Transaction: (예시) SaveOpnChart.mhi
+│   └── Command: (예시) SaveOpnChartCMD.java
+│   └── PC: (예시) OpnPC.java
 │   └── 분기: 검사/처방 → 약처방 → 수납
 │
 4단계: 검사/처방 (SP)
 ├── SP_CEL01001M.xml (검체채취) / SP_IMG01001M.xml (영상)
-│   └── Transaction: SaveLabOrder.mhi
-│   └── Command: SaveLabOrderCMD.java
-│   └── PC: LabPC.java
+│   └── Transaction: (예시) SaveLabOrder.mhi
+│   └── Command: (예시) SaveLabOrderCMD.java
+│   └── PC: (예시) LabPC.java
 │   └── 다음: 결과조회
 │
 5단계: 조제/투약 (SP)
 ├── SP_PHA01003M.xml (조제관리)
-│   └── Transaction: SaveDispense.mhi
-│   └── Command: SaveDispenseCMD.java
-│   └── PC: PharmacyPC.java
+│   └── Transaction: (예시) SaveDispense.mhi
+│   └── Command: (예시) SaveDispenseCMD.java
+│   └── PC: (예시) PharmacyPC.java
 │   └── 다음: 퇴원수납
 │
 6단계: 퇴원/수납 (MR)
 └── MR_COM01004M.xml (퇴원수납)
-    └── Transaction: DischargeReceipt.mhi
-    └── Command: DischargeReceiptCMD.java
-    └── PC: ReceiptPC.java
+    └── Transaction: (예시) DischargeReceipt.mhi
+    └── Command: (예시) DischargeReceiptCMD.java
+    └── PC: (예시) ReceiptPC.java
     └── 종료
 ```
 

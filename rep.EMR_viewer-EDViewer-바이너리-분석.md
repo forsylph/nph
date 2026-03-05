@@ -111,6 +111,8 @@ $ ls -lh EDViewer_Ocx.ocx
 
 ### 3.1 JavaScript 인터페이스
 
+> 아래 코드는 기능 설명을 위한 대표 예시이며, 실제 호출 구현은 `EdViewer.jsp`의 `OBJECT classid + FV_CommonCall(...)` 패턴도 함께 사용됩니다.
+
 ```javascript
 // NPH_HIS/webapp/eView/common/eViewCommon.js
 // EDViewer를 호출하는 JavaScript 래퍼
