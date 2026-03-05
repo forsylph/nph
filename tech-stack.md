@@ -77,7 +77,7 @@
 | 공인인증 | **GPKI** | - | KISA | 공인인증서 기반 인증 |
 | SAML SP | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML Service Provider |
 | SAML | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 |
-| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 필터 |
+| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 필터 (**미사용**: JAR만 존재, 설정 없음) |
 | 보안 API | **OWASP ESAPI** | 2.0.1 | OWASP | 보안 API |
 | 암호화 | **Bouncy Castle** | 1.51 | - | 암호화 라이브러리 |
 | SSL | **not-yet-commons-ssl** | 0.3.9 | - | SSL 유틸리티 |
