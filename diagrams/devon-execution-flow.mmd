@@ -43,7 +43,7 @@ sequenceDiagram
     Interceptor-->>Navigation: return
     Navigation-->>Servlet: return
 
-    Servlet->>Servlet: sendData()
+    Servlet->>Servlet: sendData
     Servlet-->>Browser: HTTP Response
 
     Browser->>Browser: Dataset 파싱

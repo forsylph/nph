@@ -165,7 +165,7 @@ Transaction("SavePbhlCd",
               │             ├── PC 호출 (TxServiceUtil)
               │             └── addDataset(result)
               │                   └── LMultiData → Dataset 변환
-              └── sendData()
+              └── sendData
                      └── HTTP 응답
 ```
 
@@ -311,7 +311,7 @@ DevOn Framework는 다음을 위해 설계되었습니다:
 **8. Response 전송**
 ```
 8.1 catchService() finally 블록
-    └── platformRes.sendData()
+    └── platformRes.sendData
         ├── 결과 Dataset 변환
         └── HTTP Response 전송
 ```
