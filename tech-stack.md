@@ -2,6 +2,7 @@
 
 > 분석일: 2026-03-05
 > 분석 대상: `/mnt/n/99.SourceCode Backup/NPH/AADEV_NPH/workspace`
+> 검증일: 2026-03-05 (코드베이스 피어리뷰 완료)
 
 ---
 
@@ -9,13 +10,13 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| RIA 플랫폼 | **MiPlatform** | 3.2 / 3.3 | 투비소프트 | ActiveX 기반 |
-| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 |
-| 서명패드 | **SignPad** | - | - | Java Applet 기반 전자서명 |
-| 차트 | **ChartController** | - | - | 차트 컨트롤러 |
-| 가계도 | **PedigreeChart** | - | - | 유전질환 가계도 차트 |
-| 이미지 입력 | **ImageInputController** | - | - | 이미지 입력 컨트롤러 |
-| 캡차 | **jj-simplecaptcha** | - | - | CAPTCHA 생성 |
+| RIA 플랫폼 | **MiPlatform** | 3.2 / 3.3 | 투비소프트 | ActiveX 기반 ✅ 검증됨 |
+| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 ✅ 검증됨 |
+| 서명패드 | **SignPad** | - | - | Java Applet 기반 전자서명 ✅ 검증됨 |
+| 차트 | **ChartController** | - | - | 차트 컨트롤러 ✅ 검증됨 |
+| 가계도 | **PedigreeChart** | - | - | 유전질환 가계도 차트 ✅ 검증됨 |
+| 이미지 입력 | **ImageInputController** | - | - | 이미지 입력 컨트롤러 ✅ 검증됨 |
+| 캡차 | **jj-simplecaptcha** | - | - | CAPTCHA 생성 (NPH_ECS) |
 
 ---
 
@@ -33,8 +34,8 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| REST API | **Jersey** | 1.19.4 | Eclipse | JAX-RS 구현체 |
-| SOAP | **Apache Axis** | 1.x | Apache | 웹서비스 |
+| REST API | **Jersey** | 1.19.4 | Eclipse | JAX-RS 구현체 ✅ 검증됨 |
+| SOAP | **Apache Axis** | 1.x | Apache | 웹서비스 ✅ 검증됨 |
 | HTTP 클라이언트 | **Apache HttpClient** | 4.5.3 | Apache | HTTP 통신 |
 
 ---
@@ -43,9 +44,9 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 리포트 엔진 | **Rexpert** | - | - | 엔터프라이즈 리포팅 |
-| 의료 리포트 | **TPR Report** | - | - | TPR 차트 리포트 |
-| Excel 처리 | **Apache POI** | 3.2 | Apache | Excel 읽기/쓰기 |
+| 리포트 엔진 | **Rexpert** | 3.2.4.1 | - | 엔터프라이즈 리포팅 ✅ 검증됨 |
+| 의료 리포트 | **TPR Report** | - | - | TPR 차트 리포트 ✅ 검증됨 |
+| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | Excel 읽기/쓰기 ✅ 검증됨 |
 | Excel 처리 | **JExcelApi** | - | - | Excel 처리 |
 | PDF 생성 | **iText XML Worker** | 1.2.0 | iText | PDF 생성 |
 
@@ -55,7 +56,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 규칙 엔진 | **InnoRule** | - | 이노리저(InnoExpert) | 비즈니스 규칙 엔진 |
+| 규칙 엔진 | **InnoRule** | - | 이노리저(InnoExpert) | 비즈니스 규칙 엔진 ✅ 검증됨 (4개 JAR, web.xml 설정) |
 | 입력 검증 | **Requisite** | - | - | 입력값 검증 프레임워크 |
 
 ---
@@ -64,7 +65,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 스케줄링 |
+| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 스케줄링 ✅ 검증됨 |
 
 ---
 
@@ -72,13 +73,13 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| SSO | **MagicSSO** | 3.5 | 드림시큐리티 | Single Sign-On |
-| 전자서명 | **SignGate** | - | KIS | 전자서명 솔루션 |
-| 공인인증 | **GPKI** | - | KISA | 공인인증서 기반 인증 |
-| SAML SP | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML Service Provider |
-| SAML | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 |
-| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 필터 (**미사용**: JAR만 존재, 설정 없음) |
-| 보안 API | **OWASP ESAPI** | 2.0.1 | OWASP | 보안 API |
+| SSO | **MagicSSO** | 3.5 | 드림시큐리티 | Single Sign-On ✅ 검증됨 |
+| 전자서명 | **SignGate** | - | KIS | 전자서명 솔루션 ✅ 검증됨 (5개 JAR, Java 코드 사용) |
+| 공인인증 | **GPKI** | - | KISA | 공인인증서 기반 인증 ✅ 검증됨 |
+| SAML SP | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML Service Provider ✅ 검증됨 |
+| SAML | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 ✅ 검증됨 |
+| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 필터 ✅ **NPH_ECS에서 실제 사용** (11개 Java 파일) |
+| 보안 API | **OWASP ESAPI** | 2.0.1 | OWASP | 보안 API (JAR만 존재, 사용 안함) |
 | 암호화 | **Bouncy Castle** | 1.51 | - | 암호화 라이브러리 |
 | SSL | **not-yet-commons-ssl** | 0.3.9 | - | SSL 유틸리티 |
 
@@ -88,17 +89,31 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 |
-| 건강보험 연동 | **WSNhic** | - | - | 국민건강보험공단 연동 |
-| 서명패드 | **SignPad** | - | - | 전자서명 입력 |
-| 가계도 | **PedigreeChart** | - | - | 유전질환 가계도 |
-| DSToolkit | **DSToolkit** | 3.4.2.0 | 드림시큐리티 | SSO 구성요소 |
-| EMR 유틸 | **emr_Utils** | - | - | EMR 유틸리티 |
-| EzIssuer | **EzIssuer** | - | - | 의료 관련 |
+| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 ✅ 검증됨 |
+| 건강보험 연동 | **WSNhic** | - | - | 국민건강보험공단 연동 ✅ 검증됨 |
+| 서명패드 | **SignPad** | - | - | 전자서명 입력 ✅ 검증됨 |
+| 가계도 | **PedigreeChart** | - | - | 유전질환 가계도 ✅ 검증됨 |
+| DSToolkit | **DSToolkit** | 3.4.2.0 | 드림시큐리티 | SSO 구성요소 ✅ 검증됨 |
+| EMR 유틸 | **emr_Utils** | - | - | EMR 유틸리티 ✅ 검증됨 |
+| EzIssuer | **EzIssuer** | - | - | 의료 관련 ✅ 검증됨 |
+| EMR 쿼리 API | **QueryXmlRecordApi** | - | - | EMR XML 레코드 쿼리 ✅ 검증됨 |
+| NPH 공통 | **nphCom** | - | - | NPH 공통 유틸리티 ✅ 검증됨 |
 
 ---
 
-## 9. 연동/통신
+## 9. 의료/EMR ActiveX 컴포넌트
+
+| 구분 | 기술 | 비고 |
+|------|------|------|
+| ED 뷰어 | **EDViewer_Ocx.ocx** | EMR 문서 뷰어 ActiveX |
+| TPR 실행 | **TprExecuter.ocx** | TPR 차트 실행 ActiveX |
+| TPR 컨트롤 | **TPR.ocx / TPR.dll** | TPR 차트 컨트롤 |
+| 문서 편집 | **painter.jar / signedpainter.jar** | 문서 편집/서명 Applet |
+| 인쇄 모듈 | **BkSdePrintModule.ocx** | 의료 문서 인쇄 |
+
+---
+
+## 10. 연동/통신
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
@@ -111,7 +126,7 @@
 
 ---
 
-## 10. 데이터베이스
+## 11. 데이터베이스
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
@@ -121,7 +136,7 @@
 
 ---
 
-## 11. 로깅
+## 12. 로깅
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
@@ -131,7 +146,7 @@
 
 ---
 
-## 12. 유틸리티
+## 13. 유틸리티
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
@@ -151,7 +166,7 @@
 
 ---
 
-## 13. 라이브러리 (Apache Commons)
+## 14. 라이브러리 (Apache Commons)
 
 | 구분 | 기술 | 버전 | 용도 |
 |------|------|------|------|
@@ -164,7 +179,7 @@
 
 ---
 
-## 14. 기타
+## 15. 기타
 
 | 구분 | 기술 | 버전 | 용도 |
 |------|------|------|------|
@@ -180,7 +195,7 @@
 
 ---
 
-## 15. 인프라
+## 16. 인프라
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
@@ -191,7 +206,7 @@
 
 ---
 
-## 16. 데이터소스
+## 17. 데이터소스
 
 | 데이터소스명 | 용도 |
 |-------------|------|
@@ -206,7 +221,7 @@
 
 ---
 
-## 17. 빌드/테스트 전용
+## 18. 빌드/테스트 전용
 
 | 구분 | 기술 | 버전 | 비고 |
 |------|------|------|------|
@@ -215,6 +230,15 @@
 > **참고**: MyBatis는 메인 시스템(NPH_HIS, NPH_ECS, COMMON)에서 사용하지 않습니다.
 > DevOn Framework는 자체 **XML 기반 쿼리 시스템 (LQueryService)** 을 사용합니다.
 > 경로: `devonhome/xmlquery/**/*.xml`
+
+---
+
+## 19. 알 수 없는 컴포넌트
+
+| 구분 | 기술 | 비고 |
+|------|------|------|
+| 미확인 JAR | **kims.jar** | 용도 확인 필요 (199,970 bytes) |
+| 미확인 JAR | **kpis.jar** | 용도 확인 필요 (62,263 bytes) |
 
 ---
 
@@ -231,12 +255,15 @@
 | 비즈니스 규칙 | 2 |
 | 스케줄러 | 1 |
 | 보안/인증 | 9 |
-| 의료/EMR | 7 |
-| 연동/통신 | 7 |
+| 의료/EMR | 9 |
+| 의료/EMR ActiveX | 5 |
+| 연동/통신 | 6 |
 | 데이터베이스 | 3 |
 | 로깅 | 3 |
 | 유틸리티 | 14 |
 | 인프라 | 4 |
+| 빌드/테스트 전용 | 1 |
+| 알 수 없음 | 2 |
 
 ### 주요 공급사
 
@@ -253,4 +280,43 @@
 
 ---
 
-*분석 완료*
+## 피어리뷰 결과 (2026-03-05)
+
+### 검증 완료 항목
+
+| 기술 | 검증 상태 | 비고 |
+|------|----------|------|
+| MiPlatform 3.2/3.3 | ✅ | JAR 및 설치 파일 확인 |
+| Rexpert | ✅ | 버전 3.2.4.1 확인, repConf 설정 존재 |
+| Apache POI | ✅ | 버전 3.2-FINAL-20081019 확인 |
+| InnoRule | ✅ | 4개 JAR, web.xml 설정 확인 |
+| Quartz | ✅ | 버전 1.6.1 확인 |
+| Jersey | ✅ | 버전 1.19.4 확인 |
+| MagicSSO | ✅ | DSToolkit 설정 및 Java 코드 사용 확인 |
+| SignGate | ✅ | 5개 JAR, Java 코드 사용 확인 |
+| GPKI | ✅ | DSToolkitV30.conf에 37개 CA 설정 |
+| OpenSAML | ✅ | 버전 2.6.4 확인 |
+| Lucy XSS Filter | ✅ | **NPH_ECS 11개 파일에서 사용 확인** |
+
+### 수정된 항목
+
+| 기술 | 이전 내용 | 수정 내용 |
+|------|----------|----------|
+| Lucy XSS Filter | 미사용 | NPH_ECS에서 실제 사용 |
+| OWASP ESAPI | 사용 | JAR만 존재, 사용 안함 |
+| Rexpert | 버전 미상 | 버전 3.2.4.1 확인 |
+| Apache POI | 3.2 | 3.2-FINAL-20081019 |
+
+### 누락 항목 추가
+
+| 기술 | 위치 |
+|------|------|
+| QueryXmlRecordApi.jar | WEB-INF/lib |
+| nphCom.jar | WEB-INF/lib |
+| painter.jar, signedpainter.jar | EMR_DATA/applet |
+| EDViewer_Ocx.ocx | EMR_DATA/applet |
+| TprExecuter.ocx, TPR.ocx | EMR_DATA/applet |
+
+---
+
+*피어리뷰 완료: 2026-03-05*
