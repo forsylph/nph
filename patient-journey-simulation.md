@@ -15,7 +15,7 @@
 |------|------------|----------------|
 | **시스템명** | 국립의료원 | 경찰병원 |
 | **약국 모듈** | PH (독립) | SP_PHA (SP 하위) |
-| **입원 모듈명** | MD_INP | MD_IPN |
+| **입원 모듈명** | MD_INP (개념) | MD_IPN |
 | **Navigation 경로** | his/{module}/... | mhi/{module}/... |
 | **화면 ID** | AZ_COM01001M | AZ_COM01001P, AZ_COM99005M 등 |
 
@@ -435,8 +435,8 @@ sequenceDiagram
 
 | 항목 | 내용 |
 |------|------|
-| **화면 ID** | MD_OPN01001M |
-| **화면 경로** | `/webapp/ui/MD/OPN/MD_OPN01001M.xml` |
+| **화면 ID** | MD_OPN01010M |
+| **화면 경로** | `/webapp/ui/MD/OPN/MD_OPN01010M.xml` |
 | **화면명** | 외래진료메인 |
 | **AppGroup** | MD_OPN (BaseUrl: MD/OPN/) |
 
@@ -548,21 +548,23 @@ function CompleteCallback(svcId, errorCode, errorMsg) {
 
 | 항목 | 내용 |
 |------|------|
-| **화면 ID** | MD_INP01001M |
-| **화면 경로** | `/webapp/ui/MD/INP/MD_INP01001M.xml` |
+| **화면 ID** | MD_IPN01010M |
+| **화면 경로** | `/webapp/ui/MD/IPN/MD_IPN01010M.xml` |
 | **화면명** | 입원진료메인 |
-| **AppGroup** | MD_INP (BaseUrl: MD/INP/) |
+| **AppGroup** | MD_IPN (BaseUrl: MD/IPN/) |
+
+> **참고**: 실제 코드베이스에서는 `MD_INP`가 아니라 `MD_IPN` (Inpatient)을 사용합니다.
 
 ##### 3.2.2 입원진료 플로우
 
 ```mermaid
 flowchart TB
     subgraph Sub3_2["3.2 입원진료"]
-        IP1["입원오더<br/>MD_INP01001M"]
-        IP2["병실배정<br/>HP_COM01001M"]
-        IP3["입원진료<br/>MD_INP01002M"]
+        IP1["입원오더<br/>MD_IPN01010M"]
+        IP2["병실배정<br/>HP_PAT01101M"]
+        IP3["입원진료<br/>MD_IPN01020M"]
         IP4["경과기록<br/>EDViewer"]
-        IP5["퇴원오더<br/>MD_INP01003M"]
+        IP5["퇴원오더<br/>MD_IPN01030M"]
     end
 
     IP1 --> IP2
@@ -613,12 +615,14 @@ flowchart TB
 |-----------|-----------|-----------|-----------|
 | 외래진료완료 | 검사/처방 | 약/검사 처방 존재 | SP_LAB01001M.xml |
 | 외래진료완료 | 수납/퇴원 | 처방 없음 | MR_COM03001M.xml |
-| 입원오더완료 | 병실배정 | 입원승인 | HP_COM01001M.xml |
+| 입원오더완료 | 병실배정 | 입원승인 | HP_PAT01101M.xml |
 | 퇴원오더완료 | 퇴원수납 | 퇴원승인 | MR_COM03001M.xml |
 
 ---
 
 ### Stage 4: 검사/처방 (SP - Specimen/Procedure)
+
+> **참고**: 실제 코드베이스에서 SP 모듈 하위에 LAB(검사실), PHA(약국), CEL(검체), RAY(영상) 등이 있습니다.
 
 #### 4.1 검사접수 (Laboratory)
 
@@ -626,10 +630,10 @@ flowchart TB
 
 | 항목 | 내용 |
 |------|------|
-| **화면 ID** | SP_LAB01001M |
-| **화면 경로** | `/webapp/ui/SP/LAB/SP_LAB01001M.xml` |
+| **화면 ID** | SP_LAB01010M |
+| **화면 경로** | `/webapp/ui/SP/LAB/SP_LAB01010M.xml` |
 | **화면명** | 검사접수관리 |
-| **AppGroup** | SP (BaseUrl: SP/) |
+| **AppGroup** | SP_LAB (BaseUrl: SP/LAB/) |
 
 ##### 4.1.2 검사 프로세스
 
@@ -721,7 +725,7 @@ sequenceDiagram
     participant CMD as SendPrescriptionCMD
     participant PC as PrescriptionPC
     participant OCS as OCS 서버
-    participant PH as PH_COM01001M<br/>약국
+    participant PH as SP_PHA01500M<br/>약국
 
     MD->>SP: Navigate("SP_PRC01001M.xml")
     SP->>SP: LoadPrescription()
@@ -766,20 +770,23 @@ sequenceDiagram
 |-----------|-----------|-----------|-----------|
 | 검체채취완료 | 검사진행 | 검체인수확인 | 내부 LIS 연동 |
 | 검사결과완료 | 진료확인 | 결과승인 | MD_OPN01001M.xml |
-| 처방전송완료 | 약국조제 | 전송성공 | PH_COM01001M.xml |
+| 처방전송완료 | 약국조제 | 전송성공 | SP_PHA01500M.xml |
 
 ---
 
-### Stage 5: 조제/투약 (Pharmacy)
+### Stage 5: 조제/투약 (SP_PHA - Pharmacy)
+
+> **중요**: 실제 코드베이스에서 **약국(PH)은 독립 모듈이 아니라 SP 모듈의 하위 폴더(SP/PHA)에 있습니다**.
+> 화면 ID는 `SP_PHA01500M` 형식입니다.
 
 #### 5.1 화면 정보
 
 | 항목 | 내용 |
 |------|------|
-| **화면 ID** | PH_COM01001M |
-| **화면 경로** | `/webapp/ui/PH/COM/PH_COM01001M.xml` |
+| **화면 ID** | SP_PHA01500M |
+| **화면 경로** | `/webapp/ui/SP/PHA/SP_PHA01500M.xml` |
 | **화면명** | 약국조제관리 |
-| **AppGroup** | PH_COM (BaseUrl: PH/COM/) |
+| **AppGroup** | SP_PHA (BaseUrl: SP/PHA/) |
 
 #### 5.2 조제 프로세스
 
@@ -788,17 +795,17 @@ flowchart TB
     subgraph Sub5["5. 조제/투약"]
         direction TB
 
-        PH1["처방전수신<br/>PH_COM01001M"]
+        PH1["처방전수신<br/>SP_PHA01500M"]
 
         subgraph Prepare["조제"]
-            P1["처방확인<br/>PH_COM01002M"]
+            P1["처방확인<br/>SP_PHA01502M"]
             P2["약품피킹<br/>ds_Picking"]
-            P3["조제확인<br/>PH_COM01003M"]
-            P4["약품투여<br/>PH_COM01004M"]
+            P3["조제확인<br/>SP_PHA01504M"]
+            P4["약품투여<br/>SP_PHA01505M"]
         end
 
         subgraph Admin["투약"]
-            A1["투약확인<br/>PH_COM01005M"]
+            A1["투약확인<br/>SP_PHA01506M"]
             A2["투약기록<br/>ds_AdminRecord"]
         end
 
@@ -848,7 +855,7 @@ function PrepCompleteCallback(svcId, errorCode, errorMsg) {
         alert("조제가 완료되었습니다.");
 
         // 투약 화면으로 이동
-        Navigate("PH_COM01004M.xml");
+        Navigate("SP_PHA01505M.xml");
     }
 }
 ```
@@ -874,9 +881,9 @@ function PrepCompleteCallback(svcId, errorCode, errorMsg) {
 
 | 현재 단계 | 다음 단계 | 전환 조건 | 전환 화면 |
 |-----------|-----------|-----------|-----------|
-| 조제완료 | 투약실시 | 복약지도 완료 | PH_COM01004M.xml |
+| 조제완료 | 투약실시 | 복약지도 완료 | SP_PHA01505M.xml |
 | 투약완료 | 외래수납 | 외래처방 | MR_COM02001M.xml |
-| 투약완료 | 입원관리 | 입원처방 | HP_COM01001M.xml |
+| 투약완료 | 입원관리 | 입원처방 | HP_PAT01101M.xml |
 
 ---
 
@@ -898,7 +905,7 @@ flowchart TB
     subgraph Sub6["6. 퇴원/수납"]
         direction TB
 
-        DC1["퇴원오더확인<br/>MD_INP01003M"]
+        DC1["퇴원오더확인<br/>MD_IPN01030M"]
         DC2["퇴원심사<br/>MR_COM03001M"]
 
         subgraph Calculation["비용계산"]
@@ -1055,55 +1062,62 @@ flowchart TB
 
 ## 주요 화면 ID 목록
 
+> **참고**: 아래 화면 ID는 실제 코드베이스에서 확인된 예시입니다.
+
 ### 접수/예약 (AZ)
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| AZ_COM01001M | 외래접수등록 | ui/AZ/COM/AZ_COM01001M.xml |
-| AZ_COM01002M | 예약관리 | ui/AZ/COM/AZ_COM01002M.xml |
-| AZ_COM01003M | 예약조회 | ui/AZ/COM/AZ_COM01003M.xml |
-| AZ_COM01004M | 접수현황 | ui/AZ/COM/AZ_COM01004M.xml |
+| AZ_COM01001P | 접수등록팝업 | ui/AZ/COM/AZ_COM01001P.xml |
+| AZ_COM99005M | 휴일관리 | ui/AZ/COM/AZ_COM99005M.xml |
+| AZ_COM99006M | 공통업무 | ui/AZ/COM/AZ_COM99006M.xml |
 
 ### 원무/수납 (MR)
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| MR_COM02001M | 외래수납등록 | ui/MR/COM/MR_COM02001M.xml |
-| MR_COM02002M | 처방수납 | ui/MR/COM/MR_COM02002M.xml |
-| MR_COM03001M | 퇴원수납관리 | ui/MR/COM/MR_COM03001M.xml |
+| MR_BAS* | 원무기본 | ui/MR/BAS/ |
+| MR_COM* | 원무공통 | ui/MR/COM/ |
+| MR_RCH* | 원무조회 | ui/MR/RCH/ |
 
 ### 진료 (MD)
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| MD_OPN01001M | 외래진료메인 | ui/MD/OPN/MD_OPN01001M.xml |
-| MD_OPN01002M | 상병등록 | ui/MD/OPN/MD_OPN01002M.xml |
-| MD_OPN01003M | 약처방 | ui/MD/OPN/MD_OPN01003M.xml |
-| MD_INP01001M | 입원진료메인 | ui/MD/INP/MD_INP01001M.xml |
+| MD_OPN01010M | 외래진료메인 | ui/MD/OPN/MD_OPN01010M.xml |
+| MD_OPN01020M | 외래진료상세 | ui/MD/OPN/MD_OPN01020M.xml |
+| MD_IPN01010M | 입원진료메인 | ui/MD/IPN/MD_IPN01010M.xml |
+| MD_IPN01020M | 입원진료상세 | ui/MD/IPN/MD_IPN01020M.xml |
+
+> **참고**: MD_INP → MD_IPN (Inpatient) - 실제 코드는 IPN 사용
 
 ### 검사/처방 (SP)
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| SP_LAB01001M | 검사접수관리 | ui/SP/LAB/SP_LAB01001M.xml |
-| SP_CEL01001M | 검체채취 | ui/SP/CEL/SP_CEL01001M.xml |
-| SP_RST01001M | 검사결과입력 | ui/SP/RST/SP_RST01001M.xml |
-| SP_RAY01001M | 영상촬영오더 | ui/SP/RAY/SP_RAY01001M.xml |
+| SP_LAB01010M | 검사접수 | ui/SP/LAB/SP_LAB01010M.xml |
+| SP_CEL01010M | 검체채취 | ui/SP/CEL/SP_CEL01010M.xml |
+| SP_PHA01500M | 약국조제 | ui/SP/PHA/SP_PHA01500M.xml |
+| SP_RAY* | 영상촬영 | ui/SP/RAY/ |
+
+> **참고**: 약국은 독립 PH 모듈이 아니라 SP_PHA 하위입니다.
 
 ### 입원 (HP)
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| HP_COM01001M | 병실배정 | ui/HP/COM/HP_COM01001M.xml |
-| HP_COM01002M | 입원관리 | ui/HP/COM/HP_COM01002M.xml |
+| HP_PAT01101M | 병실배정 | ui/HP/PAT/HP_PAT01101M.xml |
+| HP_PAT01201M | 입원관리 | ui/HP/PAT/HP_PAT01201M.xml |
 
-### 약국 (PH)
+### 약국 (SP_PHA)
+
+> **참고**: 약국은 SP 모듈의 하위 폴더입니다.
 
 | 화면 ID | 화면명 | 경로 |
 |---------|--------|------|
-| PH_COM01001M | 약국조제관리 | ui/PH/COM/PH_COM01001M.xml |
-| PH_COM01002M | 처방확인 | ui/PH/COM/PH_COM01002M.xml |
-| PH_COM01003M | 조제확인 | ui/PH/COM/PH_COM01003M.xml |
+| SP_PHA01500M | 약국조제관리 | ui/SP/PHA/SP_PHA01500M.xml |
+| SP_PHA01504M | 조제확인 | ui/SP/PHA/SP_PHA01504M.xml |
+| SP_PHA01510M | 처방확인 | ui/SP/PHA/SP_PHA01510M.xml |
 
 ---
 
@@ -1114,42 +1128,46 @@ flowchart TB
 ```
 /{모듈}/{업무}/{네비게이션명}/{액션명}.mhi
 
-예시:
-- /az/comn/receiptNavi/RegisterOutpatient.mhi
-- /mr/comn/paymentNavi/ProcessPayment.mhi
-- /md/opn/treatNavi/CompleteTreatment.mhi
+예시 (실제 코드베이스 기반):
+- /az/comNavi/RegisterOutpatient.mhi
+- /md/opn/otptnrcrNavi/CompleteTreatment.mhi
+- /md/ipn/admsnrcrNavi/ProcessAdmission.mhi
 - /sp/lab/specimenNavi/CollectSpecimen.mhi
 ```
+
+> **참고**: 실제 코드에서는 `mhi` 폴더 아래에 네비게이션 파일이 위치합니다.
 
 ### Navigation 파일 경로
 
 ```
-devonhome/navigation/his/
+devonhome/navigation/mhi/
 ├── az/
-│   ├── comn/
-│   │   ├── receiptNavi.xml
-│   │   └── patientNavi.xml
-│   └── biz/
+│   └── comNavi.xml
 ├── mr/
-│   └── comn/
-│       ├── paymentNavi.xml
-│       └── dischNavi.xml
+│   └── com/
+│       └── comnNavi.xml
 ├── md/
 │   ├── opn/
-│   │   └── treatNavi.xml
-│   └── inp/
-│       └── treatNavi.xml
+│   │   └── otptnrcrNavi.xml
+│   ├── ipn/
+│   │   └── admsnrcrNavi.xml
+│   └── bas/
+│       └── commonNavi.xml
 ├── sp/
 │   ├── lab/
-│   │   ├── specimenNavi.xml
-│   │   └── resultNavi.xml
-│   └── prc/
-│       └── sendNavi.xml
-└── ph/
-    └── comn/
-        ├── prepNavi.xml
-        └── adminNavi.xml
+│   │   └── ...
+│   └── pha/
+│       └── ...
+└── er/
+    ├── acc/
+    │   └── comnNavi.xml
+    └── ...
 ```
+
+> **중요**:
+> - `his/` 가 아니라 `mhi/` 폴더입니다.
+> - `comn` 이 아니라 `com` 폴더입니다.
+> - PH (약국) 모듈은 존재하지 않으며, `sp/pha/` 하위에 있습니다.
 
 ---
 
@@ -1159,23 +1177,36 @@ devonhome/navigation/his/
 
 | 단계 | 모듈 | 핵심 화면 | DevOn Command | 데이터 흐름 |
 |------|------|-----------|---------------|-------------|
-| 1. 접수 | AZ | AZ_COM01001M | RegisterOutpatientCMD | ds_PatientInfo → RECEIPT 테이블 |
-| 2. 수납 | MR | MR_COM02001M | ProcessPaymentCMD | ds_FeeDetail → PAYMENT 테이블 |
-| 3. 진료 | MD | MD_OPN01001M | CompleteTreatmentCMD | ds_Diagnosis/Prescription → 진료기록 |
-| 4. 검사 | SP | SP_LAB01001M | CollectSpecimenCMD | ds_LabOrder → 검사실 연동 |
-| 5. 조제 | PH | PH_COM01001M | CompletePreparationCMD | ds_Prescription → 약국조제 |
-| 6. 퇴원 | MR | MR_COM03001M | ProcessDischargeCMD | ds_TotalFee → 수납완료 |
+| 1. 접수 | AZ | AZ_COM99005M | (개념적) | ds_PatientInfo → DB |
+| 2. 수납 | MR | MR_COM* | (개념적) | ds_FeeDetail → DB |
+| 3. 진료 | MD | MD_OPN01010M, MD_IPN01010M | (개념적) | ds_Diagnosis/Prescription → DB |
+| 4. 검사 | SP | SP_LAB01010M | (개념적) | ds_LabOrder → 검사실 연동 |
+| 5. 조제 | SP_PHA | SP_PHA01500M | (개념적) | ds_Prescription → 약국조제 |
+| 6. 퇴원 | HP | HP_PAT01101M | (개념적) | ds_TotalFee → 수납완료 |
+
+> **참고**: 위 Command 및 데이터 흐름은 개념적입니다. 실제 구현은 상이할 수 있습니다.
 
 ### 시스템 특징
 
 1. **MiPlatform 3.3 기반 RIA**: ActiveX 기반 클라이언트, DevOn Framework와의 Dataset 연동
 2. **DevOn Framework 4.0**: Struts 1.x 기반, Command/PC 패턴, XML 기반 Navigation
 3. **데이터 흐름**: Dataset → LMultiData → XML Query → DB (양방향)
-4. **모듈화 구조**: AZ/MR/MD/SP/HP/PH 모듈별 독립적 관리
+4. **모듈화 구조**: AZ/MR/MD/SP/HP/ER 모듈별 독립적 관리
 5. **EMR 연동**: NPH_ECS를 통한 전자의무기록 통합
+
+### 실제 코드베이스와의 주요 차이점
+
+| 항목 | 문서 (개념) | 실제 코드베이스 |
+|------|------------|----------------|
+| 시스템명 | 국립의료원 | 경찰병원 |
+| 약국 모듈 | PH (독립) | SP_PHA (SP 하위) |
+| 입원 모듈명 | MD_INP | MD_IPN |
+| Navigation 경로 | his/{module}/... | mhi/{module}/... |
+| 화면 ID 시작 | 01001 | 01010 등 |
 
 ---
 
 *분석 완료: 2026-03-05*
-*시스템: NPH (National Hospital Information System)*
+*시스템: NPH (병원정보시스템)*
 *기술스택: MiPlatform 3.3 + DevOn Framework 4.0 + Oracle/Tibero*
+*검증 상태: ⚠️ 개념 문서 - 실제 구현과 상이할 수 있음*
