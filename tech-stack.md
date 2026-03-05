@@ -25,7 +25,7 @@
 |------|------|------|--------|------|
 | 프레임워크 | **DevOn Framework** | 4.0.0 | LG CNS | Struts 1.x 기반 |
 | 배치 프레임워크 | **DevOn Batch** | 1.1.0 | LG CNS | 배치 처리 |
-| ORM | **MyBatis** | 3.4.1 | MyBatis | SQL 매퍼 |
+| DB 쿼리 | **DevOn XML Query** | - | LG CNS | XML 기반 SQL (LQueryService) |
 
 ---
 
@@ -203,6 +203,18 @@
 | jdbc/NPHQCDB | QC DB |
 | jdbc/NPHINFDB | INF DB |
 | jdbc/NPHGW | 게이트웨이 |
+
+---
+
+## 17. 빌드/테스트 전용
+
+| 구분 | 기술 | 버전 | 비고 |
+|------|------|------|------|
+| ORM | **MyBatis** | 3.4.1 | NPH_BUILD 프로젝트에서만 사용 (테스트/마이그레이션 용도) |
+
+> **참고**: MyBatis는 메인 시스템(NPH_HIS, NPH_ECS, COMMON)에서 사용하지 않습니다.
+> DevOn Framework는 자체 **XML 기반 쿼리 시스템 (LQueryService)** 을 사용합니다.
+> 경로: `devonhome/xmlquery/**/*.xml`
 
 ---
 
