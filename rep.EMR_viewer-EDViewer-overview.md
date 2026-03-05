@@ -4,6 +4,38 @@
 
 ---
 
+## 코드베이스 재검증 메모 (N:\99.SourceCode Backup\NPH 기준)
+
+아래 항목은 실제 코드/파일 검색으로 재확인한 결과입니다.
+
+### 1) 질문 항목 추적 결과
+
+- `retrieveEmrData`, `saveEmrSignature`
+  - 현재 백업 코드셋(`AADEV_NPH/workspace`)에서는 **직접 일치 메서드 미확인**.
+  - 유사/대체 후보:
+    - `NPH_ECS/src/BKSNP/EMR/ExternalDBPusher.java` -> `CallExternalDB(...)`
+    - `NPH_ECS/src/BKSNP/EMR/ExternalDBPusher1.java` -> `CallExternalDB1(...)`
+- `NPH_ECS/webapp/jsp/emr/*`
+  - 현재 백업 코드셋에서 **해당 디렉터리 미확인**.
+- `EMRDataServlet.java`
+  - 현재 백업 코드셋에서 **파일 미확인**.
+  - 대신 `NPH_ECS/src` 하위에 `@WebServlet` 기반 EMR 관련 서블릿(`SaveRecord`, `DeleteRecord`, `save_xml` 등) 다수 확인.
+- `emrViewer.jsp`
+  - 현재 백업 코드셋에서 **정확한 파일명 미확인**.
+  - 대체 후보로 `EdViewer.jsp` 확인:
+    - `NPH_HIS/webapp/eView/EdViewer.jsp`
+    - `NPH_HIS/webapp/jsp/md_mobile/emr/EdViewer.jsp`
+
+### 2) 경로/호출 관련 보정 포인트
+
+- `NPH_HIS/webapp/jsp/md/opn/emrView.jsp`로 표기된 경로는 본 백업셋에서 확인되지 않음.
+- 확인된 EMR 조회 JSP:
+  - `NPH_HIS/webapp/jsp/md_mobile/emr/emrView.jsp`
+- EDViewer ActiveX 연결은 문서 예시의 `new ActiveXObject("EDViewer.Control")` 패턴보다,
+  `OBJECT classid=...` + `FV_CommonCall(...)` 사용 흔적이 명확함 (`EdViewer.jsp` 기준).
+
+--- 
+
 ## 개요
 
 ### EDViewer란?

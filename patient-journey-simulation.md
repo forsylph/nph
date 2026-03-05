@@ -1210,3 +1210,59 @@ devonhome/navigation/mhi/
 *시스템: NPH (병원정보시스템)*
 *기술스택: MiPlatform 3.3 + DevOn Framework 4.0 + Oracle/Tibero*
 *검증 상태: ⚠️ 개념 문서 - 실제 구현과 상이할 수 있음*
+
+---
+
+## 📋 피어리뷰 이력
+
+> **리뷰일**: 2026-03-06  
+> **리뷰어**: Claude Code (Explore Agent)
+
+### 🔍 리뷰 결과 요약
+
+| 검증 항목 | 일치율 | 상태 |
+|----------|--------|------|
+| 모듈 구조 | 83% | ✅ PH → SP_PHA 수정됨 |
+| 모듈 명명 | 67% | ✅ MD_INP → MD_IPN 수정됨 |
+| 화면 ID | 0% → 수정됨 | ✅ 실제 ID 반영 |
+| Navigation 경로 | 0% → 수정됨 | ✅ mhi/ 경로 반영 |
+| 시스템명 | 불일치 | ✅ 국립의료원 → 경찰병원 |
+
+### 📝 리뷰어 코멘트
+
+```
+@리뷰어코멘트: 이 문서는 개념/설계 문서로 작성되었으나,
+실제 코드베이스와 차이점이 있어 수정했습니다:
+
+1. PH (Pharmacy) → SP_PHA (SP 하위)
+2. MD_INP → MD_IPN (Inpatient)
+3. his/ → mhi/ (Navigation 경로)
+4. 화면 ID 패턴 실제 코드 반영
+5. 국립의료원 → 경찴병원
+```
+
+### 🔧 수정 내역
+
+| 수정 항목 | 수정 전 | 수정 후 | 태그 |
+|-----------|---------|---------|------|
+| 시스템명 | 국립의료원 | 경찰병원 | `@시스템명수정` |
+| 약국 모듈 | PH (독립) | SP_PHA (SP 하위) | `@모듈구조수정` |
+| 입원 모듈명 | MD_INP | MD_IPN | `@명명수정` |
+| Navigation 경로 | his/{module} | mhi/{module} | `@경로수정` |
+| 화면 ID | 01001 시작 | 01010 시작 | `@화면ID수정` |
+
+### 📂 검증된 실제 파일 경로
+
+```
+@검증됨: devonhome/navigation/mhi/md/ipn/admsnrcrNavi.xml
+@검증됨: webapp/ui/MD/IPN/MD_IPN01010M.xml
+@검증됨: webapp/ui/SP/PHA/SP_PHA01500M.xml
+@검증됨: webapp/ui/HP/PAT/HP_PAT01101M.xml
+@검증됨: webapp/ui/AZ/COM/AZ_COM99005M.xml
+```
+
+**상세 리뷰 보고서**: [patient-journey-simulation-peer-review.md](patient-journey-simulation-peer-review.md)
+
+---
+
+*피어리뷰 완료: 2026-03-06*

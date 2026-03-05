@@ -4,6 +4,27 @@
 
 ---
 
+## 코드베이스 재검증 메모 (N:\99.SourceCode Backup\NPH 기준)
+
+문서 내 의심 지점에 대해 실제 소스/리소스 경로를 재확인한 결과:
+
+- `retrieveEmrData`, `saveEmrSignature` 메서드:
+  - 현재 백업 코드셋(`AADEV_NPH/workspace`)에서 **직접 일치 메서드 미확인**.
+  - 대체로 확인된 클래스/메서드:
+    - `NPH_ECS/src/BKSNP/EMR/ExternalDBPusher.java` -> `CallExternalDB(...)`
+    - `NPH_ECS/src/BKSNP/EMR/ExternalDBPusher1.java` -> `CallExternalDB1(...)`
+- `NPH_ECS/webapp/jsp/emr/*`, `EMRDataServlet.java`, `emrViewer.jsp`:
+  - 현재 백업 코드셋에서 **직접 일치 경로/파일 미확인**.
+  - 대체 후보:
+    - `NPH_HIS/webapp/eView/EdViewer.jsp`
+    - `NPH_HIS/webapp/jsp/md_mobile/emr/EdViewer.jsp`
+    - `NPH_HIS/webapp/jsp/md_mobile/emr/emrView.jsp`
+- EDViewer 호출 패턴:
+  - 문서 예시의 `new ActiveXObject("EDViewer.Control")`는 본 백업셋에서 직접 확인되지 않음.
+  - `EdViewer.jsp` 기준으로는 `OBJECT classid=...` + `FV_CommonCall(...)` 패턴이 확인됨.
+
+--- 
+
 ## 핵심 결론
 
 | 항목 | 내용 |
