@@ -622,4 +622,92 @@ NPH_ECS
 
 ---
 
+---
+
+## 부록: DevOn vs Struts 1.x 아키텍처 비교
+
+> **핵심 결론**: DevOn은 Apache Struts 1.x의 사상을 기반으로 개발된 프레임워크
+
+### 개요
+
+DevOn Framework는 2000년대 초반 **Apache Struts 1.x**의 구조를 따르며, MiPlatform 연동 기능을 추가한 프레임워크입니다.
+
+### 구성요소 비교
+
+| 구성요소 | Struts 1.x | DevOn | 역할 |
+|----------|------------|-------|------|
+| **Front Controller** | `ActionServlet` | `MiplatformServlet` | 모든 요청의 입구 |
+| **설정 파일** | `struts-config.xml` | `navigation/*.xml` | URL-Action 매핑 |
+| **Action/Command** | `Action` 클래스 | `Command` 클래스 | 비즈니스 로직 처리 |
+| **Form 데이터** | `ActionForm` | `Dataset` | 화면 데이터 저장 |
+| **View** | JSP | MiPlatform XML | 화면 표시 |
+| **인터셉터** | `RequestProcessor` | `Interceptor Chain` | 공통 처리 |
+
+### 실행 흐름 비교
+
+**Struts 1.x:**
+```
+Browser → ActionServlet → struts-config.xml → Action.execute() → JSP
+```
+
+**DevOn:**
+```
+MiPlatform → MiplatformServlet → navigation.xml → Command.execute() → Dataset
+```
+
+### 코드 비교 예시
+
+**Struts 1.x Action:**
+```java
+public class LoginAction extends Action {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, ...) {
+        LoginForm loginForm = (LoginForm) form;
+        // 비즈니스 로직
+        return mapping.findForward("success");
+    }
+}
+```
+
+**DevOn Command:**
+```java
+public class LoginUserCMD extends AbstractMiplatformCommand {
+    public void execute() {
+        LData input = getDatasetWithJobType("ds_Input");
+        // 비즈니스 로직
+        platformResponse.addDataset("ds_Result", result);
+    }
+}
+```
+
+### XML 설정 비교
+
+**Struts 1.x (struts-config.xml):**
+```xml
+<action path="/login" type="com.example.LoginAction" name="loginForm">
+    <forward name="success" path="/welcome.jsp"/>
+</action>
+```
+
+**DevOn (navigation.xml):**
+```xml
+<action name="LoginUser">
+    <command>nph.his.az.auth.cmd.LoginUserCMD</command>
+    <return>/welcome.jsp</return>
+</action>
+```
+
+### 마이그레이션 시 참고사항
+
+- DevOn은 **Struts 1.x 시대의 레거시 아키텍처**
+- Struts 1.x → Spring Boot 마이그레이션 경험을 DevOn에 적용 가능
+- XML 기반 설정 → 어노테이션 기반으로 전환 필요
+
+**참고**: [Struts 1.x 상세 분석](struts1-architecture.md)
+
+---
+
 *분석 완료*
+
+**📚 참고 문서:**
+- [상세 분석 보고서](detailed-analysis.md) - 다이어그램 포함
+- [Struts 1.x 아키텍처](struts1-architecture.md) - Struts 상세 설명
