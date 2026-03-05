@@ -1,8 +1,25 @@
 # NPH 병원정보시스템 Patient Journey 시뮬레이션
 
-> 국립의료원 병원정보시스템(NPH) 환자 여정 흐름 분석
+> 경찰병원 병원정보시스템(NPH) 환자 여정 흐름 분석
 > 분석일: 2026-03-05
 > 기반: DevOn Framework 4.0 + MiPlatform 3.3
+> **검증 상태**: ⚠️ 이 문서는 개념/설계 문서로, 실제 코드베이스와 일치하지 않습니다.
+
+---
+
+## ⚠️ 중요: 실제 코드베이스와의 차이점
+
+이 문서는 Patient Journey의 **개념적 흐름**을 설명합니다. 실제 구현은 다음과 같은 차이가 있습니다:
+
+| 항목 | 문서 (개념) | 실제 코드베이스 |
+|------|------------|----------------|
+| **시스템명** | 국립의료원 | 경찰병원 |
+| **약국 모듈** | PH (독립) | SP_PHA (SP 하위) |
+| **입원 모듈명** | MD_INP | MD_IPN |
+| **Navigation 경로** | his/{module}/... | mhi/{module}/... |
+| **화면 ID** | AZ_COM01001M | AZ_COM01001P, AZ_COM99005M 등 |
+
+상세 분석은 [README.md](README.md)와 [tech-stack.md](tech-stack.md)을 참조하세요.
 
 ---
 
@@ -10,14 +27,14 @@
 
 ### NPH 모듈 구성
 
-| 모듈 코드 | 모듈명 | 설명 |
-|-----------|--------|------|
-| **AZ** | Access/Registration | 접수/예약, 원무업무 |
-| **MR** | Medical Record | 의무기록, 원무/수납 |
-| **MD** | Medical Doctor | 진료 (외래/입원) |
-| **SP** | Specimen/Procedure | 검사/처방/방사선 |
-| **HP** | Hospitalization Patient | 입원관리 |
-| **ER** | Emergency Room | 응급실 |
+| 모듈 코드 | 모듈명 | 설명 | 실제 하위 폴더 |
+|-----------|--------|------|---------------|
+| **AZ** | Access/Registration | 접수/예약, 원무업무 | COM, CRT, INF, STA, SYS, UTL |
+| **MR** | Medical Record | 의무기록, 원무/수납 | BAS, COM, RCH, RDI, STA |
+| **MD** | Medical Doctor | 진료 | OPN(외래), IPN(입원), BAS, ERN, HEA 등 |
+| **SP** | Specimen/Procedure | 검사/처방/방사선 | LAB, PHA(약국), CEL(검체), RAY(영상) 등 |
+| **HP** | Hospitalization Patient | 입원관리 | PAT, COM, BAS, CTF, DMS, FEE, UNC |
+| **ER** | Emergency Room | 응급실 | ACC, COS, CSM, CSR, FAC, INS, PAY, STC |
 
 ### 기술 스택
 
@@ -38,33 +55,33 @@ flowchart TB
     end
 
     subgraph Stage1["1. 접수/예약 (AZ)"]
-        AZ1["AZ_COM01001M<br/>접수등록"]
-        AZ2["AZ_COM01002M<br/>예약관리"]
+        AZ1["AZ_COM99005M<br/>접수등록"]
+        AZ2["AZ_COM01001P<br/>예약관리"]
     end
 
     subgraph Stage2["2. 원무/수납 (MR)"]
-        MR1["MR_COM02001M<br/>수납등록"]
-        MR2["MR_COM02002M<br/>처방수납"]
+        MR1["MR_COM<br/>수납등록"]
+        MR2["MR_COM<br/>처방수납"]
     end
 
     subgraph Stage3["3. 진료 (MD)"]
-        MD1["MD_OPN01001M<br/>외래진료"]
-        MD2["MD_INP01001M<br/>입원진료"]
+        MD1["MD_OPN01010M<br/>외래진료"]
+        MD2["MD_IPN01010M<br/>입원진료"]
     end
 
     subgraph Stage4["4. 검사/처방 (SP)"]
-        SP1["SP_LAB01001M<br/>검사접수"]
-        SP2["SP_PRC01001M<br/>처방전송"]
+        SP1["SP_LAB01010M<br/>검사접수"]
+        SP2["SP_PHA01500M<br/>처방전송"]
     end
 
-    subgraph Stage5["5. 조제/투약"]
-        PH1["PH_COM01001M<br/>약국조제"]
-        PH2["PH_COM01002M<br/>투약관리"]
+    subgraph Stage5["5. 조제/투약 (SP_PHA)"]
+        PH1["SP_PHA01500M<br/>약국조제"]
+        PH2["SP_PHA01504M<br/>투약관리"]
     end
 
     subgraph Stage6["6. 퇴원/수납"]
-        DC1["MR_COM03001M<br/>퇴원수납"]
-        DC2["AZ_COM01003M<br/>퇴원예약"]
+        DC1["HP_PAT01101M<br/>퇴원수납"]
+        DC2["AZ_COM<br/>퇴원예약"]
     end
 
     PAT --> AZ1
@@ -81,6 +98,8 @@ flowchart TB
     style Stage5 fill:#f3e5f5
     style Stage6 fill:#ffebee
 ```
+
+> **참고**: 위 화면 ID는 실제 코드베이스에서 확인된 예시입니다. 실제 화면 ID 패턴은 `{모듈}_{하위}_{5자리숫자}{M/P}` 형식입니다.
 
 ---
 
