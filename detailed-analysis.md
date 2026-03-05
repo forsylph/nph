@@ -78,46 +78,46 @@ flowchart TB
 ### 2.1 MiPlatform 실행 플로우
 
 ```mermaid
-flowchart TB
-    subgraph MiClient["MiPlatform Client"]
-        Form["Form (XML)<br/>Window, Grid, Button"]
-        Dataset["Dataset"]
-        Script["Script (JavaScript)"]
-    end
+  flowchart TB
+      subgraph MiClient["MiPlatform Client"]
+          Form["Form (XML)<br/>Window, Grid, Button"]
+          Dataset["Dataset"]
+          Script["Script (JavaScript)"]
+      end
 
-    subgraph Transaction["Transaction"]
-        cfTransaction["cf_Transaction()"]
-        VariableList["VariableList"]
-        DatasetList["DatasetList"]
-    end
+      subgraph Transaction["Transaction"]
+          cfTransaction["cf_Transaction()"]
+          VariableList["VariableList"]
+          DatasetList["DatasetList"]
+      end
 
-    subgraph Server["MiPlatform Servlet"]
-        PlatformReq["PlatformRequest"]
-        PlatformRes["PlatformResponse"]
-    end
+      subgraph Server["MiPlatform Servlet"]
+          PlatformReq["PlatformRequest"]
+          PlatformRes["PlatformResponse"]
+      end
 
-    subgraph DevOn["DevOn Framework"]
-        MiReq["MiplatformRequest"]
-        MiRes["MiplatformResponse"]
-        Converter["MiplatformConverter"]
-        LData["LData/LMultiData"]
-    end
+      subgraph DevOn["DevOn Framework"]
+          MiReq["MiplatformRequest"]
+          MiRes["MiplatformResponse"]
+          Converter["MiplatformConverter"]
+          LData["LData/LMultiData"]
+      end
 
-    Form -->|사용자 액션| Script
-    Script -->|데이터 준비| Dataset
-    Script -->|호출| cfTransaction
+      Form -->|사용자 액션| Script
+      Script -->|데이터 준비| Dataset
+      Script -->|호출| cfTransaction
 
-    cfTransaction -->|HTTP POST| PlatformReq
-    PlatformReq -->|수신| MiReq
-    MiReq -->|VariableList| LData
+      cfTransaction -->|HTTP POST| PlatformReq
+      PlatformReq -->|수신| MiReq
+      MiReq -->|VariableList| LData
 
-    Dataset -->|변환| Converter
-    Converter -->|LMultiData| LData
+      Dataset -->|변환| Converter
+      Converter -->|LMultiData| LData
 
-    LData -->|처리 결과| Converter
-    Converter -->|Dataset| MiRes
-    MiRes -->|sendData()| PlatformRes
-    PlatformRes -->|HTTP 응답| Form
+      LData -->|처리 결과| Converter
+      Converter -->|Dataset| MiRes
+      MiRes -->|sendData| PlatformRes
+      PlatformRes -->|HTTP 응답| Form
 ```
 
 ### 2.2 매뉴얼 vs 실제 프로젝트 매핑
