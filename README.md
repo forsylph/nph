@@ -304,8 +304,11 @@ DevOn Framework는 다음을 위해 설계되었습니다:
 7.1 XML Query 실행 계층을 통한 쿼리 실행
      └── devonhome/xmlquery/*.xml
 
-    주의: 현재 백업셋에서는 `LQueryService` 실파일을 직접 확인하지 못했으며,
-          업무 코드에서는 `LCommonDao(...).executeQuery()` 호출이 더 직접적으로 보임
+    주의: 현재 백업셋에서 XML Query 실행 엔진은 `LCommonDao`가 직접 사용됨.
+          업무 코드에서 `LCommonDao(...).executeQuery()` 호출이 광범위하게 관찰됨.
+          `LCommonDao` 본체 소스는 백업셋에 없지만, `devon-framework.jar`와
+          `webapp/api/devon-framework_api/devonframework/persistent/autodao/LCommonDao.html`
+          에서 클래스 존재와 메서드 표면을 확인할 수 있음
 
 7.1.1 실제 업무 코드 예시
     // nph.his.az.zzaz.util.PtstMngmEC
@@ -315,6 +318,33 @@ DevOn Framework는 다음을 위해 설계되었습니다:
     // nph.app.pat.zzpat.homepage.ec.HomePageEC
     LCommonDao dao = new LCommonDao("/app/pat/homepage/doLogin", data);
     LData lResult = dao.executeQueryForSingle();
+
+    // 배치/특수 DB 명시 예시
+    LCommonDao dao = new LCommonDao();
+    LData curTdata = dao.executeQueryForSingle(
+        "/batch/sp/pha/spsdhregt/RetireveSystemDate",
+        curTdata,
+        BatchConstants.BATCH_DB_SPEC
+    );
+
+7.1.2 query path -> xmlquery 매핑 규칙
+    기본 규칙:
+      "/모듈/업무/xml파일명/statementName"
+      → devonhome/xmlquery/모듈/업무/xml파일명.xml
+      → <statement name="statementName">
+
+    검증 사례:
+      "/app/pat/homepage/doLogin"
+      → devonhome/xmlquery/app/pat/homepage.xml
+      → <statement name="doLogin">
+
+      "/az/util/azcmmptst/retirevePtstList"
+      → devonhome/xmlquery/az/util/azcmmptst.xml
+      → <statement name="retirevePtstList">
+
+      "/md/ord/hppahipwr/retrieveWard"
+      → devonhome/xmlquery/md/ord/hppahipwr.xml
+      → <statement name="retrieveWard">
 
 7.2 예: app/emp/login.xml
     <statement name="retrieveUserInfo">

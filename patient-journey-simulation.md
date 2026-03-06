@@ -17,7 +17,7 @@
 | **약국 모듈** | PH (독립) | SP_PHA (SP 하위) |
 | **입원 모듈명** | MD_INP (개념) | MD_IPN |
 | **Navigation 경로** | his/{module}/... | mhi/{module}/... |
-| **화면 ID** | AZ_COM01001M | AZ_COM01001P, AZ_COM99005M 등 |
+| **화면 ID** | AZ_COM01001M (개념) | AZ_COM01001P (Popup), AZ_COM99005M 등 |
 
 상세 분석은 [README.md](README.md)와 [tech-stack.md](tech-stack.md)을 참조하세요.
 
@@ -117,7 +117,7 @@ flowchart LR
         direction TB
         Start["NPH_start.xml<br/>SessionURL: Login3.xml"] --> Login["Login3.xml<br/>로그인화면"]
         Login --> Main["Main.xml<br/>메인화면"]
-        Main --> Menu["AZ/COM/<br/>AZ_COM01001M.xml"]
+        Main --> Menu["AZ/COM/<br/>AZ_COM01001P.xml"]
     end
 
     subgraph Server["DevOn Server"]
@@ -140,8 +140,8 @@ flowchart LR
 
 | 항목 | 내용 |
 |------|------|
-| **화면 ID** | AZ_COM01001M |
-| **화면 경로** | `/webapp/ui/AZ/COM/AZ_COM01001M.xml` |
+| **화면 ID** | AZ_COM01001P (Popup) |
+| **화면 경로** | `/webapp/ui/AZ/COM/AZ_COM01001P.xml` |
 | **화면명** | 외래접수등록 |
 | **AppGroup** | AZ_COM (BaseUrl: AZ/COM/) |
 | **관련 Dataset** | ds_PatientInfo, ds_DeptList, ds_DoctorList |
@@ -151,7 +151,7 @@ flowchart LR
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Window>
-    <Form Height="802" Id="AZ_COM01001M" Title="외래접수등록"
+    <Form Height="802" Id="AZ_COM01001P" Title="외래접수등록"
           OnLoadCompleted="Form_OnLoadCompleted">
         <Datasets>
             <!-- 환자 정보 Dataset -->
@@ -310,7 +310,7 @@ public class RegisterOutpatientCMD extends AbstractMiplatformCommand {
 #### 1.7 데이터 흐름 (Dataset)
 
 ```
-[MiPlatform Client] AZ_COM01001M
+[MiPlatform Client] AZ_COM01001P (Popup)
        │
        │ ds_PatientInfo (C: Create)
        ▼
@@ -374,7 +374,7 @@ public class RegisterOutpatientCMD extends AbstractMiplatformCommand {
 | 현재 단계 | 다음 단계 | 전환 조건 | 전환 화면 |
 |-----------|-----------|-----------|-----------|
 | 접수완료 | 원무/수납 | 접수번호 생성 완료 | MR_COM02001M.xml |
-| 예약접수 | 접수대기 | 예약시간 도래 | AZ_COM01001M.xml |
+| 예약접수 | 접수대기 | 예약시간 도래 | AZ_COM01001P.xml |
 
 ---
 
@@ -457,7 +457,7 @@ sequenceDiagram
 | 현재 단계 | 다음 단계 | 전환 조건 | 전환 화면 |
 |-----------|-----------|-----------|-----------|
 | 수납완료 | 외래진료 | 수납영수증 출력 완료 | MD_OPN01001M.xml |
-| 수납대기 | 접수화면 | 수납취소 | AZ_COM01001M.xml |
+| 수납대기 | 접수화면 | 수납취소 | AZ_COM01001P.xml |
 
 ---
 

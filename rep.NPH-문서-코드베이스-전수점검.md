@@ -31,6 +31,28 @@
 현재 백업셋에서는 `LQueryService.java` 및 직접 참조를 확인하지 못했다.
 반면 실제 업무 코드에서는 `LCommonDao(...).executeQuery()` 패턴이 광범위하게 관찰된다.
 
+추가 확인:
+- `LCommonDao`는 소스 파일이 아니라 `devon-framework.jar` 및 동봉 API 문서에 존재
+- API 문서 경로:
+  - `NPH_HIS/webapp/api/devon-framework_api/devonframework/persistent/autodao/LCommonDao.html`
+- 클래스 관계:
+  - `devonframework.persistent.autodao.LCommonDao extends LAutoDao`
+- API 문서에서 확인된 대표 메서드:
+  - `executeQuery`
+  - `executeQueryForSingle`
+  - `executeUpdate`
+  - `executeProcedure`
+  - `executeQueryForPage`
+  - `executeUpdateWithJobType`
+- 실제 query path 매핑 규칙도 검증됨:
+  - `"/a/b/c/queryId"` -> `devonhome/xmlquery/a/b/c.xml` -> `statement name="queryId"`
+- 검증 사례:
+  - `/app/pat/homepage/doLogin` -> `app/pat/homepage.xml` -> `doLogin`
+  - `/az/util/azcmmptst/retirevePtstList` -> `az/util/azcmmptst.xml` -> `retirevePtstList`
+  - `/hp/ptmngm/bedInfoQuery/retrieveWardList` -> `hp/ptmngm/bedInfoQuery.xml` -> `retrieveWardList`
+  - `/batch/sp/pha/spsdhregt/RetireveSystemDate` -> `batch/sp/pha/spsdhregt.xml` -> `RetireveSystemDate`
+  - `/md/ord/hppahipwr/retrieveWard` -> `md/ord/hppahipwr.xml` -> `retrieveWard`
+
 영향 문서:
 - `README.md`
 - `detailed-analysis.md`
@@ -41,6 +63,8 @@
 - `LQueryService`는 현재 코드베이스 기준 실존 확인 실패
 - 완전 허구라고 단정할 수는 없으나, 현 백업셋 기준으로는 `개념적 XML Query 계층명`으로 취급해야 안전
 - 실프로젝트의 표면 실행 진입점은 `LCommonDao` 쪽이 더 직접적임
+- 따라서 XML Query 문서에서 “실행 엔진”을 설명할 때는 `LQueryService`보다
+  `LCommonDao` 중심 호출 표면을 우선 서술하는 편이 코드베이스와 맞다
 
 ### 3.2 Patient Journey 문서의 실경로/실클래스 오인 위험
 
@@ -200,6 +224,11 @@
 - `NPH_HIS/src/nph/his/core/interceptor/LoginCheckInterceptor.java`
 - `NPH_HIS/src/nph/his/core/interceptor/FileUploadInterceptor.java`
 - `NPH_HIS/src/nph/his/core/interceptor/UrlPrivCheckInterceptor.java`
+- `NPH_HIS/webapp/WEB-INF/lib/devon-framework.jar`
+- `NPH_HIS/webapp/api/devon-framework_api/devonframework/persistent/autodao/LCommonDao.html`
+- `NPH_HIS/src/nph/app/pat/zzpat/homepage/ec/HomePageEC.java`
+- `NPH_HIS/src/nph/his/az/zzaz/util/PtstMngmEC.java`
+- `NPH_HIS/src/nph/bat/sp/reader/PhaComCursorReader.java`
 
 ---
 

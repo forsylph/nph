@@ -486,7 +486,7 @@ flowchart TB
 
 ```java
 // MiplatformConverter.java
-public static LMultiData convertToLMultiDataWithJobType(Dataset ds, Dataset sessionDs) {
+public static LMultiData convertToLMultiDataWithJobType(Dataset ds, Dataset sessionDs) throws MiplatformException {
     LMultiData mData = new LMultiData("convertedMultiData");
 
     int count = ds.getRowCount();
@@ -533,7 +533,35 @@ public LData doLogin(LData data) throws LException {
     LCommonDao dao = new LCommonDao("/app/pat/homepage/doLogin", data);
     return dao.executeQueryForSingle();
 }
+
+// 배치성 호출은 기본 생성자 + 메서드 파라미터 방식도 사용
+LCommonDao dao = new LCommonDao();
+LMultiData rData = dao.executeQuery(
+    "/batch/sp/pha/spsdhregt/retireveInjViewOrder",
+    this.parameter,
+    BatchConstants.BATCH_DB_SPEC
+);
 ```
+
+> 보강 메모: `LCommonDao` 본체 소스는 이번 백업셋에 없지만, `devon-framework.jar` 및
+> `webapp/api/devon-framework_api/devonframework/persistent/autodao/LCommonDao.html`
+> 에서 `devonframework.persistent.autodao.LCommonDao extends LAutoDao` 와
+> `executeQuery`, `executeQueryForSingle`, `executeUpdate`, `executeProcedure`,
+> `executeQueryForPage`, `executeUpdateWithJobType` 시그니처를 확인했다.
+
+### 5.1.2 query path 매핑 규칙
+```text
+LCommonDao("/a/b/c/queryId", data)
+→ devonhome/xmlquery/a/b/c.xml
+→ <statement name="queryId">
+```
+
+실제 검증:
+- `/app/pat/homepage/doLogin` -> `devonhome/xmlquery/app/pat/homepage.xml` -> `statement name="doLogin"`
+- `/az/util/azcmmptst/retirevePtstList` -> `devonhome/xmlquery/az/util/azcmmptst.xml` -> `statement name="retirevePtstList"`
+- `/hp/ptmngm/bedInfoQuery/retrieveWardList` -> `devonhome/xmlquery/hp/ptmngm/bedInfoQuery.xml` -> `statement name="retrieveWardList"`
+- `/batch/sp/pha/spsdhregt/RetireveSystemDate` -> `devonhome/xmlquery/batch/sp/pha/spsdhregt.xml` -> `statement name="RetireveSystemDate"`
+- `/md/ord/hppahipwr/retrieveWard` -> `devonhome/xmlquery/md/ord/hppahipwr.xml` -> `statement name="retrieveWard"`
 
 ### 5.2 LMultiData → Dataset 변환
 
