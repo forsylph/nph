@@ -140,7 +140,7 @@ function HP_DMS02204M_OnLoadCompleted(obj) {
 function btn_Rtrv_OnClick(obj) {
     // 조회 버튼 클릭
     Transaction("RetrieveDRGRevwPt",
-        "/hp/dms/retrieveDRGRevwPt.mhi", ...);
+        "/hp/dms/drgNavi/RetrieveDrgRevwPtList.mhi", ...);
 }
 
 function ds_DRGRevwPtSlct_OnColumnChanged(obj) {
@@ -150,6 +150,17 @@ function ds_DRGRevwPtSlct_OnColumnChanged(obj) {
 ```
 
 ### 2.4 서버 통신 (3개 Transaction)
+
+현재 백업셋 기준으로 확인된 실제 조회 경로:
+
+- 화면 XML: `HP_DMS02204M.xml`
+- 대표 URL: `/hp/dms/drgNavi/RetrieveDrgRevwPtList.mhi`
+- navigation: `devonhome/navigation/mhi/hp/dms/drgNavi.xml`
+- command: `RetrieveDrgRevwPtListCMD`
+- service 진입: `TxServiceUtil.getNTxService("hp.dms.DrgPostRevwMngmPC")`
+
+즉 이 화면의 조회는 일반화된 `/hp/dms/retrieveDRGRevwPt.mhi` 같은 단일 엔드포인트가 아니라, `drgNavi`와 `DrgPostRevwMngmPC` 체인으로 연결된다.
+
 
 | 통신 유형 | 개수 | 주요 용도 |
 |-----------|------|-----------|

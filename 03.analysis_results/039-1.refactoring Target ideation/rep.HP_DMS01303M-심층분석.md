@@ -134,7 +134,7 @@ function HP_DMS01303M_OnLoadCompleted(obj) {
 function btn_Rtrv_OnClick(obj) {
     // 조회 버튼 클릭
     Transaction("RetrieveEDI",
-        "/hp/dms/retrieveEDI.mhi", ...);
+        "/hp/dms/clamNavi/RetrieveEdiRecvRcpn.mhi", ...);
 }
 
 function Btn_init_OnClick(obj) {
@@ -143,6 +143,18 @@ function Btn_init_OnClick(obj) {
 ```
 
 ### 2.4 서버 통신 (2개 Transaction)
+
+현재 백업셋 기준으로 확인된 실제 처리 경로:
+
+- 조회 URL: `/hp/dms/clamNavi/RetrieveEdiRecvRcpn.mhi`
+- 저장 URL: `/hp/dms/clamNavi/SaveEdiRecvRcpn.mhi`
+- navigation: `devonhome/navigation/mhi/hp/dms/clamNavi.xml`
+- command: `RetrieveEdiRecvRcpnCMD`, `SaveEdiRecvRcpnCMD`
+- service 진입: `hp.dms.EdiMngmPC`
+- 특징: `EdiMngmPC` 내부에서 수신구분에 따라 다수 query 경로를 선택해 `recvEdiFileEC.retrieveEdiRecvRcpn(data, sQuery)`를 반복 호출한다
+
+즉 이 화면은 단순 조회 화면처럼 보여도, 서버 쪽은 EDI 파일 유형 분기 로직이 상당히 두껍다.
+
 
 | 통신 유형 | 개수 | 주요 용도 |
 |-----------|------|-----------|

@@ -319,29 +319,26 @@ LMultiData rData = dao.executeQuery(
 1. `MD_ORD01001P`
 - 외래진료 핵심 처방등록 팝업
 - Dataset 163개, 서버 통신 142개 수준으로 분석됨
-- 실제 저장 경로는 `/md/ord/ptmdcrNavi/SavePtOrder.mhi -> SavePtOrderCMD -> PrscMngmPC -> PrscSaveUC -> CommonptPrscEC -> /md/ord/scninfo/*`
-- `UpdateDurt.mhi`가 별도 보정 경로로 존재한다
+- 문서상 `/md/ord/searchDrug.mhi`, `/common/loadCode.mhi` 같은 빈번한 통신이 보인다
 - 이 부류는 “업무 복잡도 + 통신 빈도 + 화면 규모”가 함께 커서, 내부 추상화 비용이 크게 체감된다
 
 2. `HP_DMS02204M`
 - DRG 심사환자 선택
-- 실제 조회 경로는 `/hp/dms/drgNavi/RetrieveDrgRevwPtList.mhi -> RetrieveDrgRevwPtListCMD -> DrgPostRevwMngmPC -> PostRevwEC -> /hp/dms/hpdmhdmbs/retrieveDrgRevwPtList`
-- xmlquery는 `devonhome/xmlquery/hp/dms/hpdmhdmbs.xml`의 `retrieveDrgRevwPtList`로 확인된다
+- 문서상 `/hp/dms/retrieveDRGRevwPt.mhi` 중심 조회형 화면
 - Dataset은 15개 수준으로 MD_ORD01001P보다 단순하지만, 심사 화면 특성상 검색 조건/그리드 조합이 중요하다
 - 이 부류는 공통 조회 표면 API의 이점은 있으나, 화면 최적화 측면에서는 데이터셋/콤보 구조가 더 병목으로 보인다
 
 3. `HP_DMS01303M`
 - EDI 수신 접수
-- 실제 경로는 `/hp/dms/clamNavi/RetrieveEdiRecvRcpn.mhi -> RetrieveEdiRecvRcpnCMD -> EdiMngmPC -> RecvEdiFileEC -> /hp/dms/hpdmhf***/retrieveEdiRecvRcpn*`
-- 같은 화면에서 `/hp/dms/clamNavi/SaveEdiRecvRcpn.mhi` 저장도 `EdiMngmPC`로 들어간다
-- Dataset은 4개지만 수신 유형별 분기와 query 파일 수가 매우 많다
-- 이 부류는 DAO 내부 추상화보다도 “대용량 수신 데이터 + 파일유형별 분기”가 더 큰 복잡도다
+- 문서상 `/hp/dms/retrieveEDI.mhi` 중심
+- Dataset은 4개지만 그리드와 수신 데이터 자체가 무겁다
+- 이 부류는 DAO 내부 추상화보다도 “대용량 수신 데이터와 화면 표현”이 더 큰 문제로 보인다
 
 즉 세 화면을 비교하면,
 
-- `MD_ORD01001P`는 프레임워크 추적 비용이 강하게 체감되는 화면
-- `HP_DMS02204M`는 조회형 화면 설계와 후처리 분기가 함께 있는 화면
-- `HP_DMS01303M`는 파일유형/버전 분기 때문에 프레임워크 표준화가 실제로 필요했던 화면
+- `MD_ORD01001P`는 프레임워크 추상화 비용이 강하게 체감되는 화면
+- `HP_DMS02204M`는 조회형 대형 화면의 전형
+- `HP_DMS01303M`는 수신 데이터 표현 부담이 큰 화면
 
 으로 성격이 조금씩 다르다.
 

@@ -113,91 +113,17 @@ HP_DMS01303M     █████████████████████
 
 ## 2.5 실제 서버 처리 체인
 
-현재 백업셋 기준으로 확인된 `MD_ORD01001P`의 대표 저장/DUR 흐름은 아래와 같다.
+현재 백업셋 기준으로 확인된 대표 저장 흐름은 아래와 같다.
 
-### 2.5.1 화면 -> command 진입
+- 화면 XML: `MD_ORD01001P.xml`
+- 대표 URL: `/md/ord/ptmdcrNavi/SavePtOrder.mhi`, `/md/ord/ptmdcrNavi/UpdateDurt.mhi`
+- navigation: `devonhome/navigation/mhi/md/ord/ptmdcrNavi.xml`
+- command: `SavePtOrderCMD`, `UpdateDurtCMD`
+- service 진입: `TxServiceUtil.getTxService("md.ord.PrscMngmPC")`, `TxServiceUtil.getTxService("md.ord.ZzzPrscMngmPC")`
+- PC/UC: `PrscMngmPC`, `PrscSaveUC`, `PrscCheckDurUC`
+- 특징: 처방 저장과 DUR 점검/취소/재전송 흐름이 한 화면 안에서 결합되어 있다
 
-- 화면 XML: `NPH_HIS/webapp/ui/MD/ORD/MD_ORD01001P.xml`
-- 대표 URL:
-  - `/md/ord/ptmdcrNavi/SavePtOrder.mhi`
-  - `/md/ord/ptmdcrNavi/UpdateDurt.mhi`
-- 입력 Dataset:
-  - `ds_Ordr`
-  - `ds_OrdrDur`
-  - `ds_FirstDis`
-- 확인 포인트:
-  - 저장 버튼은 `ds_Ordr=ds_Ordr ds_OrdrDur=ds_OrdrDur`를 함께 보냄
-  - DUR 보정 경로는 `ds_OrdrDur=ds_OrdrDur ds_FirstDis=ds_FirstDis`를 보냄
-
-### 2.5.2 navigation -> CMD
-
-- navigation: `NPH_HIS/devonhome/navigation/mhi/md/ord/ptmdcrNavi.xml`
-- action 매핑:
-  - `SavePtOrder` -> `nph.his.md.ord.ptmdcr.cmd.SavePtOrderCMD`
-  - `UpdateDurt` -> `nph.his.md.ord.ptmdcr.cmd.UpdateDurtCMD`
-- service 진입:
-  - `SavePtOrderCMD` -> `TxServiceUtil.getTxService("md.ord.PrscMngmPC")`
-  - `UpdateDurtCMD` -> `TxServiceUtil.getTxService("md.ord.ZzzPrscMngmPC")`
-
-### 2.5.3 CMD -> PC/UC -> EC
-
-`SavePtOrder` 저장 경로:
-
-- `SavePtOrderCMD`
-- `PrscMngmPC.savePtOrder(mData)`
-- `PrscSaveUC.registPrsc(mdata)`
-- `PrscSaveUC.durPrsc(mdata)`
-- `CommonptPrscEC` 계열 조회/저장 호출
-
-`UpdateDurt` 보정 경로:
-
-- `UpdateDurtCMD`
-- `CommonptPrscEC.saveDurt(...)`
-- `CommonptPrscEC.updateDurt(...)`
-- `CommonptPrscEC.updateDurChckDvsn(...)`
-
-### 2.5.4 EC -> query path -> xmlquery
-
-실제 코드에서 확인된 대표 query path는 아래와 같다.
-
-- `CommonptPrscEC.retrieveDurSendCheck(data)`
-  - query path: `/md/ord/scninfo/retrieveDurSendCheck`
-  - xmlquery: `devonhome/xmlquery/md/ord/scninfo.xml`
-  - statement: `retrieveDurSendCheck`
-- `CommonptPrscEC.retrieveDurPidCheck(data)`
-  - query path: `/md/ord/scninfo/retrieveDurPidCheck`
-  - xmlquery: `devonhome/xmlquery/md/ord/scninfo.xml`
-  - statement: `retrieveDurPidCheck`
-- `CommonptPrscEC.retrieveRuleCheck(data)`
-  - query path: `/md/ord/scninfo/retrieveRuleCheck`
-  - xmlquery: `devonhome/xmlquery/md/ord/scninfo.xml`
-  - statement: `retrieveRuleCheck`
-- `CommonptPrscEC.saveDurt(data)`
-  - query path: `/md/ord/scninfo/saveDurt`
-  - xmlquery: `devonhome/xmlquery/md/ord/scninfo.xml`
-  - statement: `saveDurt`
-- `CommonptPrscEC.updateDurt(data)`
-  - query path: `/md/ord/scninfo/updateDurt`
-  - xmlquery: `devonhome/xmlquery/md/ord/scninfo.xml`
-  - statement: `updateDurt`
-- `CommonptPrscEC.retrievePrscList(data)`
-  - query path: `/md/ord/mdmdhtord/retrievePrscList`
-  - xmlquery: `devonhome/xmlquery/md/ord/mdmdhtord.xml`
-  - statement: `retrievePrscList`
-
-### 2.5.5 해석
-
-이 화면이 유난히 무겁게 느껴지는 이유는 Dataset 수만 많아서가 아니다.
-
-- `저장`
-- `규칙 점검`
-- `DUR 점검`
-- `DUR 이력 저장/변경`
-- `사유 미입력 보정`
-
-이 다섯 단계가 한 화면 안에서 이어진다.
-
-즉 `MD_ORD01001P`는 단순 입력 화면이 아니라, 처방 저장과 DUR 후처리를 한 번에 떠안은 오케스트레이션 화면이다. 그래서 `CMD -> PC/UC -> EC -> query path -> xmlquery` 체인을 따라가야만 실제 동작이 보인다.
+이 화면이 유난히 무겁게 느껴지는 이유는 Dataset 수만 많아서가 아니라, `저장 -> 규칙 점검 -> DUR 점검 -> DUR 이력 정리`가 한 화면에서 이어지기 때문이다.
 
 ---
 
