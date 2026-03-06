@@ -12,11 +12,11 @@
 
 | 영역 | 현재 상태 | 주요 병목 | 개선 긴급도 |
 |------|-----------|-----------|-------------|
-| **MiPlatform 통신** | BIN 프로토콜 사용 ✅ | 이미 최적화됨 | 낮음 |
-| **XML Query** | 2,023개 파일, 런타임 파싱 | 캐싱 없음, `${}` 문자열 치환 | **높음** |
+| **MiPlatform 통신** | BIN 기본값 + XML 응답 코드 공존 | 구현 혼재 가능성 | 중간 |
+| **XML Query** | 2,023개 파일, 런타임 파싱 | XML Query 캐시 미확인, `${}` 문자열 치환 | **높음** |
 | **대형 화면** | 2.4MB 화면 존재 | Dataset 163개, 컬럼 5,859개 | **높음** |
 | **EDViewer** | 7.7MB OCX 바이너리 | ActiveX 초기화, 소스 없음 | **높음** |
-| **DB 쿼리** | Connection Pool 30개 | 복잡 조인, 페이징 없음 | **중간** |
+| **DB 쿼리** | Pool 설정 10~20 확인 | 복잡 조인, 페이징 없음 | **중간** |
 
 ### 권고사항 요약
 
@@ -28,7 +28,7 @@
 
 ## 1. MiPlatform 통신 프로토콜 분석
 
-### 1.1 BIN(바이너리) 프로토콜 확인
+### 1.1 BIN(바이너리) 기본값 확인
 
 **소스 코드 증거**:
 
@@ -44,17 +44,28 @@ this.method = PlatformRequest.BIN;  // BIN 모드 강제 적용
 this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
 ```
 
-### 1.2 프로토콜 비교
+### 1.2 실제 응답 처리 보정
+
+```java
+// MiplatformServlet.java:79
+MiplatformResponse platformRes = new MiplatformResponse( res, PlatformRequest.XML, "utf-8" );
+```
+
+- `Request/Response` 클래스 기본값은 BIN으로 보이지만,
+- 실제 서블릿 구현은 XML 응답 생성 코드를 사용합니다.
+- 따라서 `현재 BIN만 사용 중`이라는 단정은 피해야 합니다.
+
+### 1.3 프로토콜 비교
 
 | 프로토콜 | 특징 | 크기 | 속도 | NPH 사용 |
 |----------|------|------|------|----------|
-| **BIN** | 바이너리 직렬화 | 원본의 100% | 매우 빠름 | ✅ **사용 중** |
-| XML | 텍스트 마크업 | 원본의 300-500% | 느림 | ❌ 주석 처리 |
+| **BIN** | 바이너리 직렬화 | 원본의 100% | 매우 빠름 | ⚠️ 기본값으로 확인 |
+| XML | 텍스트 마크업 | 원본의 300-500% | 느림 | ⚠️ 서블릿 응답 코드에서 확인 |
 | ZIP | BIN + 압축 | 원본의 30-50% | 중간 | ❌ 미사용 |
 
-### 1.3 결론: 통신 최적화 완료 ✅
+### 1.4 결론: 통신은 재검증 필요
 
-MiPlatform BIN 프로토콜은 이미 최적화된 상태입니다. 추가 개선 여지는 낮으며, **주요 병목은 통신이 아닌 다른 영역**에 있습니다.
+MiPlatform 통신은 프레임워크 기본값과 실제 서블릿 구현이 다르게 보입니다. 따라서 `통신 최적화 완료`보다는 `현행 프로토콜 경로 재검증 필요`가 더 정확합니다.
 
 ---
 
@@ -77,7 +88,7 @@ LMultiData lResult = commDao.executeQuery();  // 매번 XML 파일 로드/파싱
 ```
 
 **문제점**:
-- XML Query가 매 요청마다 파일 시스템에서 로드됨
+- XML Query가 매 요청마다 파일 시스템에서 로드될 가능성
 - 2,023개 XML 파일 (약 50MB)의 반복 파싱
 - CPU 집약적 작업
 
@@ -93,11 +104,13 @@ WHERE PRSC_SET_CLSF_SQNO = ?
 
 **SQL Injection 취약점 존재 가능성**
 
-#### 병목 3: 캐싱 메커니즘 부재 (High)
+#### 병목 3: XML Query 캐시 검증 필요 (High)
 
-- XML Query 파일 캐싱: ❌ 없음
-- 파싱된 SQL 캐싱: ❌ 없음
-- 쿼리 결과 캐싱: ❌ 없음
+- XML Query 파일 캐싱: 미확인
+- 파싱된 SQL 캐싱: 미확인
+- 쿼리 결과 캐싱: 시스템 전체 기준으로는 단정 불가
+
+`NPH_HIS/src/nph/his/core/cache` 하위에 `CacheManager`, `CommonCodeCache`, `DeptDataCache`, `UserDataCache`가 존재하므로, 시스템 전체를 `캐시 없음`으로 보는 것은 맞지 않습니다.
 
 ### 2.3 개선 방안
 
@@ -263,10 +276,12 @@ function createDynamicDataset(dsId, colInfos) {
 
 ### 5.1 현황
 
-**Connection Pool 설정** (devon-framework.xml):
+**Connection Pool 설정** (확인된 설정 기준):
 ```xml
 <jdbc-pool name="default">
-    <max-active-connections>30</max-active-connections>
+    <!-- 현재 백업셋에서 직접 확인된 값은 아님 -->
+    <!-- 실제 확인값: Tomcat context.xml maxTotal=20, ruleEngine jndi.xml maxActive=10 -->
+    <max-active-connections>20</max-active-connections>
     <max-idle-connections>10</max-idle-connections>
 </jdbc-pool>
 ```
@@ -301,8 +316,8 @@ SELECT
 
 ```xml
 <jdbc-pool name="default">
-    <max-active-connections>80</max-active-connections>  <!-- 30 → 80 -->
-    <max-idle-connections>30</max-idle-connections>       <!-- 10 → 30 -->
+    <max-active-connections>80</max-active-connections>  <!-- 확인된 10~20 설정 기준으로 상향 예시 -->
+    <max-idle-connections>30</max-idle-connections>       <!-- 상향 예시 -->
     <min-idle-connections>15</min-idle-connections>       <!-- 추가 -->
     <validation-query>SELECT 1 FROM DUAL</validation-query>
 </jdbc-pool>
@@ -332,7 +347,7 @@ SELECT
 
 | 순위 | 항목 | 대상 | 예상 효과 |
 |------|------|------|-----------|
-| 4 | Connection Pool 증설 | 30 → 80 | 대기 시간 감소 |
+| 4 | Connection Pool 증설 | 확인값 기준 재산정 필요 | 대기 시간 감소 |
 | 5 | EDViewer 래퍼 개선 | eViewCommon.js | EMR 로딩 개선 |
 | 6 | 화면 캐싱 | HTTP Cache-Control | 재방문 속도 향상 |
 
@@ -413,7 +428,7 @@ SELECT
 **즉시 실행할 작업**:
 1. `MD_ORD01001P` 화면에 Tab 기반 지연 로딩 적용
 2. XML Query 파일 캐싱 구현
-3. Connection Pool 30 → 80으로 증설
+3. Connection Pool은 현재 확인된 `10~20` 설정을 기준으로 재산정 후 증설
 
 이 3가지 작업만으로도 NPH 시스템의 **전반적인 성능이 30-50% 개선**될 것으로 예상됩니다.
 

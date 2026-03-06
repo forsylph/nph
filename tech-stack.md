@@ -34,7 +34,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| REST API | **Jersey** | 1.19.4 | Eclipse | JAX-RS 구현체 ✅ 검증됨 |
+| REST API | **Jersey/JAX-RS 계열** | 1.19.4 | Eclipse | `jersey-bundle-1.19.4.jar`, `com/rest/api`, `com.sun.jersey` 확인 ✅ |
 | SOAP | **Apache Axis** | 1.x | Apache | 웹서비스 ✅ 검증됨 |
 | HTTP 클라이언트 | **Apache HttpClient** | 4.5.3 | Apache | HTTP 통신 |
 
@@ -65,7 +65,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 스케줄링 ✅ 검증됨 |
+| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | `quartz-1.6.1.jar` 확인 ✅ |
 
 ---
 
@@ -77,8 +77,8 @@
 | 전자서명 | **SignGate** | - | KIS | 전자서명 솔루션 ✅ 검증됨 (5개 JAR, Java 코드 사용) |
 | 공인인증 | **GPKI** | - | KISA | 공인인증서 기반 인증 ✅ 검증됨 |
 | SAML SP | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML Service Provider ✅ 검증됨 |
-| SAML | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 ✅ 검증됨 |
-| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 필터 ✅ **NPH_ECS에서 실제 사용** (11개 Java 파일) |
+| SAML | **OpenSAML** | 2.6.4 | Shibboleth | `opensaml-2.6.4.jar` 확인 ✅ |
+| XSS 방어 | **Lucy XSS Filter** | 1.1.2 | 네이버 | `lucy-xss-1.1.2.jar` 및 NPH_ECS 실제 사용 확인 ✅ |
 | 보안 API | **OWASP ESAPI** | 2.0.1 | OWASP | 보안 API (JAR만 존재, 사용 안함) |
 | 암호화 | **Bouncy Castle** | 1.51 | - | 암호화 라이브러리 |
 | SSL | **not-yet-commons-ssl** | 0.3.9 | - | SSL 유틸리티 |
@@ -89,7 +89,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 ✅ 검증됨 |
+| EMR 뷰어 | **eView** | - | - | EMR 문서 뷰어 ✅ `EdViewer.jsp`, `EDViewer_Ocx.ocx` 기준 검증됨 |
 | 건강보험 연동 | **WSNhic** | - | - | 국민건강보험공단 연동 ✅ 검증됨 |
 | 서명패드 | **SignPad** | - | - | 전자서명 입력 ✅ 검증됨 |
 | 가계도 | **PedigreeChart** | - | - | 유전질환 가계도 ✅ 검증됨 |
@@ -105,7 +105,7 @@
 
 | 구분 | 기술 | 비고 |
 |------|------|------|
-| ED 뷰어 | **EDViewer_Ocx.ocx** | EMR 문서 뷰어 ActiveX |
+| ED 뷰어 | **EDViewer_Ocx.ocx** | `NPH_HIS/webapp/EMR_DATA/applet`, `NPH_ECS/webapp/EMR_DATA/eMobile` 배포본 확인 |
 | TPR 실행 | **TprExecuter.ocx** | TPR 차트 실행 ActiveX |
 | TPR 컨트롤 | **TPR.ocx / TPR.dll** | TPR 차트 컨트롤 |
 | 문서 편집 | **painter.jar / signedpainter.jar** | 문서 편집/서명 Applet |
@@ -290,12 +290,12 @@
 | Rexpert | ✅ | 버전 3.2.4.1 확인, repConf 설정 존재 |
 | Apache POI | ✅ | 버전 3.2-FINAL-20081019 확인 |
 | InnoRule | ✅ | 4개 JAR, web.xml 설정 확인 |
-| Quartz | ✅ | 버전 1.6.1 확인 |
-| Jersey | ✅ | 버전 1.19.4 확인 |
+| Quartz | ✅ | `quartz-1.6.1.jar` 확인 |
+| Jersey | ✅ | `jersey-bundle-1.19.4.jar`, `com.sun.jersey`, `javax.ws.rs` 확인 |
 | MagicSSO | ✅ | DSToolkit 설정 및 Java 코드 사용 확인 |
 | SignGate | ✅ | 5개 JAR, Java 코드 사용 확인 |
 | GPKI | ✅ | DSToolkitV30.conf에 37개 CA 설정 |
-| OpenSAML | ✅ | 버전 2.6.4 확인 |
+| OpenSAML | ✅ | `opensaml-2.6.4.jar` 확인 |
 | Lucy XSS Filter | ✅ | **NPH_ECS 11개 파일에서 사용 확인** |
 
 ### 수정된 항목

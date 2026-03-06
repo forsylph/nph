@@ -134,7 +134,7 @@
 **Transaction 연결:**
 ```javascript
 Transaction("SavePbhlCd",
-  "/az/bizcom/cmcdNavi/SaveDetail.mhi",
+  "/az/bizcom/cmcdNavi/SaveDetail.mhi",  // 업무별 action 명은 예시
   "ds_detail=ds_PbhlCd:u",
   "",
   "",
@@ -301,8 +301,11 @@ DevOn Framework는 다음을 위해 설계되었습니다:
 
 **7. XML Query 실행**
 ```
-7.1 LQueryService를 통한 쿼리 실행
-    └── devonhome/xmlquery/*.xml
+7.1 XML Query 실행 계층을 통한 쿼리 실행
+     └── devonhome/xmlquery/*.xml
+
+    주의: 현재 백업셋에서는 `LQueryService` 실파일을 직접 확인하지 못했으며,
+          업무 코드에서는 `LCommonDao(...).executeQuery()` 호출이 더 직접적으로 보임
 
 7.2 예: app/emp/login.xml
     <statement name="retrieveUserInfo">

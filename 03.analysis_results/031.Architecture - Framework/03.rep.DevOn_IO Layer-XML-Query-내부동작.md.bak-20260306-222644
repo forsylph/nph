@@ -113,9 +113,7 @@ ResultSet → LMultiData
 public class LoginPC {
     public LMultiData validateUser(LData input) {
         // 1. XML 파일 경로와 쿼리 이름 지정
-        // 아래 호출명은 설명용 의사코드다.
-        // 현재 백업셋에서는 업무 코드에서 LCommonDao(...).executeQuery() 패턴이 더 직접적으로 관찰된다.
-        LMultiData result = runXmlQuery(
+        LMultiData result = /* XML Query 실행 계층 호출 예시 */ null;
             "app/emp/login",      // XML 파일 경로 (확장자 없음)
             "retrieveUserInfo",   // 쿼리 이름
             input                 // 파라미터 (LData)
@@ -390,10 +388,18 @@ LMultiData patients = /* XML Query 실행 계층 호출 */ null;
 public class ReceiptPC {
     public void saveReceipt(LData param) {
         // INSERT
-        runXmlQuery("mr/comn/receipt", "insertReceipt", param);
+        /* XML Query 실행 계층 호출 */
+            "mr/comn/receipt",
+            "insertReceipt",
+            param
+        );
 
         // UPDATE (같은 트랜잭션)
-        runXmlQuery("mr/comn/receipt", "updatePatientStatus", param);
+        /* XML Query 실행 계층 호출 */
+            "mr/comn/receipt",
+            "updatePatientStatus",
+            param
+        );
     }
 }
 ```

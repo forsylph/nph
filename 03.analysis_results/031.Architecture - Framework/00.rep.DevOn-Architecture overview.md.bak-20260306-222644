@@ -3,7 +3,6 @@
 > DevOn Framework와의 비교를 중심으로 한 구조 분석
 > 주의: 본문 예시 코드(예: JSP/forward 경로)는 설명 목적의 샘플을 포함합니다.
 > 현재 백업셋 기준 DevOn 실구현 포인트는 `MiplatformServlet`, `GeneralServlet`, `MiplatformRequest`, `MiplatformResponse`, `AbstractMiplatformCommand`, `devon-framework.xml`, `requisite.xml` 입니다.
-> 현재 NPH 백업셋에서는 `MiplatformServlet`이 `PlatformRequest.XML` 응답을 생성하므로, 본문의 Dataset 응답 흐름도는 프레임워크 개념 설명으로 읽는 것이 맞습니다.
 
 ---
 

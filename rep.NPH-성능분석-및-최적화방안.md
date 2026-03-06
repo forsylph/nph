@@ -8,7 +8,7 @@
 
 ## 1. 핵심 발견: MiPlatform 통신 프로토콜
 
-### 1.1 BIN(바이너리) 모드 사용 확인
+### 1.1 BIN(바이너리) 기본값 확인
 
 **소스 코드 증거** (`MiplatformRequest.java:67-69`):
 
@@ -26,15 +26,27 @@ this.method = PlatformRequest.BIN;  // <-- 기본값: 바이너리 모드
 this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
 ```
 
-### 1.2 프로토콜별 특성 비교
+### 1.2 실제 서블릿 동작 보정
+
+**추가 확인** (`MiplatformServlet.java:79`):
+
+```java
+MiplatformResponse platformRes = new MiplatformResponse( res, PlatformRequest.XML, "utf-8" );
+```
+
+- `MiplatformRequest`/`MiplatformResponse` 기본 생성자 레벨에서는 BIN 기본값이 보입니다.
+- 다만 실제 진입 서블릿에서는 **응답을 XML로 생성**하는 코드가 확인됩니다.
+- 따라서 현재 코드 기준 표현은 `프레임워크 기본값은 BIN이나, 실제 서블릿 구현은 XML 응답 사용`이 더 정확합니다.
+
+### 1.3 프로토콜별 특성 비교
 
 | 프로토콜 | 특징 | 파싱 속도 | 데이터 크기 | NPH 사용 |
 |----------|------|-----------|-------------|----------|
-| **BIN** | 바이너리 직렬화 | 빠름 (CPU 부하 낮음) | 작음 | ✅ **현재 사용** |
-| XML | 텍스트 마크업 | 느림 (파싱 부하) | 큼 (3-5배) | ❌ 주석 처리 |
+| **BIN** | 바이너리 직렬화 | 빠름 (CPU 부하 낮음) | 작음 | ⚠️ 기본값으로 확인 |
+| XML | 텍스트 마크업 | 느림 (파싱 부하) | 큼 (3-5배) | ⚠️ 서블릿 응답 코드에서 확인 |
 | ZIP | BIN + 압축 | 중간 (압축/해제) | 매우 작음 | ❌ 미사용 |
 
-### 1.3 통신 데이터 흐름
+### 1.4 통신 데이터 흐름
 
 ```
 [Client] → MiPlatform ActiveX
@@ -54,7 +66,7 @@ this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
     │ ResultSet → LMultiData → Dataset 변환
     │
     ▼
-[Response] → pResponse.sendData(outVl, outDl) → BIN 직렬화
+[Response] → pResponse.sendData(outVl, outDl) → XML 응답 가능성 높음
 ```
 
 ---
@@ -71,8 +83,8 @@ this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
 │     │            │             │              │            │          │
 │     ▼            ▼             ▼              ▼            ▼          │
 │  ████████       ░░░░░         ▓▓▓▓▓          ▒▒▒▒        ▓▓▓▓▓       │
-│  MiPlatform   BIN 통신    XML Query      DB Query     EDViewer       │
-│  초기 로딩    (최적화됨)    (의심)         (의심)        (심각)        │
+│  MiPlatform  혼재 가능성   XML Query      DB Query     EDViewer       │
+│  초기 로딩   (BIN/XML)     (의심)         (의심)        (심각)        │
 │                                                                         │
 │  병목 심각도: ████ 심각  ▓▓▓▓ 중간  ▒▒▒▒ 낮음  ░░░░░ 최적화됨          │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -86,7 +98,7 @@ this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
 |------|------|------|------|
 | **초기 설치** | 30-50MB | 매우 높음 | 첫 방문 시 ActiveX 다운로드/설치 |
 | **버전 체크** | 3-5초 | 높음 | MiPlatform 런타임 버전 확인 |
-| **화면 캐싱** | 없음 | 중간 | 매번 서버에서 화면 XML 로드 |
+| **화면 캐싱** | 미확인 | 중간 | 정적 리소스 캐시 정책 별도 확인 필요 |
 
 ```javascript
 // MiPlatform 초기화 시 로딩되는 대용량 파일들
@@ -124,17 +136,22 @@ this(httpResponse, PlatformResponse.BIN, MiplatformConverter.DEFAULT_CHARSET);
 |------|------|------|------|
 | **XML 파싱** | 런타임 마다 | 중간 | XML → SQL 변환 오버헤드 |
 | **동적 SQL** | 문자열 치환 | 중간 | `${변수}` 처리 |
-| **쿼리 캐싱** | 없음 (추정) | 높음 | 동일 쿼리 재파싱 |
+| **쿼리 캐싱** | 미확인 (XML Query 한정) | 높음 | 동일 쿼리 재파싱 가능성 |
 
-**LQueryService 동작 방식:**
+**LQueryService 동작 방식(추정):**
 
 ```java
-// 1. XML 파일 로드 (매번?) → 디스크 I/O
+// 1. XML 파일 로드 (캐시 여부 미확인) → 디스크 I/O 가능성
 // 2. XML 파싱 → SQL 추출
 // 3. 변수 치환 → 동적 SQL 생성
 // 4. JDBC 실행 → ResultSet
 // 5. ResultSet → LMultiData 변환
 ```
+
+**보정 메모**
+- `NPH_HIS/src/nph/his/core/cache` 하위에 `CacheManager`, `CommonCodeCache`, `DeptDataCache`, `UserDataCache`가 존재합니다.
+- 따라서 시스템 전체를 `캐싱 없음`으로 쓰는 것은 부정확합니다.
+- 현 시점에서 강하게 말할 수 있는 범위는 `XML Query 파일/파싱 캐시는 본 검토에서 직접 확인하지 못함`입니다.
 
 **소스 코드 분석** (추정):
 ```xml
@@ -380,7 +397,7 @@ function btn_Prescription_OnClick(obj) {
 
 ### 핵심 요약
 
-1. **MiPlatform BIN 프로토콜 사용**: 이미 바이너리 통신으로 최적화되어 있음 ✅
+1. **MiPlatform 통신**: BIN 기본값과 XML 응답 코드가 공존하므로 실제 경로 재검증이 필요함 ⚠️
 
 2. **주요 병목**:
    - 🚨 **ActiveX 초기 로딩** (MiPlatform + EDViewer)

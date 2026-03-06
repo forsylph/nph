@@ -198,7 +198,7 @@ flowchart TB
             function btn_Login_OnClick(obj) {
                 var params = "usid=" + ED_UserID.Value;
                 Transaction("CheckUserInfo",
-                    "NPHSE::/az/bizcom/authNavi/CheckLoginUser.mhi",
+                    "NPHSE::/az/bizcom/authNavi/LoginUser.mhi",
                     "", "ds_UserInfo=ds_UserInfo", params, "LoginCallback");
             }
         ]]></Script>
@@ -458,7 +458,7 @@ flowchart TB
     PC --> TxManager
     TxManager -->|트랜잭션 관리| DAO
 
-    DAO -->|LQueryService| XMLQuery
+    DAO -->|XML Query 실행 계층| XMLQuery
     XMLQuery -->|SQL 실행| DB
 
     PC -->|EMR 연동| EMR
@@ -482,7 +482,7 @@ flowchart TB
 
 ```java
 // MiplatformConverter.java
-public static LMultiData convertToLMultiDataWithJobType(Dataset ds) {
+public static LMultiData convertToLMultiDataWithJobType(Dataset ds, Dataset sessionDs) {
     LMultiData mData = new LMultiData("convertedMultiData");
 
     int count = ds.getRowCount();

@@ -1,6 +1,7 @@
 # EMR 뷰어 EDViewer(eView) 분석
 
 > 국립의료원 병원정보시스템(NPH)의 전자의무기록(EMR) 뷰어 분석
+> 사실 기반 요약본: `rep.EMR_viewer-EDViewer-팩트체크.md`
 
 ---
 
@@ -19,7 +20,7 @@
   - 현재 백업 코드셋에서 **해당 디렉터리 미확인**.
 - `EMRDataServlet.java`
   - 현재 백업 코드셋에서 **파일 미확인**.
-  - 대신 `NPH_ECS/src` 하위에 `@WebServlet` 기반 EMR 관련 서블릿(`SaveRecord`, `DeleteRecord`, `save_xml` 등) 다수 확인.
+  - 대신 `NPH_ECS/src` 하위에 EMR 저장/삭제 관련 Java 진입점(`SaveRecord`, `DeleteRecord`, `save_xml` 등) 다수 확인.
 - `emrViewer.jsp`
   - 현재 백업 코드셋에서 **정확한 파일명 미확인**.
   - 대체 후보로 `EdViewer.jsp` 확인:
@@ -33,6 +34,10 @@
   - `NPH_HIS/webapp/jsp/md_mobile/emr/emrView.jsp`
 - EDViewer ActiveX 연결은 문서 예시의 `new ActiveXObject("EDViewer.Control")` 패턴보다,
   `OBJECT classid=...` + `FV_CommonCall(...)` 사용 흔적이 명확함 (`EdViewer.jsp` 기준).
+- 실제 배포 바이너리 위치:
+  - `NPH_HIS/webapp/EMR_DATA/applet/EDViewer_Ocx.ocx`
+  - `NPH_ECS/webapp/EMR_DATA/eMobile/EDViewer_Ocx.ocx`
+  - `NPH_ECS/webapp/EMR_DATA/eMobile/BKEDViewer.exe`
 
 --- 
 
@@ -49,6 +54,8 @@
 | **사용 위치** | NPH_ECS (전자동의시스템), NPH_HIS |
 | **기술** | Windows 전용 ActiveX, Internet Explorer 필수 |
 | **목적** | EMR 문서 조회, 서명, 출력 |
+
+> 주의: 본 문서의 일부 메서드명/호출 예시는 기능 설명용이며, 현재 백업 코드셋에서 직접 확인된 구현은 `EdViewer.jsp`, `emrView.jsp`, `ExternalDBPusher*`, EMR_DATA 바이너리 배포본 기준입니다.
 
 ---
 

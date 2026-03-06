@@ -99,7 +99,7 @@ flowchart TB
     style Stage6 fill:#ffebee
 ```
 
-> **참고**: 위 화면 ID는 실제 코드베이스에서 확인된 예시를 포함하지만, 단계별 흐름에 배치된 액션/업무 연결은 설명용 단순화가 섞여 있습니다. 실제 화면 ID 패턴은 `{모듈}_{하위}_{5자리숫자}{M/P}` 형식입니다.
+> **참고**: 위 화면 ID는 실제 코드베이스에서 확인된 예시입니다. 실제 화면 ID 패턴은 `{모듈}_{하위}_{5자리숫자}{M/P}` 형식입니다.
 
 ---
 
@@ -221,10 +221,10 @@ flowchart LR
 
 | 구분 | 클래스/파일 | 경로 |
 |------|-------------|------|
-| **Navigation** | `(예시) az/comn/receiptNavi.xml` | `devonhome/navigation/...` |
-| **Command** | `(예시) RegisterOutpatientCMD` | `nph.his.{module}.{biz}.cmd` |
-| **PC** | `(예시) ReceiptPC` | `nph.his.{module}.{biz}.pc` |
-| **XML Query** | `(예시) receipt.xml` | `devonhome/xmlquery/{module}/{biz}/` |
+| **Navigation** | `az/comn/receiptNavi.xml` | `devonhome/navigation/his/az/comn/` |
+| **Command** | `RegisterOutpatientCMD` | `nph.his.az.comn.receipt.cmd` |
+| **PC** | `ReceiptPC` | `nph.his.az.comn.receipt.pc` |
+| **XML Query** | `receipt.xml` | `devonhome/xmlquery/az/comn/` |
 
 #### 1.5 Navigation 설정
 
@@ -293,7 +293,7 @@ public class RegisterOutpatientCMD extends AbstractMiplatformCommand {
 [ReceiptPC.registerOutpatient()]
        │
        ▼
-[XML Query 실행 계층]
+[LQueryService.executeQuery()]
        │
        ▼
 [Oracle DB] - INSERT INTO RECEIPT, INSERT INTO OUTPATIENT_VISIT
@@ -1041,7 +1041,7 @@ flowchart TB
     Req -->|변환| Converter
     Converter -->|LMultiData| Command
     Command -->|TxServiceUtil| PC
-    PC -->|XML Query 실행 계층| XMLQuery
+    PC -->|LQueryService| XMLQuery
     XMLQuery -->|JDBC| DB
     DB -->|ResultSet| XMLQuery
     XMLQuery -->|LMultiData| PC
@@ -1065,7 +1065,7 @@ flowchart TB
 
 ## 주요 화면 ID 목록
 
-> **참고**: 아래 화면 ID는 실제 코드베이스에서 확인된 예시입니다. 다만 화면 간 연결 순서와 업무 시나리오는 개념 설명을 위해 단순화되어 있습니다.
+> **참고**: 아래 화면 ID는 실제 코드베이스에서 확인된 예시입니다.
 
 ### 접수/예약 (AZ)
 
@@ -1204,7 +1204,7 @@ devonhome/navigation/mhi/
 | 시스템명 | 국립의료원 | 경찰병원 |
 | 약국 모듈 | PH (독립) | SP_PHA (SP 하위) |
 | 입원 모듈명 | MD_INP | MD_IPN |
-| Navigation 경로 | his/{module}/... | `*.mhi` 요청 + `devonhome/navigation/...` 매핑 |
+| Navigation 경로 | his/{module}/... | mhi/{module}/... |
 | 화면 ID 시작 | 01001 | 01010 등 |
 
 ---
@@ -1241,7 +1241,7 @@ devonhome/navigation/mhi/
 2. MD_INP → MD_IPN (Inpatient)
 3. his/ → mhi/ (Navigation 경로)
 4. 화면 ID 패턴 실제 코드 반영
-5. 국립의료원 → 경찰병원
+5. 국립의료원 → 경찴병원
 ```
 
 ### 🔧 수정 내역
