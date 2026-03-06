@@ -277,10 +277,6 @@ sequenceDiagram
 
 // URL 패턴: /az/bizcom/cmcdNavi/SaveDetail.mhi
 // → az/bizcom/cmcdNavi.xml의 SaveDetail Action
-
-// 실제 검증 사례:
-// /az/bizcom/authNavi/CheckLoginUser.mhi
-// → devonhome/navigation/mhi/az/bizcom/authNavi.xml 의 CheckLoginUser Action
 ```
 
 #### 단계 2: Request/Response 초기화
@@ -517,21 +513,6 @@ public static LMultiData convertToLMultiDataWithJobType(Dataset ds, Dataset sess
     }
 
     return mData;
-}
-```
-
-### 5.1.1 XML Query 실제 호출 예시
-```java
-// nph.his.az.zzaz.util.PtstMngmEC
-public LMultiData retirevePtstList(LData data) throws LException {
-    LCommonDao dao = new LCommonDao("/az/util/azcmmptst/retirevePtstList", data);
-    return dao.executeQuery();
-}
-
-// nph.app.pat.zzpat.homepage.ec.HomePageEC
-public LData doLogin(LData data) throws LException {
-    LCommonDao dao = new LCommonDao("/app/pat/homepage/doLogin", data);
-    return dao.executeQueryForSingle();
 }
 ```
 

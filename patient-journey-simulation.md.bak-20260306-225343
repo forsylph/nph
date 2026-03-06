@@ -123,13 +123,13 @@ flowchart LR
     subgraph Server["DevOn Server"]
         direction TB
         Servlet["MiplatformServlet<br/>*.mhi"]
-        Navi["Navigation<br/>az/bizcom/authNavi.xml"]
-        Command["Command<br/>CheckLoginMiCMD"]
-        PC["Process Component<br/>LoginIFPC / az.bizcom.LoginPC"]
-        XML["XML Query/DAO<br/>인증 관련 조회"]
+        Navi["Navigation<br/>az/comnNavi.xml"]
+        Command["Command<br/>LoginUserCMD"]
+        PC["Process Component<br/>LoginPC"]
+        XML["XML Query<br/>app/emp/login.xml"]
     end
 
-    Login -.->|"/az/bizcom/authNavi/CheckLoginUser.mhi"| Servlet
+    Login -.->|"/az/bizcom/authNavi/LoginUser.mhi"| Servlet
     Servlet --> Navi
     Navi --> Command
     Command --> PC
@@ -216,37 +216,6 @@ flowchart LR
 
 > 아래 `Transaction/Navigation/Command/PC/XML Query` 명칭은 **실행 흐름 설명용 예시**입니다.
 > 이 구간의 `RegisterOutpatient.mhi`, `RegisterOutpatientCMD`, `ReceiptPC`, `receipt.xml`은 현재 백업셋에서 1:1 실파일로 검증하지 않았습니다.
-
-#### 1.4-1 실제 검증 사례
-
-| 구분 | 실제 확인값 | 근거 |
-|------|-------------|------|
-| **Login Navigation** | `devonhome/navigation/mhi/az/bizcom/authNavi.xml` | `CheckLoginUser -> CheckLoginMiCMD` |
-| **Outpatient Navigation** | `devonhome/navigation/mhi/md/opn/otptnrcrNavi.xml` | `SaveOtptMdcrCmpl -> SaveOtptMdcrCmplCMD` |
-| **Inpatient Navigation** | `devonhome/navigation/mhi/md/ipn/admsnrcrNavi.xml` | `RegistAdmsEntc -> RegistAdmsEntcCMD` |
-| **실제 CMD 예시** | `CheckLoginMiCMD`, `SaveOtptMdcrCmplCMD`, `RegistAdmsEntcCMD` | 소스 실존 확인 |
-
-```java
-// 실제 검증된 CMD 예시 1: 로그인
-// authNavi.xml -> CheckLoginUser -> CheckLoginMiCMD
-public void execute() throws Exception {
-    LoginIFPC loginPC = (LoginIFPC) TxServiceUtil.getNTxService("az.bizcom.LoginPC");
-    LData userInfo = loginPC.retrieveUserInfo(data);
-    if (userInfo.containsKey("usid")) {
-        LData lResult = loginPC.doLogin(data);
-        platformResponse.addDataset("OUT_DS1", (LData) lResult.get("OUT_DS1"));
-    }
-}
-
-// 실제 검증된 CMD 예시 2: 외래 진료 완료 저장
-// otptnrcrNavi.xml -> SaveOtptMdcrCmpl -> SaveOtptMdcrCmplCMD
-public void execute() throws Exception {
-    OtptMdcrPrprIFPC pc = (OtptMdcrPrprIFPC) TxServiceUtil.getTxService("md.opn.OtptMdcrPrprPC");
-    LMultiData mData1 = getMultiDatasetWithJobType("ds_ApntAndThdyRcpnPt");
-    int iResult = pc.saveOtptMdcrCmpl(mData1, data);
-    platformResponse.setParam("nSaveCnt", iResult);
-}
-```
 
 #### 1.4 DevOn Command/PC 연결
 
@@ -1163,10 +1132,10 @@ flowchart TB
 /{모듈}/{업무}/{네비게이션명}/{액션명}.mhi
 
 예시 (패턴 설명용):
-- /az/bizcom/authNavi/CheckLoginUser.mhi
-- /md/opn/otptnrcrNavi/SaveOtptMdcrCmpl.mhi
-- /md/ipn/admsnrcrNavi/RegistAdmsEntc.mhi
-- /az/bizcom/cmcdNavi/SaveDetail.mhi
+- /az/comNavi/RegisterOutpatient.mhi
+- /md/opn/otptnrcrNavi/CompleteTreatment.mhi
+- /md/ipn/admsnrcrNavi/ProcessAdmission.mhi
+- /sp/lab/specimenNavi/CollectSpecimen.mhi
 ```
 
 > **참고**: 실제 코드에서는 `mhi` 폴더 아래에 네비게이션 파일이 위치합니다. 다만 위 액션명들은 패턴 설명용 예시이며, 현재 백업셋에서 전부 실존 확인된 것은 아닙니다.
@@ -1289,8 +1258,6 @@ devonhome/navigation/mhi/
 
 ```
 @검증됨: devonhome/navigation/mhi/md/ipn/admsnrcrNavi.xml
-@검증됨: devonhome/navigation/mhi/md/opn/otptnrcrNavi.xml
-@검증됨: devonhome/navigation/mhi/az/bizcom/authNavi.xml
 @검증됨: webapp/ui/MD/IPN/MD_IPN01010M.xml
 @검증됨: webapp/ui/SP/PHA/SP_PHA01500M.xml
 @검증됨: webapp/ui/HP/PAT/HP_PAT01101M.xml

@@ -307,15 +307,6 @@ DevOn Framework는 다음을 위해 설계되었습니다:
     주의: 현재 백업셋에서는 `LQueryService` 실파일을 직접 확인하지 못했으며,
           업무 코드에서는 `LCommonDao(...).executeQuery()` 호출이 더 직접적으로 보임
 
-7.1.1 실제 업무 코드 예시
-    // nph.his.az.zzaz.util.PtstMngmEC
-    LCommonDao dao = new LCommonDao("/az/util/azcmmptst/retirevePtstList", data);
-    LMultiData lResult = dao.executeQuery();
-
-    // nph.app.pat.zzpat.homepage.ec.HomePageEC
-    LCommonDao dao = new LCommonDao("/app/pat/homepage/doLogin", data);
-    LData lResult = dao.executeQueryForSingle();
-
 7.2 예: app/emp/login.xml
     <statement name="retrieveUserInfo">
         SELECT * FROM users WHERE id = ${usid}
@@ -684,11 +675,11 @@ public class LoginAction extends Action {
 
 **DevOn Command:**
 ```java
-public class CheckLoginMiCMD extends AbstractMiplatformCommand {
+public class LoginUserCMD extends AbstractMiplatformCommand {
     public void execute() {
-        LoginIFPC loginPC = (LoginIFPC) TxServiceUtil.getNTxService("az.bizcom.LoginPC");
-        LData userInfo = loginPC.retrieveUserInfo(data);
-        // 인증 성공 시 OUT_DS1, gds_privCodeList 반환
+        LData input = getDatasetWithJobType("ds_Input");
+        // 비즈니스 로직
+        platformResponse.addDataset("ds_Result", result);
     }
 }
 ```
@@ -704,9 +695,9 @@ public class CheckLoginMiCMD extends AbstractMiplatformCommand {
 
 **DevOn (navigation.xml):**
 ```xml
-<action name="CheckLoginUser">
-    <command>nph.his.az.bizcom.auth.cmd.CheckLoginMiCMD</command>
-    <interceptor>notLoginCheckStack</interceptor>
+<action name="LoginUser">
+    <command>nph.his.az.auth.cmd.LoginUserCMD</command>
+    <return>/welcome.jsp</return>
 </action>
 ```
 
