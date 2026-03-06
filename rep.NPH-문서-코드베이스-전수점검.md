@@ -177,9 +177,9 @@
 
 ## 7. 다음 우선순위 권고
 
-1. `patient-journey-simulation.md`의 예시 transaction/command를 실제 검증된 항목 위주로 축소
-2. `README.md`와 `detailed-analysis.md`에 `LCommonDao` 중심 XML Query 설명 추가
-3. `03.analysis_results` 폴더 전체를 동일 기준으로 한 번 더 정밀 보정
+1. `README.md`와 `detailed-analysis.md`에 `LCommonDao` 중심 XML Query 설명을 더 직접적인 실코드 예시로 보강
+2. `03.analysis_results`의 나머지 하위 폴더도 동일 기준으로 전수 보정
+3. `patient-journey-simulation.md`의 대표 예시 블록을 실제 검증된 transaction/command 사례로 일부 치환
 
 ---
 

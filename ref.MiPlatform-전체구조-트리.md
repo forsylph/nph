@@ -327,8 +327,8 @@ NPH_start.xml (ConnectGroup)
 ├── MD_OPN (Type: form)
 │   └── MD/OPN/*.xml
 │
-├── MD_INP (Type: form)
-│   └── MD/INP/*.xml
+├── MD_IPN (Type: form)
+│   └── MD/IPN/*.xml
 │
 ├── MR_COM (Type: form)
 │   └── MR/COM/*.xml
@@ -353,7 +353,7 @@ NPH_start.xml (ConnectGroup)
 | 5 | SP_PHA01001M | SP/PHA/ | 425KB | 처방조회 |
 | 6 | AZ_COM01001M | AZ/COM/ | 398KB | 접수등록 |
 | 7 | ER_ACC01001M | ER/ACC/ | 385KB | 응급접수 |
-| 8 | MD_INP01002M | MD/INP/ | 372KB | 입원진료 |
+| 8 | MD_IPN01002M | MD/IPN/ | 372KB | 입원진료 |
 | 9 | SP_CEL01001M | SP/CEL/ | 365KB | 검체채취 |
 | 10 | MR_COM01001M | MR/COM/ | 358KB | 수납 |
 | ... | ... | ... | ... | ... |
