@@ -16,17 +16,33 @@ NPH 시스템은 **KIS(한국정보인증) SignGate** 솔루션을 사용하여 
 | **signgateCrypto.jar** | 암호화/서명 유틸리티 |
 | **signgate_common.jar** | SignGate 공통 모듈 |
 | **SG_CAppAtx.ocx** | ActiveX 클라이언트 컨트롤 |
-| **signgateCrypto.jar** | Java 서버용 암호화 라이브러리 |
+| **DSToolkitJni.dll** | JNI 네이티브 라이브러리 |
+| **BCQREConRX** | 바코드/QR 암호화 모듈 |
 
 ### 1.2 설치 위치
 
 ```
 NPH_HIS/webapp/WEB-INF/lib/
-├── signgateCrypto.jar
-└── signgate_common.jar
+├── signgateCrypto.jar      # 암호화 라이브러리 (388KB)
+└── signgate_common.jar     # 공통 모듈 (80KB)
+
+NPH_HIS/webapp/WEB-INF/homepath/
+├── lib/
+│   ├── DSToolkitJni-v3.4.2.0.dll     # JNI 라이브러리
+│   └── DSToolkitV30-v3.4.2.0.dll     # DSToolkit DLL
+└── license/
+    └── DSToolkit32.lic               # 라이선스 파일
 
 NPH_HIS/webapp/EMR_DATA/script/sg_scripts/
-└── sg_basic.js          # ActiveX API 래퍼
+├── sg_basic.js          # ActiveX 기본 API
+├── sg_cert.js           # 인증서 관리
+├── sg_sign.js           # 서명 생성/검증
+├── sg_pkcs7.js          # PKCS7 메시지
+├── sg_encrypt.js        # 암호화
+├── sg_error.js          # 에러 처리
+├── sg_util.js           # 유틸리티
+├── sg_hash.js           # 해시 함수
+└── sg_base64.js         # Base64 인코딩
 
 NPH_HIS/CertKit/cert/
 ├── signCert.der        # 서버 서명 인증서
@@ -34,7 +50,34 @@ NPH_HIS/CertKit/cert/
 ├── kmCert.der          # 키관리 인증서
 ├── kmPri.key           # 키관리 개인키
 ├── encPasswd           # 암호화 비밀번호
-└── crl/                # CRL 캐시 디렉토리
+├── passwdEnc.sh         # 비밀번호 암호화 스크립트 (Linux)
+├── passwdEnc.bat        # 비밀번호 암호화 스크립트 (Windows)
+├── CaPubs              # CA 공개키 모음
+└── crl/SignGATE/       # CRL 캐시 디렉토리
+
+NPH_ECS/webapp/signgate/
+├── sample.jsp          # 서명 검증 샘플
+├── serverCert.jsp      # 서버 인증서 PEM 변환
+├── cert/               # ECS용 인증서
+└── js/
+    ├── kica_min.js
+    ├── kica_websign_interface.js
+    ├── license.js
+    └── lazyload.js
+
+NPH_HIS/webapp/sga/      # 바코드 서명 모듈
+├── config/
+│   ├── config.xml       # SGA 설정
+│   └── configEmr.xml    # EMR용 설정
+├── cert/
+│   ├── signCert.der
+│   └── signPri.key
+├── license/
+│   └── license.issuer
+├── js/
+│   └── bcqre.js         # 바코드 QR 암호화
+├── BCQREConRX.cab       # ActiveX 설치
+└── BCQREConRX.exe
 ```
 
 ---
@@ -86,17 +129,175 @@ signgate.crypto.util 패키지
 ├── SignUtil        # 전자서명/검증
 ├── CipherUtil      # 암호화/복호화
 ├── Base64Util      # Base64 인코딩
-└── FileUtil        # 파일 I/O
+├── FileUtil        # 파일 I/O
+└── KicaUtil        # KICA 유틸리티
 
 signgate.core.provider
 └── SignGATE        # Provider 등록
+
+signgate.core.crypto 패키지 (MANIFEST.MF)
+├── asn1            # ASN.1 인코딩
+├── pkcs            # PKCS 표준
+├── pkcs7           # PKCS#7 서명
+├── x509            # X.509 인증서
+│   ├── ext         # 확장 필드
+│   ├── ocsp        # OCSP 검증
+│   ├── tsp         # 타임스탬프
+│   └── valid       # 유효성 검증
+└── util            # 유틸리티
+
+signgate.provider 패키지
+├── kcdsa           # KCDSA 서명
+├── oid             # OID 정의
+└── rsa             # RSA 암호화
 ```
 
 ---
 
-## 3. 설정
+## 3. 인증서 등록 절차
 
-### 3.1 his.xml 인증서 설정
+### 3.1 서버 인증서 등록 스크립트
+
+**비밀번호 암호화 스크립트:**
+
+```bash
+# passwdEnc.sh (Linux)
+java -classpath .:../lib/signgate.jar signgate.apps.PasswdEnc a123456A encPasswd
+
+# passwdEnc.bat (Windows)
+java -classpath .;../lib/signgate.jar signgate.apps.PasswdEnc a123456A encPasswd
+```
+
+**실행 결과:**
+- 입력: 평문 비밀번호 (`a123456A`)
+- 출력: `encPasswd` 파일 (암호화된 비밀번호 저장)
+- 실제 값: `BNEEuFJq5JID/PqWqESWbQ==`
+
+### 3.2 인증서 등록 절차
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    서버 인증서 등록 절차                          │
+├─────────────────────────────────────────────────────────────────┤
+│ 1. 인증서 파일 준비                                              │
+│    - signCert.der (서명용 인증서)                                │
+│    - signPri.key (서명용 개인키)                                 │
+│    - kmCert.der (키관리용 인증서)                                │
+│    - kmPri.key (키관리용 개인키)                                 │
+│                                                                 │
+│ 2. 비밀번호 암호화                                                │
+│    $ ./passwdEnc.sh                                              │
+│    → encPasswd 파일 생성                                         │
+│                                                                 │
+│ 3. 설정 파일 구성 (his.xml)                                      │
+│    <cert-path>CertKit/cert/</cert-path>                         │
+│    <sign-cert-file>signCert.der</sign-cert-file>                │
+│    <enc-passwd-file>encPasswd</enc-passwd-file>                 │
+│                                                                 │
+│ 4. DSToolkit 설정 (DSToolkitV30.conf)                           │
+│    - CA LDAP URL 설정                                            │
+│    - IVS(인증서검증서버) 설정                                     │
+│                                                                 │
+│ 5. 애플리케이션 재시작                                            │
+│    → Certification.java 초기화                                    │
+│    → 서버 인증서 로드                                             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 3.3 사용자 인증서 등록 (DB)
+
+**테이블:** `AZCMHKMIL`
+
+**등록 SQL (azcmhkmil.xml):**
+```xml
+<query id="registUserCertKey">
+    MERGE INTO AZCMHKMIL
+    USING DUAL
+    ON (USID = ${usid} AND DSCL_KEY_VALU = ${dsclKeyValu})
+    WHEN NOT MATCHED THEN
+    INSERT (
+        USID,              -- 사용자 ID
+        KMI_UPDT_DT,       -- 갱신일시
+        STR_DY,            -- 시작일
+        END_DY,            -- 종료일
+        DSCL_KEY_VALU,     -- 공개키 값
+        DN_INFO,           -- DN 정보
+        REGI_ID,           -- 등록자
+        RGST_DT,           -- 등록일시
+        AMEN_ID,           -- 수정자
+        UPDT_DT            -- 수정일시
+    ) VALUES (
+        ${usid}, SYSDATE, ${strDy}, ${endDy},
+        ${dsclKeyValu}, ${dnInfo}, ${usid}, SYSDATE, ${usid}, SYSDATE
+    )
+</query>
+```
+
+**Java 호출 흐름:**
+```
+RegistUserCertKeyCMD.java
+    └─> CertInfoPC.registUserCertKey()
+        └─> UserCertInfoEC.registUserCertKey()
+            └─> AZCMHKMIL 테이블 INSERT/MERGE
+```
+
+---
+
+## 4. 설정
+
+### 4.1 DSToolkitV30.conf (인증기관 설정)
+
+**파일:** `NPH_HIS/webapp/WEB-INF/homepath/cfg/DSToolkitV30.conf`
+
+```ini
+# 인증서 검증 서버 (IVS)
+[IVS]
+IP = ivs.gpki.go.kr
+PORT = 8080
+SVR_KM_CERT_URL = ldap://ldap.gcc.go.kr:389/cn=IVS1310386001,...
+
+# 인증기관 설정 (37개 CA)
+[CA_INFO1]
+CA_DN = cn=KISA RootCA 4,ou=Korea Certification Authority Central,o=KISA,c=KR
+DIR_URL = ldap://dir.signkorea.com:389
+
+[CA_INFO5]
+CA_DN = cn=signGATE CA4,ou=AccreditedCA,o=KICA,c=KR
+DIR_URL = ldap://ldap.signgate.com:389
+
+[CA_INFO6]
+CA_DN = cn=yessign CA,o=KFTC,c=KR
+DIR_URL = ldap://ds.yessign.or.kr:389
+
+[CA_INFO7]
+CA_DN = cn=CrossCert CA,o=CrossCert,c=KR
+DIR_URL = ldap://dir.crosscert.com:389
+
+[CA_INFO10]
+CA_DN = cn=TradeSign CA,o=TradeSign,c=KR
+DIR_URL = ldap://dir.tradesign.co.kr:389
+
+# GPKI (정부인증서)
+[GPKI_CA]
+CA_DN = cn=GPKI RootCA,o=Government,c=KR
+DIR_URL = ldap://cen.dir.go.kr:389
+```
+
+### 4.2 SGA 설정 (바코드 서명)
+
+**파일:** `NPH_HIS/webapp/sga/config/config.xml`
+
+```xml
+<Module sitecode="BCQRE1234" version="2.3.0.9" processlevel="2"
+        license="C:\AADEV_NPH\workspace\NPH_HIS\webapp\sga\license\license.issuer">
+    <CryptoModule toolkitcode="1"
+        certPath="C:\AADEV_NPH\workspace\NPH_HIS\webapp\sga\cert\signCert.der"
+        keyPath="C:\AADEV_NPH\workspace\NPH_HIS\webapp\sga\cert\signPri.key"
+        passwd="88888888"/>
+</Module>
+```
+
+### 4.3 his.xml 인증서 설정
 
 ```xml
 <cert-info>
@@ -131,7 +332,7 @@ signgate.core.provider
 </cert-info>
 ```
 
-### 3.2 허용 인증서 정책 OID
+### 4.4 허용 인증서 정책 OID (his.xml)
 
 | OID | 발급기관 | 유형 |
 |-----|----------|------|
@@ -142,13 +343,30 @@ signgate.core.provider
 | 1.2.410.200005.1.1.1 | 금융결제원 | 개인 |
 | 1.2.410.200005.1.1.5 | 금융결제원 | 법인 |
 | 1.2.410.200004.5.3.1.9 | 한국전산원 | 개인 |
+| 1.2.410.200004.5.3.1.2 | 한국전산원 | 법인 |
+| 1.2.410.200004.5.3.1.1 | 한국전산원 | 기관 |
+| 1.2.410.200004.5.4.1.1 | 전자인증 | 개인 |
+| 1.2.410.200004.5.4.1.2 | 전자인증 | 법인 |
 | 1.2.410.200012.1.1.1 | 한국무역정보통신 | 개인 |
+| 1.2.410.200012.1.1.3 | 한국무역정보통신 | 법인 |
+| 1.2.410.200004.5.2.1.6.141 | SignGATE CA | - |
+
+### 4.5 DSToolkit 지원 인증기관 (37개 CA)
+
+| CA 명 | LDAP URL | 용도 |
+|-------|----------|------|
+| KISA RootCA | `ldap://dir.signkorea.com:389` | 한국인증원 |
+| signGATE CA | `ldap://ldap.signgate.com:389` | 한국정보인증 |
+| yessign CA | `ldap://ds.yessign.or.kr:389` | 금융결제원 |
+| CrossCert CA | `ldap://dir.crosscert.com:389` | 교차인증 |
+| TradeSign CA | `ldap://dir.tradesign.co.kr:389` | 무역인증 |
+| GPKI RootCA | `ldap://cen.dir.go.kr:389` | 행정전자서명 |
 
 ---
 
-## 4. 핵심 클래스
+## 5. 핵심 클래스
 
-### 4.1 Certification.java (서버 인증서 관리)
+### 5.1 Certification.java (서버 인증서 관리)
 
 ```java
 public class Certification {
@@ -231,6 +449,13 @@ public class PublicCertUC {
 ## 5. JavaScript API (sg_basic.js)
 
 ### 5.1 ActiveX 컨트롤
+
+```javascript
+// ActiveX 객체 생성 (버전 4.0.1.39)
+document.write('<object classid="clsid:9FC84F7D-D177-4A75-A7BB-429DA5BD0A3E"
+    style="display: none;" id="SG_ATL"
+    codeBase="http://download.signgate.com/download/2048/ews/ewsinstaller_full.cab#version=4,0,1,39">
+</object>');
 
 ```javascript
 // ActiveX 객체 생성
@@ -432,18 +657,176 @@ NPH_HIS/
 
 ```
 NPH_HIS/webapp/EMR_DATA/script/sg_scripts/
-└── sg_basic.js           # ActiveX API 래퍼
+├── sg_basic.js           # ActiveX 기본 API
+├── sg_cert.js            # 인증서 관리
+├── sg_sign.js            # 서명 생성/검증
+├── sg_pkcs7.js           # PKCS7 메시지
+├── sg_encrypt.js         # 암호화
+├── sg_error.js           # 에러 처리
+├── sg_util.js            # 유틸리티
+├── sg_hash.js            # 해시 함수
+└── sg_base64.js          # Base64 인코딩
+
+NPH_HIS/webapp/ui/LIBs/
+└── certLib.js            # MiPlatform용 인증서 라이브러리
 
 NPH_ECS/webapp/signgate/
 ├── sample.jsp            # 샘플 서명 검증
 ├── serverCert.jsp        # 서버 인증서 제공
-├── js/license.js         # 라이선스
-└── css/jquery.mobile-*.css
+├── cert/                 # ECS용 인증서
+│   ├── signCert.der
+│   ├── signPri.key
+│   ├── kmCert.der
+│   ├── kmPri.key
+│   └── CaPubs
+└── js/
+    ├── kica_min.js
+    ├── kica_websign_interface.js
+    ├── license.js
+    └── lazyload.js
+```
+
+### 10.3 SSO 인증서 파일
+
+```
+NPH_HIS/webapp/WEB-INF/homepath/cert/
+├── ROOT.der              # Root CA 인증서
+├── SSOAgent_KM.der       # SSO Agent 키관리 인증서
+├── SSOAgent_Sign.der     # SSO Agent 서명 인증서
+└── idp_cert/
+    └── SSOServer_KM.der  # SSO Server 키관리 인증서
+```
+
+### 10.4 ActiveX/설치 파일
+
+```
+NPH_HIS/webapp/Miplatform330/install/etc/
+├── ewsinstaller_full.cab    # SignGATE Toolkit 설치 (3.5MB)
+├── SKCommAX.cab             # SK 커뮤니케이션 ActiveX
+└── BKActiveXManager.cab     # BK ActiveX 관리자
+
+NPH_HIS/webapp/sga/
+├── BCQREConRX.cab           # 바코드/QR ActiveX
+├── BCQREConRX.exe           # 바코드/QR 실행파일
+└── js/bcqre.js              # 바코드 QR 암호화 JS
+```
+
+**ActiveX ClassID:**
+```
+SG_CAppAtx.ocx: {9FC84F7D-D177-4A75-A7BB-429DA5BD0A3E}
 ```
 
 ---
 
-## 11. 연결 문서
+## 11. SignPad (서명패드) 연동
+
+### 11.1 SignPad Applet
+
+```html
+<!-- SignPad.html -->
+<APPLET id='Signpad' CODE='SignPad.class' ARCHIVE='SignPad.jar'>
+    <PARAM NAME='CODEBASE' VALUE='/EMR_DATA/applet/' />
+    <PARAM NAME='WIDTH' VALUE='500' />
+    <PARAM NAME='HEIGHT' VALUE='200' />
+    <PARAM NAME='LINEWEIGHT' VALUE='5' />
+</APPLET>
+```
+
+### 11.2 SignPad 기능
+
+| 메서드 | 설명 |
+|--------|------|
+| `getImageBase64Data()` | 서명 이미지 Base64 반환 |
+| `getImagePointData()` | 서명 좌표 데이터 반환 |
+| `clearImage()` | 서명 지우기 |
+| `saveImage()` | 서명 저장 |
+
+### 11.3 서명 처리 흐름
+
+```
+1. 사용자 서명패드에서 서명
+   └─> SignPad.getImageBase64Data()
+2. 서명 이미지 Base64 인코딩
+3. 공인인증서로 서명
+   └─> SG_ATL.GenerateDigitalSignatureSG()
+4. 서버 전송 및 검증
+5. DB 저장 (EMR 문서)
+```
+
+---
+
+## 12. 매뉴얼 및 문서
+
+### 12.1 문서 현황
+
+| 항목 | 상태 | 비고 |
+|------|------|------|
+| SignGate 설치 매뉴얼 | ❌ 없음 | 소스코드 주석으로 대체 |
+| 인증서 등록 가이드 | ⚠️ 일부 | passwdEnc.sh, PDF 참조 |
+| API 레퍼런스 | ⚠️ 부분 | sg_basic.js 주석 |
+| 설정 파일 설명 | ✅ 있음 | his.xml, DSToolkitV30.conf |
+
+### 12.2 매뉴얼 파일 (소스코드 참조)
+
+코드에서 발견된 매뉴얼 파일 경로:
+
+| 파일 | URL | 용도 |
+|------|-----|------|
+| SigngateNew.pdf | `http://isis.nph/manual/SigngateNew.pdf` | 신청 및 등록방법 |
+| SigngateUpdate.pdf | `http://isis.nph/manual/SigngateUpdate.pdf` | 갱신방법 |
+| SignGate 갱신 | `https://renew.signgate.com/` | 온라인 갱신 사이트 |
+
+**발견 위치:** `MR_RCH01009M.xml` (원무/수납 화면)
+```javascript
+// 갱신방법 버튼
+function btn_Signgate_OnClick(obj) {
+    ExecBrowser("http://isis.nph/manual/SigngateUpdate.pdf");
+}
+
+// 신청 및 등록방법 버튼
+function btn_SigngateNew_OnClick(obj) {
+    ExecBrowser("http://isis.nph/manual/SigngateNew.pdf");
+}
+```
+
+### 12.2 주요 설정 파일
+
+| 파일 | 위치 | 설명 |
+|------|------|------|
+| his.xml | devonhome/conf/project/ | 인증서 경로, 정책 OID |
+| DSToolkitV30.conf | WEB-INF/homepath/cfg/ | CA LDAP 설정 |
+| config.xml | webapp/sga/config/ | SGA 바코드 서명 설정 |
+| dsagent.properties | WEB-INF/homepath/cfg/ | SSO 인증서 설정 |
+
+---
+
+## 13. 라이선스 및 키
+
+### 13.1 라이선스 파일
+
+| 파일 | 설명 |
+|------|------|
+| `DSToolkit32.lic` | DSToolkit 라이선스 |
+| `license.issuer` | SGA 라이선스 |
+| `license.js` | JavaScript 라이선스 코드 |
+
+### 13.2 라이선스 코드 (license.js)
+
+```javascript
+var licenseCode = "D3x6TwYRVlctZok6yQhQOJaq+sjleJLGITAFxB3aGQk=";
+```
+
+### 13.3 비밀번호 정보
+
+| 항목 | 값 | 위치 |
+|------|-----|------|
+| 인증서 비밀번호 (평문) | `a123456A` | sample.jsp 하드코딩 |
+| 암호화된 비밀번호 | `BNEEuFJq5JID/PqWqESWbQ==` | encPasswd 파일 |
+| SGA 비밀번호 | `88888888` | config.xml |
+
+---
+
+## 14. 연결 문서
 
 - [security-auth-개요.md](./security-auth-개요.md)
 - [MagicSSO-인증흐름.md](./MagicSSO-인증흐름.md)
@@ -451,17 +834,66 @@ NPH_ECS/webapp/signgate/
 
 ---
 
-## 12. 분석 필요 항목
+## 15. 분석 필요 항목
 
-### 12.1 SignPad 연동
+### 15.1 SignPad 하드웨어
 
-- 서명패드 하드웨어와 SignGate 연동 방식
-- EMR 문서 서명 처리 흐름
+- [ ] SignPad 하드웨어 모델명 및 드라이버 확인
+- [ ] SignPad.jar 세부 API 분석
+- [ ] 서명 좌표 데이터 포맷 확인
 
-### 12.2 EMR 문서 서명
+### 15.2 EMR 문서 서명
 
-- EMR_DATA 문서 서명 처리
-- painter.jar / signedpainter.jar 연동
+- [ ] EMR_DATA 문서 서명 처리 흐름
+- [ ] painter.jar / signedpainter.jar 연동 방식
+- [ ] 서명 이미지와 전자서명 결합 방식
+
+### 15.3 운영 환경
+
+- [ ] 인증서 갱신 절차
+- [ ] CRL 업데이트 주기
+- [ ] 인증기관 LDAP 연결 상태 점검
+
+---
+
+## 16. 요약
+
+### 16.1 인증키 등록 절차
+
+```
+1. 인증서 파일 배치
+   └─> CertKit/cert/ 에 signCert.der, signPri.key 등 배치
+
+2. 비밀번호 암호화
+   └─> passwdEnc.sh 실행 → encPasswd 생성
+
+3. 설정 파일 구성
+   └─> his.xml에 인증서 경로 및 정책 OID 설정
+   └─> DSToolkitV30.conf에 CA LDAP 설정
+
+4. 애플리케이션 재시작
+   └─> Certification.java 싱글톤 초기화
+   └─> 서버 인증서 로드
+
+5. 사용자 인증서 등록 (런타임)
+   └─> RegistUserCertKeyCMD → AZCMHKMIL 테이블
+```
+
+### 16.2 매뉴얼 현황
+
+- **별도 매뉴얼 없음**: 소스코드와 설정 파일에 정보가 포함됨
+- **passwdEnc.sh/bat**: 인증서 비밀번호 암호화 스크립트 존재
+- **sample.jsp**: SignGate API 사용 예제 포함
+
+### 16.3 주요 발견
+
+| 항목 | 발견 내용 |
+|------|-----------|
+| 인증서 등록 스크립트 | passwdEnc.sh/bat 존재 |
+| 지원 CA | 37개 인증기관 (DSToolkitV30.conf) |
+| 라이선스 | DSToolkit32.lic, license.issuer |
+| ActiveX 설치 | ewsinstaller_full.cab (3.5MB) |
+| SSO 연동 | SSOAgent_KM.der, SSOServer_KM.der |
 
 ---
 

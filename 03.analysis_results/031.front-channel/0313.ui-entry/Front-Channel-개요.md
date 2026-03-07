@@ -1,108 +1,78 @@
 # Front Channel 개요
 
-/용어는 [03.약어-용어집.md](../0310.index/03.%EC%95%BD%EC%96%B4-%EC%9A%A9%EC%96%B4%EC%A7%91.md) 를 먼저 보면 빠르다.
+약어/용어는 [030.index 용어집](../../030.index/0303.약어-용어집/약어-용어집.md)을 먼저 보면 빠르다.
 
-이 문서는 NPH에서 HTTP/MiPlatform 요청이 어떤 경로로 command와 business 계층까지 내려가는지 현재 확인된 사실만으로 정리한 기준본이다.
+이 문서는 NPH에서 화면이 서버로 내려가는 입구를 가장 빠르게 잡기 위한 기준본이다. 목표는 `화면 XML / script / .mhi / navigation / command`까지를 가장 짧게 이어 보는 것이다.
 
-## 2. 기본 체인
-
-```mermaid
-flowchart LR
-    Client --> Servlet --> Navi --> Stack --> Command
-    Command --> Service --> PC
-    PC --> UC
-    PC --> EC
-    EC --> DAO
-```
-
-```text
-Client
--> Servlet
--> Navigation
--> Interceptor Stack
--> Command
--> TxServiceUtil / Service Proxy
--> PC / UC / EC
--> DAO
-```
-
-MiPlatform 요청은 입력/출력 변환 계층이 한 번 더 들어간다.
+## 1. 가장 짧은 체인
 
 ```mermaid
 flowchart LR
-    DS1[Dataset] --> Req[MiplatformRequest]
-    Req --> Conv1[MiplatformConverter]
-    Conv1 --> Cmd[Command]
-    Cmd --> Conv2[MiplatformConverter]
-    Conv2 --> DS2[Response Dataset]
+    Screen[화면 XML/JSP] --> Script[script]
+    Script --> MHI[.mhi]
+    MHI --> Navi[navigation]
+    Navi --> Command
+    Command --> Core[032.framework-core]
 ```
 
-## 3. 직접 확인된 핵심 구성요소
+## 2. 화면 종류를 먼저 나눈다
 
-- `MiplatformServlet`
-  - MiPlatform 요청 진입점
-- `LActionContext`
-  - request/response와 action context를 넘기는 공통 컨텍스트
-- `LCommandEngine`
-  - `execute(String action)` 기반 front dispatch 엔진
-- `LServiceProxy`
-  - service proxy 생성 진입점
-- `LServiceDelegator`
-  - CGLIB `MethodInterceptor` 구현체
-- `LServiceInterceptorIF`
-  - `preProcess()`, `postProcess()` hook 제공
-- `defaultStack`, `notLoginCheckStack`, `miUploadStack`
-  - 현재 설정에서 확인된 front interceptor stack
+### 2.1 MiPlatform 화면
+- `webapp/ui/**/*.xml`
+- 화면 XML 안에 이벤트와 script가 같이 있다.
+- `Transaction()` 또는 `cf_Transaction()`을 통해 `.mhi`를 호출한다.
 
-## 4. stack 관점 요약
+### 2.2 JSP 화면
+- `webapp/**/*.jsp`
+- 브라우저 기반 화면, eView, mobile JSP, 일부 ActiveX/OCX 접점이 여기 있다.
+- 예: `index330.jsp`, `eView/EdViewer.jsp`, `jsp/md_mobile/emr/EdViewer.jsp`
 
-```mermaid
-flowchart LR
-    Action --> defaultStack --> LoginCheck
-    defaultStack --> Converter
-    defaultStack --> CommandI[Command]
-```
+## 2A. 공식 MiPlatform 매뉴얼 기준으로 보면
 
-- `defaultStack`
-  - 일반 로그인 필요 액션의 기본 stack
-- `notLoginCheckStack`
-  - 로그인 예외 액션에 사용
-- `miUploadStack`
-  - MiPlatform 파일 업로드 계열에 사용
+Tobesoft MiPlatform 3.3 매뉴얼은 Form을 `Design, Data, Event`가 포함된 인터페이스로 설명한다. NPH front-channel을 빨리 이해하려면 이 정의를 그대로 적용하는 편이 좋다.
 
-현재 코드/설정 기준으로 stack 이름 자체보다 중요한 것은 아래 두 가지다.
+- `Design`
+  - 화면 XML의 Form/Component 구조
+- `Data`
+  - Dataset, 입력/출력 데이터, binding 대상
+- `Event`
+  - `OnLoadCompleted`, `OnClick`, `OnChange`, script 함수
 
-1. 어떤 navigation action에 어떤 stack이 붙는가
-2. 해당 action이 결국 어떤 command로 연결되는가
+NPH에서는 이 세 가지가 종종 한 XML 안에 같이 들어 있다. 그래서 화면 분석을 시작할 때는 `디자인 파일`, `이벤트 파일`, `데이터 정의 파일`을 따로 찾기보다 XML 하나 안에서 세 층을 같이 읽는 접근이 빠르다.
 
-## 5. 실무 추적 순서
+## 3. 유지보수 착수 순서
 
-1. 화면 또는 스크립트에서 `.mhi` URL 확인
-2. 대응 navigation XML 확인
-3. `action name`과 `command` 확인
-4. 적용 stack 확인
-5. command 내부의 `TxServiceUtil.getTxService/getNTxService/getJTxService` 확인
-6. PC/UC/EC로 내려가 실제 query path 또는 외부 연계 확인
+1. 화면 파일을 찾는다.
+2. `OnLoadCompleted`, `OnClick`, `OnChange` 또는 JSP JavaScript를 찾는다.
+3. `.mhi` URL을 찾는다.
+4. navigation XML에서 action과 command를 찾는다.
+5. 이후는 `032.framework-core`로 내려간다.
 
-## 6. 대표 예
+## 4. 대표 시작점
 
-- `MD_ORD01001P`
-  - `ptmdcrNavi.xml`
-  - `RetrievePtOrderCMD`, `SavePtOrderPreCMD`, `UpdateDurtCMD`
-- `HP_DMS02204M`
-  - `drgNavi.xml`
-  - `RetrieveDrgRevwPtListCMD`
-- `HP_DMS01303M`
-  - `clamNavi.xml`
-  - `RetrieveEdiRecvRcpnCMD`, `SaveEdiRecvRcpnCMD`
+### 4.1 브라우저 시작점
+- `index330.jsp`
+  - 로그인 상태를 확인한 뒤 런처 URL을 만든다.
 
-## 7. 연결 문서
+### 4.2 MiPlatform 시작점
+- `NPH_start.xml`
+  - `SessionURL="com::Login3.xml"`
+  - protocol, AppGroup, 일부 공통 transaction 호출이 이 파일에 있다.
 
-- [02.Command-Navigation-Dispatch.md](./02.Command-Navigation-Dispatch.md)
-- [03.ServiceProxy-Interceptor.md](./03.ServiceProxy-Interceptor.md)
-- [04.Miplatform.md](./04.Miplatform.md)
-- [../0314.runtime-trace](../0314.runtime-trace)
-- 참고 보존본: `../old/0312.front-channel/*`
+### 4.3 로그인 화면
+- `Login3.xml`
+  - 가장 단순한 `화면 XML -> Transaction -> .mhi` 패턴을 보여준다.
+
+## 5. 이 폴더에서 이어 볼 문서
+
+- [Miplatform.md](../0311.miplatform/Miplatform.md)
+- [MiPlatform-Transaction-패턴.md](../0311.miplatform/MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [Dataset-입출력.md](../0311.miplatform/Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
+- [화면XML-script-mhi-연결.md](./%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
+- [대표화면-EDI-수신-패턴.md](./%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-EDI-%EC%88%98%EC%8B%A0-%ED%8C%A8%ED%84%B4.md)
+- [JSP-브라우저-ActiveX-접점.md](./JSP-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-ActiveX-%EC%A0%91%EC%A0%90.md)
+
+- [로그인-체인-기준패턴.md](../0312.navigation-command/%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
 
 
 

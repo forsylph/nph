@@ -1,8 +1,13 @@
 # MiPlatform 전체 구조 트리
 
+> 이 문서는 `031.front-channel` 기준본을 보조하는 **reference 문서**다.
+> 목적은 MiPlatform 화면군의 큰 분포와 파일군 규모를 빠르게 훑는 것이며, 실제 유지보수 추적은 `Miplatform.md`, `MiPlatform-Transaction-패턴.md`, `화면XML-script-mhi-연결.md`를 먼저 보는 편이 빠르다.
+> 공식 MiPlatform 3.3 매뉴얼의 `Form = Design + Data + Event` 관점을 적용하면, 아래 트리는 `화면 수/분포`를 보는 지도이고 실제 추적은 개별 XML 안의 Dataset, Event, Transaction을 따라가는 방식으로 읽는 것이 맞다.
+
 > NPH 프로젝트 MiPlatform 화면 및 구성요소 섹션별 트리 구조
 > 주의: 일부 Transaction/Command/PC 이름은 흐름 설명을 위한 예시 표기이며, 실제 운영명과 1:1 일치하지 않을 수 있습니다.
-> 주의: 아래 트리의 화면 설명명과 Java 소스 예시는 `실존 파일명`이 아니라 업무군을 이해시키기 위한 대표 샘플이 섞여 있습니다. `@검증됨` 또는 별도 근거가 없는 항목은 예시로 읽는 것이 안전합니다.
+
+> 재검증 범위: 이 문서의 통계/비율/대표 예시명은 reference 성격으로 유지한다. 실제 유지보수 추적에 직접 쓰는 값은 Login3.xml, MD_ORD01001P.xml, HP_DMS01303M.xml, HP_DMS02204M.xml, AZ_UTL01002P.xml 및 연결된 .mhi / navigation / command를 우선한다.
 
 ---
 
@@ -415,3 +420,5 @@ NPH_start.xml (ConnectGroup)
 ---
 
 *참고: 본 문서는 실제 NPH 프로젝트 소스코드를 기반으로 한 통계입니다.*
+
+

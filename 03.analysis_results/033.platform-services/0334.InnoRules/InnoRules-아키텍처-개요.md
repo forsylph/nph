@@ -49,11 +49,10 @@ InnoRules는 **innoexpert(이노엑스퍼트)**사에서 개발한 **BRMS (Busin
 
 | 구분 | 현재 확인 결과 | 해석 |
 |------|----------------|------|
-| RulesInterface, RuleReq | innorules-api.jar에 class 실체 존재, 업무 소스 10개 파일에서 직접 사용 확인 | NPH 운영 코드의 주 실행 표면 |
-| IRClient, IRSession | 설정/문서/예시 흔적은 있으나 현재 JAR 스캔과 업무 소스에서 class 실체 및 직접 사용 미확인 | 엔진/초기화/예시 계층 후보, 운영 주표면으로 보기 어려움 |
-| uleclient2.ServletInitializer | web.xml에서 확인 | 웹 초기화 계층 |
-| innorulesj.batch.initializer.* | innorules.xml에서 확인 | 모듈 초기화 계층 |
-
+| `RulesInterface`, `RuleReq` | `innorules-api.jar`에 class 실체 존재, 업무 소스 10개 파일에서 직접 사용 확인 | NPH 운영 코드의 주 실행 표면 |
+| `IRClient`, `IRSession` | 설정/문서/예시 흔적은 있으나 현재 JAR 스캔과 업무 소스에서 class 실체 및 직접 사용 미확인 | 엔진/초기화/예시 계층 후보, 운영 주표면으로 보기 어려움 |
+| `ruleclient2.ServletInitializer` | `web.xml`에서 확인 | 웹 초기화 계층 |
+| `innorulesj.batch.initializer.*` | `innorules.xml`에서 확인 | 모듈 초기화 계층 |
 이 표 때문에 이후 본문에서 IRClient, IRSession이 등장하더라도, 현재 NPH 운영 코드의 직접 표면을 대표하는 것으로 읽으면 안 된다.
 ### 1.2 NPH에서의 사용 목적 (추정 + 코드 근거 보강)
 
@@ -471,6 +470,8 @@ SELECT rule_code, rule_content, version, status FROM rule_master;
 ---
 
 *본 문서는 설정 파일 분석만을 기반으로 작성되었습니다.*
+
+
 
 
 

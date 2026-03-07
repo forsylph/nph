@@ -1,10 +1,10 @@
 # Command Navigation Dispatch
 
-/용어는 [03.약어-용어집.md](../0310.index/03.%EC%95%BD%EC%96%B4-%EC%9A%A9%EC%96%B4%EC%A7%91.md) 를 먼저 보면 빠르다.
+약어/용어는 [030.index 용어집](../../030.index/0303.약어-용어집/약어-용어집.md)을 먼저 보면 빠르다.
 
-이 문서는 `.mhi URL -> navigation XML -> command -> PC/UC/EC` 흐름을 실무 추적 기준으로 정리한 기준본이다.
+이 문서는 `.mhi URL -> navigation XML -> command -> PC/UC/EC` 흐름을 현재 구조 기준으로 정리한 기준본이다. `031.front-channel`에서는 화면에서 `.mhi`까지 내려오는 입구를 보고, 이 문서에서는 `.mhi` 뒤에서 어떤 command가 붙는지 본다.
 
-## 2. 기본 흐름
+## 1. 기본 흐름
 
 ```mermaid
 flowchart LR
@@ -17,16 +17,15 @@ flowchart LR
     PC --> EC
 ```
 
-## 3. `LCommandEngine` 해석
+## 2. `.mhi`를 추적하는 실무 순서
 
-현재 확인된 API/jar 기준으로 `LCommandEngine`는 `execute(String action)`를 통해 action 문자열을 받아 navigation에 매핑된 command를 실행하는 front dispatch 엔진이다.
+1. 화면 XML 또는 JSP에서 `.mhi` URL을 찾는다.
+2. URL 경로에 맞는 navigation XML을 찾는다.
+3. action 이름을 확인한다.
+4. action에 연결된 command 클래스를 찾는다.
+5. command가 어떤 PC/UC/EC를 호출하는지 본다.
 
-실무적으로는 이 질문만 기억하면 된다.
-
-- 이 `.mhi`가 어떤 action으로 매핑되는가
-- 그 action은 어떤 command를 실행하는가
-
-## 4. 대표 navigation 예
+## 3. 대표 navigation 예
 
 ```mermaid
 flowchart LR
@@ -38,9 +37,6 @@ flowchart LR
 - 로그인
   - `authNavi.xml`
   - `CheckLoginUser -> CheckLoginMiCMD`
-- 외래 저장
-  - `otptnrcrNavi.xml`
-  - `SaveOtptMdcrCmpl -> SaveOtptMdcrCmplCMD`
 - 처방 화면
   - `ptmdcrNavi.xml`
   - `RetrievePtOrder -> RetrievePtOrderCMD`
@@ -51,7 +47,14 @@ flowchart LR
 - EDI 수신
   - `clamNavi.xml`
   - `RetrieveEdiRecvRcpn -> RetrieveEdiRecvRcpnCMD`
-  - `SaveEdiRecvRcpn -> SaveEdiRecvRcpnCMD`
+
+## 4. 현재 확인된 navigation 근거
+
+- `NPH_HIS/devonhome/navigation/mhi/az/bizcom/authNavi.xml`
+  - `CheckLoginUser`, `CheckLoginUser-new`, `CheckLoginUser-new1`
+  - 로그인 계열은 `notLoginCheckStack`이 붙는다.
+- `NPH_HIS/devonhome/navigation/mhi/hp/dms/drgNavi.xml`
+  - `RetrieveDrgRevwPtList -> nph.his.hp.dms.drg.cmd.RetrieveDrgRevwPtListCMD`
 
 ## 5. PC / UC / EC 역할 분담
 
@@ -64,43 +67,28 @@ flowchart LR
 ```
 
 현재 코드 기준으로 가장 안전한 해석은 아래다.
-
 - `PC`
   - 업무 흐름 조합자
-  - 여러 EC/UC 호출 순서를 묶는다
-- `EC`
-  - DB 접근 중심 실행자
-  - `LCommonDao`를 가장 자주 직접 사용한다
+  - 여러 EC/UC 호출 순서를 묶는다.
 - `UC`
-  - 공통 업무, 외부 연계, 세션/보조 시나리오 계층
+  - 공통 업무, 외부 연계, 보조 시나리오 계층
+- `EC`
+  - DB 접근 중심 실행 계층
+  - `LCommonDao`를 직접 사용하는 경우가 많다.
 
-대표 예:
+## 6. 연결 문서
 
-- `LoginPC`
-  - `LoginEC`, `ComLoginUC`, `ComnCdUC` 등을 조합
-- `DrgPostRevwMngmPC`
-  - 심사후처리 흐름 조합
-- `EdiMngmPC`
-  - `samFileId + version`에 따라 query family를 선택
-
-## 6. `urlPriv`에 대한 현재 판단
-
-- `UrlPrivCheckInterceptor` 클래스와 설정 이름은 확인됐다.
-- 하지만 현재까지 확인한 `defaultStack`, `notLoginCheckStack`, `miUploadStack`와 대표 navigation action들에서는 `urlPriv`의 기본 부착 근거를 확정하지 못했다.
-- 따라서 현재 기준으로는 `정의는 확인, 기본 stack 적용은 미확인`으로 적는 것이 안전하다.
-
-## 7. 실무 포인트
-
-- command는 대개 로직의 종착점이 아니라 business 계층 진입점이다.
-- 화면 문제를 보더라도 command 클래스만 보고 끝내면 안 된다.
-- command 아래에서 어떤 PC/UC/EC가 호출되는지를 같이 봐야 한다.
-
-## 8. 연결 문서
-
-- [01.Front-Channel-개요.md](./01.Front-Channel-%EA%B0%9C%EC%9A%94.md)
-- [03.ServiceProxy-Interceptor.md](./03.ServiceProxy-Interceptor.md)
-- [../0314.runtime-trace](../0314.runtime-trace)
-- 참고 보존본: `../old/0312.front-channel/03.Command-Navigation-PC-EC-UC.md`
+- [Front-Channel-개요.md](../0313.ui-entry/Front-Channel-%EA%B0%9C%EC%9A%94.md)
+- [MiPlatform-Transaction-패턴.md](../0311.miplatform/MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [032.framework-core overview](../../032.framework-core/0321.overview/03.Architecture-overview.md)
+- [MD_ORD01001P trace](../../037.runtime-trace/MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
 
 
+## 연결 문서
+
+- [공통코드조회-체인-기준패턴.md](./%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
+
+
+
+- [로그인-체인-기준패턴.md](./%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
 

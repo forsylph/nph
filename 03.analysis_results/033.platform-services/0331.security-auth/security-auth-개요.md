@@ -21,7 +21,7 @@
 | **GPKI** | ✅ 분석 완료 | MagicSSO 문서에 포함 (37개 CA) |
 | **SignGate** | ✅ 분석 완료 | [SignGate-전자서명.md](./SignGate-전자서명.md) |
 | **Lucy XSS Filter** | ✅ 분석 완료 | [Lucy-XSS-Filter.md](./Lucy-XSS-Filter.md) |
-| OWASP ESAPI | 🔲 미사용 확인 | JAR만 존재 |
+| **OWASP ESAPI** | ✅ 미사용 확인 | [OWASP-ESAPI-미사용.md](./OWASP-ESAPI-미사용.md) |
 
 ---
 
@@ -154,6 +154,36 @@ Client (ActiveX)          Server (Java)
 | `Certification.java` | core/cert | 인증서 관리 |
 | `PublicCertUC.java` | az/com/uc | 사용자 검증 |
 
+### 6.3 인증서 등록 절차
+
+```
+1. 인증서 파일 배치
+   └─> CertKit/cert/ 에 DER/KEY 파일 배치
+
+2. 비밀번호 암호화
+   └─> passwdEnc.sh 실행 → encPasswd 생성
+
+3. 설정 파일 구성
+   └─> his.xml: 인증서 경로, 정책 OID
+   └─> DSToolkitV30.conf: CA LDAP URL
+
+4. 애플리케이션 재시작
+   └─> Certification.java 싱글톤 초기화
+
+5. 사용자 인증서 등록
+   └─> RegistUserCertKeyCMD → AZCMHKMIL 테이블
+```
+
+### 6.4 지원 인증기관 (37개 CA)
+
+- KISA RootCA (한국인증원)
+- signGATE CA (한국정보인증)
+- yessign CA (금융결제원)
+- CrossCert CA (교차인증)
+- TradeSign CA (무역인증)
+- GPKI RootCA (행정전자서명)
+- 기타 (DSToolkitV30.conf 참조)
+
 ---
 
 ## 7. 설정 위치
@@ -201,6 +231,7 @@ Client (ActiveX)          Server (Java)
 - [OpenSAML-MagicSAML.md](./OpenSAML-MagicSAML.md) - OpenSAML/MagicSAML SAML SP 분석
 - [SignGate-전자서명.md](./SignGate-전자서명.md) - SignGate 전자서명 분석
 - [Lucy-XSS-Filter.md](./Lucy-XSS-Filter.md) - Lucy XSS Filter 분석
+- [OWASP-ESAPI-미사용.md](./OWASP-ESAPI-미사용.md) - OWASP ESAPI 미사용 확인
 
 ### 9.2 연결 문서
 
@@ -213,18 +244,26 @@ Client (ActiveX)          Server (Java)
 
 ### 10.1 SignPad 하드웨어
 
-- 서명패드 연동 방식
-- EMR 문서 서명 처리
+- [ ] SignPad 하드웨어 모델명 및 드라이버 확인
+- [ ] 서명패드 연동 방식 상세 분석
+- [ ] EMR 문서 서명 처리 흐름
+- [ ] painter.jar / signedpainter.jar 연동
 
-### 10.2 OWASP ESAPI
+### 10.2 ESAPI JAR 제거 검토
 
-- 실제 사용 여부 확인
-- 미사용 시 제거 검토
+- DSToolkit/DEVON Framework 의존성 확인
+- JAR 제거 후 기능 테스트
+
+### 10.3 운영 환경 점검
+
+- [ ] 인증서 갱신 절차 확인
+- [ ] CRL 업데이트 주기
+- [ ] 인증기관 LDAP 연결 상태
 
 ---
 
 ## 11. 다음 단계
 
 1. SignPad 하드웨어 연동 분석
-2. OWASP ESAPI 실제 사용 여부 확인
+2. ESAPI JAR 제거 검토 (의존성 확인 후)
 3. `035.Biz-medical-Domain`의 의료업무 인증 시나리오와 링크
