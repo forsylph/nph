@@ -1,0 +1,6 @@
+WAS configuration file - ex JEUSMain.xml ... etc... XML and binary 통채로... > 가급적
+
+
+DBMS table 생성 쿼리 등...  위험하지만.. 데이터 샘플이 좀 있으면 더 좋을거 같고...
+
+- RULESDB_DEV의 실제 테이블 구조 (예제 등 필요)
