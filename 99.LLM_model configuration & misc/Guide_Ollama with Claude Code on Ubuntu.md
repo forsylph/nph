@@ -379,13 +379,46 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL="kimi-k2.5:cloud"
 # OPUS: 고성능용 (복잡한 설계, 대규모 작업)
 export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5:cloud"
 
-# ⭐ SUBAGENT: 별도 모델 지정 (선택사항)
+# ⭐ SUBAGENT: 별도 모델 지정 (필수)
 # Subagent가 부모 세션과 다른 모델을 사용하도록 설정
-# 미설정 시 부모 세션과 동일 모델 사용
+# 반드시 glm-5:cloud로 설정해야 병렬 분석 가능
 export CLAUDE_CODE_SUBAGENT_MODEL="glm-5:cloud"
 
 # PATH에 Claude Code 추가 (설치 시 자동 추가되나, 재설치용)
 export PATH="$HOME/.local/bin:$PATH"
+
+# ============================================
+# Claude Code 모델 전환 함수
+# ============================================
+
+# HAIKU 모델로 Claude Code 실행 (minimax-m2.5:cloud)
+claude-haiku() {
+    ANTHROPIC_MODEL=claude-haiku-4-5 claude "$@"
+}
+
+# SONNET 모델로 Claude Code 실행 (kimi-k2.5:cloud)
+claude-sonnet() {
+    ANTHROPIC_MODEL=claude-sonnet-4-6 claude "$@"
+}
+
+# OPUS 모델로 Claude Code 실행 (glm-5:cloud)
+claude-opus() {
+    ANTHROPIC_MODEL=claude-opus-4-6 claude "$@"
+}
+
+# 이전 세션을 유지하면서 모델 전환
+alias haiku='ANTHROPIC_MODEL=claude-haiku-4-5 claude --continue'
+alias sonnet='ANTHROPIC_MODEL=claude-sonnet-4-6 claude --continue'
+alias opus='ANTHROPIC_MODEL=claude-opus-4-6 claude --continue'
+
+# 모델 정보 확인 함수
+claude-model() {
+    echo "=== Claude Code 모델 설정 ==="
+    echo "HAIKU:  $ANTHROPIC_DEFAULT_HAIKU_MODEL"
+    echo "SONNET: $ANTHROPIC_DEFAULT_SONNET_MODEL"
+    echo "OPUS:   $ANTHROPIC_DEFAULT_OPUS_MODEL"
+    echo "SUBAGENT: $CLAUDE_CODE_SUBAGENT_MODEL"
+}
 EOF
 
 # 설정 적용
@@ -403,6 +436,34 @@ ANTHROPIC_DEFAULT_HAIKU_MODEL=minimax-m2.5:cloud
 ANTHROPIC_DEFAULT_SONNET_MODEL=kimi-k2.5:cloud
 ANTHROPIC_DEFAULT_OPUS_MODEL=glm-5:cloud
 CLAUDE_CODE_SUBAGENT_MODEL=glm-5:cloud
+```
+
+### 4.3 모델 전환 함수 및 Alias
+
+설정한 함수들을 사용하면 모델을 쉽게 전환할 수 있습니다:
+
+```bash
+# 모델별로 Claude Code 새로 실행
+claude-haiku    # HAIKU (minimax-m2.5:cloud)
+claude-sonnet   # SONNET (kimi-k2.5:cloud)
+claude-opus     # OPUS (glm-5:cloud)
+
+# 현재 세션 유지하며 모델 전환
+haiku   # HAIKU로 전환
+sonnet  # SONNET으로 전환 (기본값)
+opus    # OPUS로 전환
+
+# 모델 설정 확인
+claude-model
+```
+
+**출력 예시:**
+```
+=== Claude Code 모델 설정 ===
+HAIKU:  minimax-m2.5:cloud
+SONNET: kimi-k2.5:cloud
+OPUS:   glm-5:cloud
+SUBAGENT: glm-5:cloud
 ```
 
 ✅ **4단계 완료 확인:** `claude --version`이 버전을 출력하고, 환경변수가 설정되면 성공
@@ -601,6 +662,32 @@ curl -fsSL https://claude.ai/install.sh | bash
 | **kimi-k2.5:cloud** | SONNET | 일반 코딩, 리팩토링, 문서화 (기본값) |
 | **glm-5:cloud** | OPUS | 복잡한 설계, 아키텍처, 대규모 작업 |
 
+### 모델 매핑 상세
+
+| Claude 명칭 | Ollama 모델 | 환경변수 | 함수명 |
+|-------------|-------------|----------|--------|
+| `claude-haiku-4-5` | `minimax-m2.5:cloud` | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | `claude-haiku()` |
+| `claude-sonnet-4-6` | `kimi-k2.5:cloud` | `ANTHROPIC_DEFAULT_SONNET_MODEL` | `claude-sonnet()` |
+| `claude-opus-4-6` | `glm-5:cloud` | `ANTHROPIC_DEFAULT_OPUS_MODEL` | `claude-opus()` |
+
+### 모델 선택 예시
+
+```bash
+# 기본 작업 (SONNET) - 권장 기본값
+ollama launch claude
+
+# 빠른 응답이 필요한 작업 (HAIKU)
+ollama launch claude --model minimax-m2.5:cloud
+
+# 복잡한 분석/설계 (OPUS)
+ollama launch claude --model glm-5:cloud
+
+# 세션 유지하며 모델 변경
+# (Claude Code 내부에서 /exit 후)
+sonnet  # SONNET으로 재시작
+opus    # OPUS로 재시작
+```
+
 **Subagent 사용 예시:**
 
 ```bash
@@ -709,3 +796,67 @@ ollama launch claude --model kimi-k2.5:cloud
 - ✅ Web Search
 - ✅ 코드 편집
 - ✅ 파일 탐색
+
+---
+
+## 📌 Appendix A: 현재 구성 요약
+
+### 환경변수 설정 (~/.bashrc)
+
+```bash
+# Ollama 서버 연결
+export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
+export ANTHROPIC_AUTH_TOKEN="ollama"
+
+# 모델 매핑
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="minimax-m2.5:cloud"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="kimi-k2.5:cloud"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5:cloud"
+export CLAUDE_CODE_SUBAGENT_MODEL="glm-5:cloud"
+```
+
+### 사용 가능한 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `ollama launch claude` | 기본 모델(SONNET)로 실행 |
+| `ollama launch claude --model {모델명}` | 특정 모델로 실행 |
+| `claude-haiku` | HAIKU로 새 세션 시작 |
+| `claude-sonnet` | SONNET으로 새 세션 시작 |
+| `claude-opus` | OPUS로 새 세션 시작 |
+| `haiku` | 현재 세션을 HAIKU로 전환 |
+| `sonnet` | 현재 세션을 SONNET으로 전환 |
+| `opus` | 현재 세션을 OPUS로 전환 |
+| `claude-model` | 현재 모델 설정 표시 |
+| `ollama list` | 설치된 모델 목록 |
+
+### Claude Code Memory 파일
+
+Claude Code는 다음 위치에 프로젝트별 메모리를 저장합니다:
+
+```
+~/.claude/projects/{project_name}/memory/
+├── MEMORY.md              # 프로젝트 개요
+├── claude_ollama_config.md # Ollama 설정 상세
+├── setup_prompts.md       # 설정용 프롬프트 모음
+└── github_ssh_config.md   # GitHub SSH 설정
+```
+
+### .gitignore 권장 설정
+
+```gitignore
+# Backup files
+*.bak
+*.bak.*
+*~
+*.swp
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+```
