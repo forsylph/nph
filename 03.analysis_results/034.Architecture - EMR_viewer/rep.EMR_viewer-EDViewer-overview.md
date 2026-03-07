@@ -2,6 +2,7 @@
 
 > 국립의료원 병원정보시스템(NPH)의 전자의무기록(EMR) 뷰어 분석
 > 사실 기반 요약본: `rep.EMR_viewer-EDViewer-팩트체크.md`
+> API 상세 분석: `rep.EMR_viewer-FV_CommonCall-API.md` ✅ 2차작업
 
 ---
 
