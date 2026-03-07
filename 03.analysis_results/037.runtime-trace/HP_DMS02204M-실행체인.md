@@ -2,7 +2,7 @@
 
 ## 1. 목적
 
-약어/용어는 [03.약어-용어집.md](../0310.index/03.%EC%95%BD%EC%96%B4-%EC%9A%A9%EC%96%B4%EC%A7%91.md) 를 먼저 보면 빠르다.
+약어/용어는 [약어-용어집.md](../030.index/0303.약어-용어집/약어-용어집.md) 를 먼저 보면 빠르다.
 
 이 문서는 `HP_DMS02204M` 화면의 실제 조회 체인을 `화면 -> navigation -> command -> PC -> EC -> query path -> xmlquery` 기준으로 닫기 위한 trace 문서다.
 
@@ -10,7 +10,7 @@
 
 - 이 문서는 [../032.framework-core/0321.overview/03.Architecture-overview.md](../032.framework-core/0321.overview/03.Architecture-overview.md)의 심사/후처리 계열 사례다.
 - front dispatch는 [../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)를 같이 보면 된다.
-- XML Query는 [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 연결해서 보는 것이 좋다.
+- XML Query는 [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../032.framework-core/0322.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 연결해서 보는 것이 좋다.
 
 ## 3. 대표 진입 경로
 
@@ -66,13 +66,14 @@ flowchart LR
 ## 7. 다시 올라갈 문서
 
 - 개요로 돌아가려면
-  - [../032.framework-core/0321.overview/01.Framework-개요.md](../0311.overview/01.Framework-%EA%B0%9C%EC%9A%94.md)
+  - [../032.framework-core/0321.overview/01.Framework-개요.md](../032.framework-core/0321.overview/01.Framework-%EA%B0%9C%EC%9A%94.md)
 - command 흐름으로 돌아가려면
   - [../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)
 - data-access로 연결하려면
-  - [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
+  - [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../032.framework-core/0322.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
 - 구조 평가와 연결하려면
-  - [../../95.추가 검토 사항 및 계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md](../0315.design-review/02.%EC%84%A4%EA%B3%84%ED%8F%89%EA%B0%80-%EC%83%81%EC%84%B8.md)
+  - [../../95.추가 검토 사항 및 계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md](../../95.%EC%B6%94%EA%B0%80%20%EA%B2%80%ED%86%A0%20%EC%82%AC%ED%95%AD%20%EB%B0%8F%20%EA%B3%84%ED%9A%8D/953.refactoring-ideation/rep.%EB%8C%80%ED%98%95%ED%99%94%EB%A9%B43%EC%A2%85-%EA%B5%AC%EC%A1%B0%EB%B9%84%EA%B5%90.md)
+
 
 
 
