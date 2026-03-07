@@ -19,3 +19,7 @@ Thumbs.db
 
 # Node modules (if any)
 node_modules/
+
+# Old data archives
+**/old Data/
+old Data/
