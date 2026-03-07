@@ -44,11 +44,11 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 리포트 엔진 | **Rexpert** | 3.2.4.1 | - | 엔터프라이즈 리포팅 ✅ 검증됨 |
-| 의료 리포트 | **TPR Report** | - | - | TPR 차트 리포트 ✅ 검증됨 |
-| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | 외부 Excel 라이브러리, DevOn Excel API와 함께 존재 |
-| Excel 처리 | **JExcelApi** | - | - | 외부 Excel 라이브러리, DevOn Excel API와 함께 존재 |
-| PDF 생성 | **iText XML Worker** | 1.2.0 | iText | PDF 생성 |
+| 리포트 엔진 | **Rexpert** | 3.2.4.1 | - | `rexservice.jsp`, `rexpert.js`, `cf_PreviewReport()` 기준 검증됨 |
+| 의료 리포트 | **TPR Report** | - | - | `TprServlet`, `TprReport.jsp`, `sql.xml/sqlParameter.xml`, `TPRreport.jar` 기준 검증됨 |
+| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | 외부 Excel 라이브러리, JAR 존재 확인. 화면 Excel 기능은 `utilLib.js`/MiPlatform Grid 중심이며 서버측 직접 POI 사용은 현재 미확인 |
+| Excel 처리 | **JExcelApi** | - | - | 외부 Excel 라이브러리, JAR 존재 확인. DevOn Excel API 문서 공존, 서버측 직접 JXL 사용은 현재 미확인 |
+| PDF 생성 | **iText XML Worker** | 1.2.0 | iText | `emrtopdf.jsp` import, `xmlworker-1.2.0.jar` 기준 EMR PDF 변환 경로 확인 |
 
 ---
 
@@ -320,6 +320,7 @@
 ---
 
 *피어리뷰 완료: 2026-03-05*
+
 
 
 
