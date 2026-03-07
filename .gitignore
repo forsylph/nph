@@ -23,3 +23,5 @@ node_modules/
 # Old data archives
 **/old Data/
 old Data/
+**/.old Data/
+.old Data/
