@@ -6,7 +6,7 @@
 
 ## 1. 개요
 
-NPH 시스템은 JCAOS(한국형 연동 솔루션)와 SVNKit을 사용한다.
+NPH 시스템은 `SVNKit`의 직접 사용 흔적이 확인된다. `JCAOS`는 JAR과 라이선스 파일 존재 수준을 넘어서 SSO/암호화 구성 관여가 확인된다. 다만 현재 애플리케이션 소스에서 `com.dreamsecurity.jcaos.*` 직접 import는 확인되지 않았다.
 
 ---
 
@@ -29,25 +29,11 @@ NPH 시스템은 JCAOS(한국형 연동 솔루션)와 SVNKit을 사용한다.
 
 ## 3. JCAOS
 
-### 3.1 개요
+### 3.1 현재 확인 수준
 
-JCAOS(Java Common Architecture for Open Systems)는 한국형 시스템 연동 솔루션이다.
-
-### 3.2 주요 용도
-
-| 구분 | 용도 |
-|------|------|
-| **행정기관 연동** | 정부 시스템 연동 |
-| **표준 프레임워크** | eGovFrame 연동 |
-| **인터페이스** | 시스템 간 표준 인터페이스 |
-
-### 3.3 특징
-
-- 한국형 행정전산망 연동 표준
-- XML 기반 메시지 교환
-- 보안 통신 지원
-
----
+- `jcaos-1.4.7.7.jar`, `jcaos.lic` 실물은 존재한다.
+- `dsagent.properties`의 `crypto.type=JCAOS`, `magicsaml-sp-v1.3.3.jar`의 `com.dreamsecurity.crypto.api.JCAOSCryptoApi`, `jcaos-1.4.7.7.jar`의 `com.dreamsecurity.JCAOSProvider`가 확인된다.
+- 따라서 현재 가장 안전한 결론은 `JCAOS가 SSO/암호화 런타임 구성에 관여한다`는 수준이며, 앱 소스 직접 호출 여부는 추가 확인이 필요하다는 것이다.
 
 ## 4. SVNKit
 
@@ -78,11 +64,12 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 
 | 기술 | 버전 | 상태 |
 |------|------|------|
-| **JCAOS** | 1.4.7.7 | 한국형 연동 솔루션 |
-| **SVNKit** | 1.8.14 | SVN 클라이언트 |
+| **JCAOS** | 1.4.7.7 | 런타임 구성 관여 확인, 앱 소스 직접 import 미확인 |
+| **SVNKit** | 1.8.14 | SvnLogPC 기준 직접 사용 확인 |
 
 ---
 
 ## 6. 관련 문서
 
 - [README.md](./README.md)
+

@@ -6,7 +6,7 @@
 
 ## 1. 개요
 
-NPH 시스템은 Apache HttpClient와 Jersey를 사용하여 외부 시스템과 HTTP/REST 통신을 수행한다.
+NPH 시스템은 Apache HttpClient와 Jersey를 사용한다. 현재 소스 기준으로는 `Jersey = 내부 REST 서버/API`, `Apache HttpClient = 외부/내부 HTTP 호출 클라이언트` 역할이 직접 확인된다.
 
 ---
 
@@ -78,7 +78,7 @@ public class HttpClientUtil {
 
 | 구분 | 용도 |
 |------|------|
-| **REST 서비스** | 내부 REST API 호출 |
+| **REST 서비스** | 내부 REST API 제공 및 일부 HTTP 연동 |
 | **마이플랫폼 연동** | 화면 간 데이터 통신 |
 
 ---
@@ -89,7 +89,7 @@ public class HttpClientUtil {
 |------|------|------|
 | **Apache HttpClient** | 4.5.3 | HTTP 클라이언트 (주 사용) |
 | **Commons HttpClient** | 3.1 | 구버전 (레거시) |
-| **Jersey** | 1.19.4 | JAX-RS REST 클라이언트 |
+| **Jersey** | 1.19.4 | JAX-RS 서버/API 구현 및 필터 |
 
 ---
 

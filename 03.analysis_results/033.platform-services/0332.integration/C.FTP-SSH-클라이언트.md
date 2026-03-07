@@ -6,7 +6,7 @@
 
 ## 1. 개요
 
-NPH 시스템은 edtFTPj와 JSch를 사용하여 파일 전송(FTP/SFTP)을 수행한다.
+NPH 시스템은 edtFTPj를 사용한 FTP 전송 흔적이 강하게 확인된다. `JSch`는 JAR 포함에 그치지 않고 `NPH_HIS/webapp/Admin/temp/uploadFile.jsp`에서 직접 import 및 `new JSch()` 호출이 확인된다. 다만 현재 확인된 사용처는 관리자/임시 업로드 유틸 성격이며, 광범위한 운영 경로까지 확인된 것은 아니다.
 
 ---
 
@@ -90,11 +90,11 @@ import org.apache.commons.net.ftp.FTPSClient;
 
 ## 5. JSch (SSH/SFTP)
 
-### 5.1 용도
+### 5.1 현재 확인 수준
 
-- SFTP 파일 전송
-- SSH 원격 명령 실행
-- 포트 포워딩
+- `jsch-0.1.54.jar` 실물은 존재한다.
+- `NPH_HIS/webapp/Admin/temp/uploadFile.jsp`에서 `com.jcraft.jsch.*` import와 `new JSch()` 호출이 직접 확인된다.
+- 다만 현재 직접 확인된 사용처는 관리자 업로드 JSP 1건이며, 배치/업무 서비스 전반으로 넓게 쓰인다고 단정할 단계는 아니다.
 
 ### 5.2 주요 패키지
 
@@ -131,7 +131,7 @@ import com.jcraft.jsch.Session;
 |------|------|------|
 | **edtFTPj** | 2.0.1 | FTP/FTPS 클라이언트 (주 사용) |
 | **Commons Net** | 2.0 | 네트워크 유틸리티 |
-| **JSch** | 0.1.54 | SSH/SFTP 클라이언트 |
+| **JSch** | 0.1.54 | 관리자 업로드 JSP 기준 직접 사용 확인 |
 
 ---
 
@@ -139,3 +139,4 @@ import com.jcraft.jsch.Session;
 
 - [README.md](./README.md)
 - [B.HTTP-REST-클라이언트.md](./B.HTTP-REST-클라이언트.md)
+

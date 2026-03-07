@@ -7,7 +7,7 @@
 
 ## 1. 개요
 
-NPH 시스템은 **네이버 Lucy XSS Filter 1.1.2**를 사용하여 XSS(Cross-Site Scripting) 공격을 방어한다. 주로 EMR(전자의무기록) 데이터 저장 및 조회 시 입력값 필터링에 사용된다.
+NPH 시스템은 **네이버 Lucy XSS Filter 1.1.2**를 사용하여 XSS(Cross-Site Scripting) 공격을 방어한다. 현재 코드베이스 기준으로는 EMR/ECS 저장 처리뿐 아니라 다수 JSP/Servlet 입력 처리 경로에서 직접 사용 흔적이 확인된다.
 
 ### 1.1 관련 솔루션
 
@@ -34,7 +34,7 @@ NPH_ECS/webapp/WEB-INF/lib/
 ```mermaid
 flowchart LR
     subgraph Client
-        EMR[EMR Viewer]
+        Client[사용자 입력/화면 호출]
     end
 
     subgraph Server
@@ -43,11 +43,11 @@ flowchart LR
         DB[(Database)]
     end
 
-    EMR --> |입력 데이터| JSP
+    Client --> |입력 데이터| JSP
     JSP --> |doFilter| XSS
     XSS --> |필터링된 데이터| DB
     DB --> |조회| JSP
-    JSP --> |필터링| EMR
+    JSP --> |필터링 결과| Client
 ```
 
 ### 2.2 사용 패턴
@@ -85,6 +85,8 @@ String safeString = lucyFilter.doFilter(inputString);
 ## 4. 사용 패턴 분석
 
 ### 4.1 JSP/Servlet 표준 패턴
+
+> 현재 확인된 사용 범위는 NPH_ECS/src, NPH_ECS/webapp/EMR_DATA/*.jsp, 일부 공용 저장 처리 경로까지 넓다. 따라서 EMR 전용으로 좁혀 읽으면 실제보다 범위를 과소평가하게 된다.
 
 NPH에서 사용하는 표준 XSS 필터링 패턴:
 
@@ -283,10 +285,10 @@ NPH에서는 `XssFilter` 모드를 사용한다.
 
 ### 8.2 적용 범위 제한
 
-Lucy XSS Filter는 **EMR 데이터 처리 영역**에만 적용되어 있다:
+Lucy XSS Filter는 현재 확인 기준으로 EMR/ECS 저장 처리, eView, 일부 공용 입력 경로에 적용되어 있다:
 
 ```
-적용됨:
+강하게 확인됨:
 - EMR_DATA/*.jsp (NPH_HIS, NPH_ECS)
 - eView/*.jsp (NPH_HIS)
 - NPH_ECS/src/*.java (SaveRecord, save_image 등)
@@ -438,6 +440,9 @@ String department = GetParamXSSFilter(request.getParameter("department"));
 ---
 
 *분석 완료: 2026-03-07*
+
+
+
 
 
 

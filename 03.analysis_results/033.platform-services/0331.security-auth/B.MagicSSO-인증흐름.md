@@ -7,19 +7,19 @@
 
 ## 1. 개요
 
-NPH 시스템은 **드림시큐리티 MagicSSO**를 기반으로 한 통합 인증 시스템을 사용한다. MagicSSO는 SSO(Single Sign-On)와 GPKI 공인인증서 기반 인증을 결합한 솔루션이다.
+NPH 시스템은 드림시큐리티 계열 인증 스택을 사용하며, 현재 로컬 코드/설정 기준으로는 `MagicSAML`, `DSToolkit`, `SsoEam`, GPKI 관련 구성요소가 직접 확인된다. 특히 `CreateRequest.jsp`, `Response.jsp`, `SPLogout.jsp`, `TimeoutLogout.jsp`, `MagicSAML.js`, `metadata.xml`, `dsagent.properties`를 통해 JSP 기반 SSO 처리 파이프라인은 직접 확인된다. 다만 `MagicSSO` 계열 서버의 실제 내부 동작과 제품 버전, 운영 절차 전체는 현재 워크스페이스만으로 완전히 닫히지 않는다.
 
 ### 1.1 관련 솔루션
 
 | 솔루션 | 버전 | 용도 |
 |--------|------|------|
-| **MagicSSO** | 3.5 | SSO 인증 |
+| **MagicSSO** | 버전 미확인 | SSO 계열 구성요소 (설정/문서 흔적) |
 | **DSToolkit** | 3.4.2.0 | 인증 툴킷 |
 | **MagicSAML** | 1.3.3 | SAML SP |
 | **OpenSAML** | 2.6.4 | SAML 라이브러리 |
 | **SsoEam** | 1.0.6 | EAM 연동 |
 
-### 1.2 주요 JAR 파일
+### 1.2 현재 직접 확인된 구성요소
 
 ```
 WEB-INF/lib/
@@ -33,7 +33,7 @@ WEB-INF/lib/
 
 ## 2. 아키텍처
 
-### 2.1 전체 인증 흐름
+### 2.1 현재 확인 가능한 인증 흐름
 
 ```mermaid
 flowchart TB
@@ -49,9 +49,9 @@ flowchart TB
     end
 
     subgraph SSO System
-        MagicSSO[MagicSSO Server]
+        MagicSSO[MagicSSO 계열 서버]
         GPKI[GPKI 인증서 검증]
-        CA[CA 정보 37개]
+        CA[DSToolkit 설정상 CA 정보 37개]
     end
 
     UI --> |로그인 요청| Login
@@ -88,7 +88,7 @@ flowchart LR
 
 ### 3.1 DSToolkit 설정 (DSToolkitV30.conf)
 
-GPKI 공인인증서 검증을 위한 CA 정보 37개를 설정한다:
+GPKI 공인인증서 검증을 위한 DSToolkit 설정상 CA 정보 37개를 설정한다:
 
 ```ini
 [VALIDATOIN_OPTION]
@@ -429,6 +429,8 @@ export LD_LIBRARY_PATH=$DS_HOME/lib:$LD_LIBRARY_PATH
 ---
 
 *분석 완료: 2026-03-07*
+
+
 
 
 
