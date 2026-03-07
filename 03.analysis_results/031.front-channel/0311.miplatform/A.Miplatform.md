@@ -98,3 +98,11 @@ NPH의 대표 MiPlatform 화면(`Login3.xml`, `MD_ORD01001P.xml`, `HP_DMS02204M.
 
 
 
+
+## 9A. 같이 볼 문서
+
+- DevOn 코어 흐름은 [../../032.framework-core/0321.overview/A.Framework-개요.md](../../032.framework-core/0321.overview/A.Framework-개요.md)
+- Data Access는 [../../032.framework-core/0322.data-access/A.Data-Access-개요.md](../../032.framework-core/0322.data-access/A.Data-Access-개요.md)
+- DevOn 외부 솔루션은 [../../033.platform-services/README.md](../../033.platform-services/README.md)
+- 의료업무 맥락은 [../../035.Biz-medical-Domain](../../035.Biz-medical-Domain)
+- 실제 사례는 [../../037.runtime-trace/A.트레이스-읽는순서.md](../../037.runtime-trace/A.트레이스-읽는순서.md)

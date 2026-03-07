@@ -4,7 +4,12 @@
 
 ---
 
-## 1. 목적
+## 1A. 상위 연결
+
+- 이 폴더의 기준 설명은 [../README.md](../README.md) 를 먼저 본다.
+- DevOn 코어는 [../../032.framework-core/0321.overview/A.Framework-개요.md](../../032.framework-core/0321.overview/A.Framework-개요.md) 와 같이 본다.
+- 의료업무 맥락은 [../../035.Biz-medical-Domain](../../035.Biz-medical-Domain) 으로 이어진다.
+- 실제 사례는 [../../037.runtime-trace/A.트레이스-읽는순서.md](../../037.runtime-trace/A.트레이스-읽는순서.md) 를 본다.
 
 이 문서는 `033.platform-services` 중 보안/인증 계열 솔루션을 정리하는 기준본이다.
 
@@ -267,6 +272,7 @@ Client (ActiveX)          Server (Java)
 1. SignPad 하드웨어 연동 분석
 2. ESAPI JAR 제거 검토 (의존성 확인 후)
 3. `035.Biz-medical-Domain`의 의료업무 인증 시나리오와 링크
+
 
 
 

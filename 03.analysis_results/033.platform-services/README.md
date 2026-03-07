@@ -26,3 +26,12 @@
 
 
 
+
+## 4. 같이 볼 문서
+
+- 화면 진입은 [../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md](../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md)
+- DevOn 코어는 [../032.framework-core/0321.overview/A.Framework-개요.md](../032.framework-core/0321.overview/A.Framework-개요.md)
+- Data Access는 [../032.framework-core/0322.data-access/A.Data-Access-개요.md](../032.framework-core/0322.data-access/A.Data-Access-개요.md)
+- 의료업무 맥락은 [../035.Biz-medical-Domain](../035.Biz-medical-Domain)
+- 실제 사례는 [../037.runtime-trace/A.트레이스-읽는순서.md](../037.runtime-trace/A.트레이스-읽는순서.md)
+- 사실/미확인은 [../038.fact-todo-reference/0382.fact-check/00.fact-check.md](../038.fact-todo-reference/0382.fact-check/00.fact-check.md)

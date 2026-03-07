@@ -71,3 +71,11 @@ flowchart LR
 - 참고 보존본: `../../old Data/031.Architecture - Framework/old/0313.data-access/*`
 
 
+
+## 9. 같이 볼 문서
+
+- 화면 진입은 [../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md](../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md)
+- Framework 개요는 [../0321.overview/A.Framework-개요.md](../0321.overview/A.Framework-개요.md)
+- DevOn 외부 솔루션은 [../../033.platform-services/README.md](../../033.platform-services/README.md)
+- 사실/미확인은 [../../038.fact-todo-reference/0382.fact-check/00.fact-check.md](../../038.fact-todo-reference/0382.fact-check/00.fact-check.md)
+- jar/API 근거는 [../../038.fact-todo-reference/0381.reference/00.reference-읽는순서.md](../../038.fact-todo-reference/0381.reference/00.reference-읽는순서.md)

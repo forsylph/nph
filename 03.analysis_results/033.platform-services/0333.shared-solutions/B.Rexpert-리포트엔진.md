@@ -7,18 +7,42 @@
 
 ## 1. 개요
 
-NPH 시스템은 **Rexpert 3.0** 리포트 엔진을 사용하여 의료 문서, 처방전, 검사 결과, 영수증 등 다양한 리포트를 생성한다. Rexpert는 한국형 리포트 솔루션으로, ActiveX/Plugin 방식으로 클라이언트에서 리포트를 렌더링한다.
+NPH 시스템은 **Rexpert 3.0** 리포트 엔진을 사용하여 의료 문서, 처방전, 검사 결과, 영수증 등 다양한 리포트를 생성한다. Rexpert는 **한컴이노스트림(구 클립소프트)**에서 개발한 한국형 웹 리포팅 솔루션으로, ActiveX/Plugin 방식으로 클라이언트에서 리포트를 렌더링한다.
 
-### 1.1 버전 정보
+### 1.1 제품 정보
+
+| 항목 | 내용 |
+|------|------|
+| **개발사** | 한컴이노스트림 (구 클립소프트) |
+| **출시** | 2004년 (Rexpert 3.0: 2011년) |
+| **특징** | 한국 대표 웹 리포팅툴, GS인증 획득 |
+| **용도** | 공공기관, 병원, 기업 리포트 시스템 |
+| **기술지원** | https://tech.hancomins.com |
+
+### 1.2 버전 정보
 
 | 항목 | 버전 |
 |------|------|
 | Rexpert Server | 3.0 |
 | Rexpert Viewer | 1.0.0.57 |
-| Rexpert.jar | 151 KB |
+| Rexpert.jar | 154,565 bytes (151 KB) |
 | 리포트 템플릿 | REX3 바이너리 포맷 (.reb) |
+| 템플릿 수 | **1,674개** |
 
-### 1.2 핵심 파일
+### 1.3 핵심 특징 (Rexpert 3.0)
+
+| 특징 | 설명 |
+|------|------|
+| **성능 강화** | 원천소스 재구축, 쓰레드 최적화, 최소 메모리 사용 |
+| **섹션+테이블** | 외산 툴의 그루핑 + 국산 툴의 장표 작성 기능 혼합 |
+| **스크립트 지원** | JavaScript, VBScript 포괄적 사용 |
+| **크로스 브라우저** | ActiveX + NPRuntime 방식으로 Firefox, Chrome 등 지원 |
+| **접근성** | 센스리더, 드림보이스 등 음성인식 SW 지원 |
+| **XML 바인딩** | XML 데이터 바인딩 지원 |
+
+---
+
+## 2. 아키텍처
 
 | 파일 | 경로 | 크기 | 설명 |
 |------|------|------|------|
@@ -454,16 +478,95 @@ NPH 프로젝트에서는 Rexpert를 직접 Java에서 호출하는 방식보다
 
 ---
 
-## 13. 연결 문서
+## 13. 리포트 템플릿 분석
 
-- [A.shared-solutions-개요.md](./A.shared-solutions-개요.md)
-- [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
+### 13.1 템플릿 분포
+
+**전체 템플릿 수: 1,674개**
+
+| 업무 영역 | 템플릿 수 | 주요 하위 모듈 |
+|----------|----------|---------------|
+| **MD (외래/진료)** | 504개 | HEA(289), IPN(78), ORD(25), OPN, OPR, FDM, FQI, INF |
+| **ER (응급실)** | 305개 | STC(76), EMR(169), INC(33), ACC(33), CSR(27), FAC(32) |
+| **HP (병원행정)** | 244개 | PAT(59), UNC(52), DMS(48), FEE(46), CTF, COM, STA |
+| **SP (검사/방사선)** | 271개 | PHA(71), NUT(59), LAB(50), RAY, CEL, COM, DEN, HBC, NEU |
+| **AZ (관리/공통)** | 124개 | STA(113), COM, SYS, UTL, template |
+| **MR (원무/수납)** | 213개 | EMR(169), RCH(25), COM, STA |
+| **pilot/sample** | 13개 | 샘플 및 테스트 템플릿 |
+
+### 13.2 주요 템플릿 파일
+
+| 템플릿 | 경로 | 용도 |
+|--------|------|------|
+| horHeader.reb | /report/ | 가로 헤더 템플릿 |
+| verHeader.reb | /report/ | 세로 헤더 템플릿 |
+| verBottom.reb | /report/ | 세로 바닥 템플릿 |
+| Rexpert.reb | /report/sample/ | 기본 샘플 |
+| Rexpert1.reb | /report/sample/ | 다중 데이터셋 샘플 |
+| simple.reb | /report/sample/ | 간단 샘플 |
+| QR_sample.reb | /report/sample/ | QR코드 샘플 |
+
+### 13.3 .reb 파일 구조
+
+```
+파일 헤더: REXPERT VER 3.0 COPYRIGHT BY CLIPSOFT
+버전: 1.0.0.x
+내용:
+  - 데이터셋 정의 (SQLDS1, Server1)
+  - 필드 정의 (TOBJID, POBJID, TOWNERID, COLNAME, INTCOL 등)
+  - 연결 정보:
+    - 데이터베이스: JNDI, ORACLE
+    - URL: http://server:port/rexservice.jsp
+    - 파라미터: a1b2c3
+```
 
 ---
 
-## 14. 분석 필요 항목
+## 14. 연결 문서
 
-### 14.1 리포트 템플릿 분석
+- [A.shared-solutions-개요.md](./A.shared-solutions-개요.md)
+- [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
+- [한컴이노스트림 기술지원](https://tech.hancomins.com) - 공식 기술문서
+- [Rexpert 3.0 특징 (데일리그리드)](http://www.dailygrid.net/news/articleView.html?idxno=4933)
+- [Rexpert 3.0 리포트 뷰어 (디지털타임스)](https://www.dt.co.kr/article/10523890)
+
+---
+
+## 15. 분석 필요 항목
+
+### 15.1 리포트 템플릿 분석
+
+- [x] .reb 파일 구조 분석 (REX3 포맷)
+- [ ] 리포트 디자이너 도구 확인 (Rexpert Designer)
+- [ ] 템플릿 수정 방법
+
+### 15.2 성능 최적화
+
+- [ ] 대용량 데이터 처리 방식
+- [ ] 리포트 캐싱 전략
+- [ ] 서버 부하 분산
+
+### 15.3 마이그레이션
+
+- [ ] ActiveX → HTML5 전환 방안
+- [ ] Rexpert 대체 솔루션 검토 (RealReport 등)
+- [ ] 크로스 브라우저 지원 (현재 IE 위주)
+
+### 15.4 운영 이슈
+
+- [ ] 설정 경로 하드코딩 (`C:/AADEV_NPH/...`)
+- [ ] EUC-KR 인코딩 (UTF-8 전환 필요)
+- [ ] 뷰어 배포 및 업데이트 관리
+
+---
+
+*분석 완료: 2026-03-07*
+
+**Sources:**
+- [한컴이노스트림 기술지원](https://tech.hancomins.com/productinquiry)
+- [Rexpert 3.0 성능 강화 (데일리그리드)](http://www.dailygrid.net/news/articleView.html?idxno=4933)
+- [Rexpert 3.0 리포트 뷰어 (디지털타임스)](https://www.dt.co.kr/article/10523890)
+- [Reporting Tool Rexpert (WIKISOFT)](http://wikisoft.co.kr/archives/1375)
 
 - [ ] .reb 파일 구조 분석 (REX3 포맷)
 - [ ] 리포트 디자인 도구 확인

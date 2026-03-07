@@ -106,3 +106,11 @@ flowchart LR
 
 
 
+
+## 10. 같이 볼 문서
+
+- 화면 진입은 [../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md](../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md)
+- MiPlatform 해석은 [../../031.front-channel/0311.miplatform/A.Miplatform.md](../../031.front-channel/0311.miplatform/A.Miplatform.md)
+- Data Access 상세는 [../0322.data-access/A.Data-Access-개요.md](../0322.data-access/A.Data-Access-개요.md)
+- 외부 솔루션/패키지는 [../../033.platform-services/README.md](../../033.platform-services/README.md)
+- 사실/미확인은 [../../038.fact-todo-reference/0382.fact-check/00.fact-check.md](../../038.fact-todo-reference/0382.fact-check/00.fact-check.md)
