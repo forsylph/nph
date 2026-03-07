@@ -1,0 +1,21 @@
+# Backup files
+*.bak
+*.bak.*
+*~
+*.swp
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+
+# Node modules (if any)
+node_modules/
