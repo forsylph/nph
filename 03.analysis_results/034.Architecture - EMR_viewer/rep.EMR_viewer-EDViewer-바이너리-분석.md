@@ -42,23 +42,32 @@
 
 ```
 NPH_ECS/webapp/EMR_DATA/eMobile/
-├── EDViewer_Ocx.ocx              # 메인 OCX (7.7MB)
-├── EDViewer_Ocx.cab              # 설치 패키지
+├── EDViewer_Ocx.ocx              # 메인 OCX ✅ 정확한 크기로 수정 (8,017,384 bytes)
+├── EDViewer_Ocx.cab              # 설치 패키지 ✅ 크기 추가 (2,296,303 bytes)
 ├── EDViewer_Ocx_test.OCX         # 테스트 버전
-├── BKEDViewer.exe                # 실행 파일
+├── BKEDViewer.exe                # 실행 파일 ✅ 정확한 크기로 수정 (6,858,728 bytes)
 ├── BkAgentOcx.ocx                # 에이전트 OCX
-├── HookDLL.dll                   # 후킹 DLL
-└── ISEDViewer(20).apk            # Android 모바일
-└── ISEDViewer(21).apk            # Android 모바일
-└── ISEDViewer(NHIS).apk          # 건강보험공단용
+├── HookDLL.dll                   # 후킹 DLL ✅ 크기 추가 (94,208 bytes)
+├── ISEDViewer(20).apk            # Android 모바일 ✅ 크기 추가 (3,116,017 bytes)
+├── ISEDViewer(21).apk            # Android 모바일 ✅ 크기 추가 (3,116,015 bytes)
+└── ISEDViewer(NHIS).apk          # 건강보험공단용 ✅ 크기 추가 (3,116,062 bytes)
 
 NPH_HIS/webapp/EMR_DATA/applet/
-├── EDViewer_Ocx.ocx              # 복사본
-├── BKEDViewer.exe                # 실행 파일
-├── BkSdePrintModule.ocx          # 출력 모듈
-├── BkAgentOcx.ocx                # 에이전트
-└── ... (다양한 DLL/OCX)
+├── EDViewer_Ocx.ocx              # 복사본 ✅ 정확한 크기로 수정 (8,006,144 bytes)
+├── BKEDViewer.exe                # 실행 파일 ✅ 정확한 크기로 수정 (6,775,296 bytes)
+├── BkSdePrintModule.ocx          # 출력 모듈 📋 추가발견 (6.8 MB) - 분석필요
+├── BkAgentOcx.ocx                # 에이전트 📋 추가발견 (6.7 MB) - 분석필요
+├── MagnifyGlass.ocx              # 확대 도구 📋 추가발견 (6.4 MB) - 분석필요
+├── bk_capture.ocx                # 캡처 모듈 📋 추가발견 (6.5 MB) - 분석필요
+├── TPR.dll / TPR_.ocx            # TPR 관련 📋 추가발견 - 분석필요
+├── SignPad.jar                   # 서명 애플릿 📋 추가발견 - 분석필요
+├── painter.jar                   # 그리기 도구 📋 추가발견 - 분석필요
+└── signedpainter.jar             # 서명된 그리기 도구 📋 추가발견 - 분석필요
 ```
+
+**범례:**
+- ✅ **수정됨**: 2차 작업에서 정확한 크기/정보로 업데이트된 항목
+- 📋 **추가발견 - 분석필요**: 소스 분석 중 새로 발견되어 추가 분석이 필요한 항목
 
 ### 1.2 파일 상세 정보
 
