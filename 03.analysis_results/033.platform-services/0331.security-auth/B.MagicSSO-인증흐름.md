@@ -421,7 +421,7 @@ export LD_LIBRARY_PATH=$DS_HOME/lib:$LD_LIBRARY_PATH
 
 ## 12. 연결 문서
 
-- [security-auth-개요.md](./security-auth-개요.md)
+- [A.security-auth-개요.md](./A.security-auth-개요.md)
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
 - [LoginPC.java](/mnt/n/99.SourceCode%20Backup/NPH/AADEV_NPH/workspace/NPH_HIS/src/nph/his/az/bizcom/auth/pc/LoginPC.java)
 - [ComLoginUC.java](/mnt/n/99.SourceCode%20Backup/NPH/AADEV_NPH/workspace/NPH_HIS/src/nph/his/az/com/uc/ComLoginUC.java)

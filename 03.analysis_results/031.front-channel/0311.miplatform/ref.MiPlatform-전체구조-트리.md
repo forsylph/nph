@@ -50,6 +50,19 @@ Note: SVN 캐시(.svn-base) 28,358개는 통계에서 제외됨
 
 ### 2.1 전체 디렉토리 구조
 
+### 2.1A 실제 유지보수에서 먼저 보는 대표 `.mhi / navigation` 기준 화면
+
+| 대표 화면 | 화면 XML | 대표 `.mhi` | navigation | command |
+|------|------|------|------|------|
+| 로그인 | `Login3.xml` | `/az/bizcom/authNavi/CheckLoginUser-new1.mhi` | `authNavi.xml` | `CheckLoginMiCMD` |
+| 공통 코드 조회 | `AZ_UTL01002P.xml` | `/az/bizcom/comNavi/RetrieveComnCd.mhi` | `comNavi.xml` | `RetrieveComnCdCMD` |
+| 처방 대형 화면 | `MD_ORD01001P.xml` | `/md/ord/ptmdcrNavi/RetrievePtOrder.mhi` | `ptmdcrNavi.xml` | `RetrievePtOrderCMD` |
+| EDI 수신 | `HP_DMS01303M.xml` | `/hp/dms/clamNavi/RetrieveEdiRecvRcpn.mhi` | `clamNavi.xml` | `RetrieveEdiRecvRcpnCMD` |
+| DRG 심사 | `HP_DMS02204M.xml` | `/hp/dms/drgNavi/RetrieveDrgRevwPtList.mhi` | `drgNavi.xml` | `RetrieveDrgRevwPtListCMD` |
+
+이 표는 현재 백업셋에서 직접 확인된 대표 체인만 모은 것이다. 이 문서의 나머지 트리/통계 예시는 분포를 보는 reference 용도로 읽고, 실제 유지보수 추적은 위 5개 화면 기준으로 내려가는 편이 빠르다.
+
+
 ```
 NPH_HIS/
 └── webapp/
@@ -127,189 +140,19 @@ NPH_HIS/
 
 ---
 
-## 3. 업무별(AZ/MD/MR/SP/ER) 상세 트리
+## 3. 업무별(AZ/MD/MR/SP/ER) 대표 추적 기준
 
-### 3.1 AZ (원무/공통) - 7.2%
+이 섹션은 업무군별 화면 분포를 세밀하게 열거하기보다, 현재 직접 검증된 대표 화면을 어디서 먼저 잡아야 하는지 보여주는 기준 섹션이다.
 
-```
-AZ/ (원무/공통업무) - 69개 화면, 692개 Java 파일
-├── COM/ (공통)
-│   ├── AZ_COM01001M.xml    # 접수등록
-│   ├── AZ_COM01002M.xml    # 예약관리
-│   ├── AZ_COM01003M.xml    # 예약조회
-│   ├── AZ_COM01004M.xml    # 접수변경
-│   ├── AZ_COM01005M.xml    # 진료대기현황
-│   └── ...
-│
-├── UTL/ (유틸리티)
-│   ├── AZ_UTL01001M.xml    # 공통코드조회
-│   ├── AZ_UTL01002M.xml    # 사용자관리
-│   └── ...
-│
-└── BIZ/ (업무지원)
-    ├── AZ_BIZ01001M.xml    # 휴일관리
-    └── ...
+| 업무군 | 직접 검증한 대표 화면 | 먼저 볼 문서 |
+|------|------|------|
+| AZ 공통/유틸 | `AZ_UTL01002P.xml` | `031.front-channel/0313.ui-entry/대표화면-공통코드조회-패턴.md` |
+| AZ 로그인 | `Login3.xml` | `031.front-channel/0312.navigation-command/로그인-체인-기준패턴.md` |
+| MD 처방 | `MD_ORD01001P.xml` | `037.runtime-trace/MD_ORD01001P-실행체인.md` |
+| HP DMS EDI | `HP_DMS01303M.xml` | `031.front-channel/0313.ui-entry/대표화면-EDI-수신-패턴.md` |
+| HP DMS DRG | `HP_DMS02204M.xml` | `037.runtime-trace/HP_DMS02204M-실행체인.md` |
 
-Java 소스(대표 예시):
-├── cmd/ (Command)
-│   ├── RetrievePatientListCMD.java
-│   ├── SavePatientCMD.java
-│   └── ... (150개)
-└── pc/ (Process Component)
-    ├── PatientPC.java
-    └── ... (542개)
-
-통계:
-├── 화면(XML): 69개 (3.2MB)
-├── Java: 692개 (49,849 라인)
-└── 비중: 7.2%
-```
-
-### 3.2 MD (진료) - 35.4%
-
-```
-MD/ (진료업무) - 248개 화면, 2,480개 Java 파일
-├── OPN/ (외래진료)
-│   ├── MD_OPN01001M.xml    # 진료대기
-│   ├── MD_OPN01002M.xml    # 진료작성
-│   ├── MD_OPN01003M.xml    # 처방입력
-│   ├── MD_OPN01004M.xml    # 검사처방
-│   ├── MD_OPN01005M.xml    # 약처방
-│   ├── MD_OPN01006M.xml    # 주사처방
-│   ├── MD_OPN01007M.xml    # 진료경과
-│   ├── MD_OPN01008M.xml    # 상병관리
-│   ├── MD_OPN01009M.xml    # 진료비계산
-│   └── ... (180개)
-│
-├── INP/ (입원진료)
-│   ├── MD_IPN01001M.xml    # 입원대기 (예시)
-│   ├── MD_IPN01002M.xml    # 입원진료 (예시)
-│   ├── MD_IPN01003M.xml    # 회진관리 (예시)
-│   └── ... (50개)
-│
-└── ER/ (응급진료 연계)
-    └── ...
-
-Java 소스(대표 예시):
-├── cmd/ (Command)
-│   ├── RetrieveOpnPatientCMD.java
-│   ├── SaveOpnOrderCMD.java
-│   ├── RetrieveOpnChartCMD.java
-│   └── ... (580개)
-└── pc/ (Process Component)
-    ├── OpnPC.java
-    ├── InpPC.java
-    └── ... (1,900개)
-
-통계:
-├── 화면(XML): 248개 (12.5MB)
-├── Java: 2,480개 (246,301 라인)
-└── 비중: 35.4% (가장 큰 업무)
-```
-
-### 3.3 MR (원무/수납) - 6.5%
-
-```
-MR/ (원무/수납) - 60개 화면, 602개 Java 파일
-├── COM/ (원무공통)
-│   ├── MR_COM01001M.xml    # 수납
-│   ├── MR_COM01002M.xml    # 수납취소
-│   ├── MR_COM01003M.xml    # 미수관리
-│   ├── MR_COM01004M.xml    # 입원수납
-│   ├── MR_COM01005M.xml    # 퇴원수납
-│   └── ... (40개)
-│
-└── REC/ (수납관리)
-    ├── MR_REC01001M.xml    # 일별수납현황
-    └── ... (20개)
-
-Java 소스(대표 예시):
-├── cmd/ (Command)
-│   ├── CalculateFeeCMD.java
-│   ├── ReceiptCMD.java
-│   └── ... (130개)
-└── pc/ (Process Component)
-    ├── ReceiptPC.java
-    └── ... (472개)
-
-통계:
-├── 화면(XML): 60개 (2.8MB)
-├── Java: 602개 (44,904 라인)
-└── 비중: 6.5%
-```
-
-### 3.4 SP (검사) - 27.5%
-
-```
-SP/ (검사/방사선) - 220개 화면, 2,203개 Java 파일
-├── CEL/ (검체)
-│   ├── SP_CEL01001M.xml    # 검체채취
-│   ├── SP_CEL01002M.xml    # 검체인수
-│   ├── SP_CEL01003M.xml    # 검체검사현황
-│   └── ... (60개)
-│
-├── PHA/ (약제)
-│   ├── SP_PHA01001M.xml    # 처방조회
-│   ├── SP_PHA01002M.xml    # 약품관리
-│   ├── SP_PHA01003M.xml    # 조제관리
-│   └── ... (70개)
-│
-├── IMG/ (영상)
-│   ├── SP_IMG01001M.xml    # 영상조회
-│   ├── SP_IMG01002M.xml    # PACS연동
-│   └── ... (50개)
-│
-└── LIS/ (검사실)
-    └── ... (40개)
-
-Java 소스(대표 예시):
-├── cmd/ (Command)
-│   ├── RetrieveLabResultCMD.java
-│   ├── SaveLabOrderCMD.java
-│   └── ... (500개)
-└── pc/ (Process Component)
-    ├── LabPC.java
-    ├── PacsPC.java
-    └── ... (1,703개)
-
-통계:
-├── 화면(XML): 220개 (11.2MB)
-├── Java: 2,203개 (191,036 라인)
-└── 비중: 27.5%
-```
-
-### 3.5 ER (응급) - 27.0%
-
-```
-ER/ (응급) - 222개 화면, 2,225개 Java 파일
-├── ACC/ (응급접수)
-│   ├── ER_ACC01001M.xml    # 응급접수
-│   ├── ER_ACC01002M.xml    # 응급분류
-│   └── ... (50개)
-│
-├── MNG/ (응급관리)
-│   ├── ER_MNG01001M.xml    # 응급진료
-│   ├── ER_MNG01002M.xml    # 응급처치
-│   ├── ER_MNG01003M.xml    # 중환자실
-│   └── ... (120개)
-│
-└── DIS/ (퇴원)
-    └── ... (52개)
-
-Java 소스:
-├── cmd/ (Command)
-│   ├── RetrieveErPatientCMD.java
-│   ├── SaveErChartCMD.java
-│   └── ... (520개)
-└── pc/ (Process Component)
-    ├── ErPC.java
-    └── ... (1,705개)
-
-통계:
-├── 화면(XML): 222개 (11.0MB)
-├── Java: 2,225개 (187,782 라인)
-└── 비중: 27.0%
-```
+기존 업무별 예시 화면명, Command명, PC명은 분포를 설명하는 보조 예시에 가깝다. 실제 유지보수에서 바로 따라갈 값은 위 표의 화면/XML/.mhi/navigation/command 체인을 우선한다.
 
 ---
 
@@ -365,60 +208,16 @@ NPH_start.xml (ConnectGroup)
 
 ---
 
-## 6. Patient Journey 시뮬레이션 (개념 예시)
+## 6. Patient Journey 구간은 별도 문서로 본다
 
-아래는 환자 입원부터 퇴원까지의 **개념적 흐름 예시**입니다.
-실제 운영 트랜잭션명(`*.mhi`) 및 Command/PC 매핑은 업무별 Navigation/XML Query에서 별도 검증이 필요합니다.
+이 문서는 MiPlatform 화면군의 분포와 reference 성격의 트리를 보는 문서다. 환자 여정, 부서 여정, 보험심사 흐름처럼 업무 단위로 읽는 내용은 아래 문서를 우선한다.
 
-```
-[Patient Journey - 환자 여정 시뮬레이션]
-※ 아래 Transaction/Command/PC는 전부 흐름 설명용 예시이며, 현재 백업셋에서 1:1 검증된 실파일 목록이 아닙니다.
+- `030.index/0305.process journey/*`
+- `035.Biz-medical-Domain/*`
+- `037.runtime-trace/*`
 
-1단계: 접수/예약 (AZ)
-├── AZ_COM01001M.xml (접수등록)
-│   └── Transaction: (예시) SavePatient.mhi
-│   └── Command: (예시) SavePatientCMD.java
-│   └── PC: (예시) PatientPC.java
-│   └── 다음: 진료대기
-│
-2단계: 원무/수납 (MR)
-├── MR_COM01001M.xml (수납)
-│   └── Transaction: (예시) CalculateFee.mhi
-│   └── Command: (예시) CalculateFeeCMD.java
-│   └── PC: (예시) ReceiptPC.java
-│   └── 다음: 진료
-│
-3단계: 진료 (MD)
-├── MD_OPN01001M.xml (진료대기) → MD_OPN01002M.xml (진료작성)
-│   └── Transaction: (예시) SaveOpnChart.mhi
-│   └── Command: (예시) SaveOpnChartCMD.java
-│   └── PC: (예시) OpnPC.java
-│   └── 분기: 검사/처방 → 약처방 → 수납
-│
-4단계: 검사/처방 (SP)
-├── SP_CEL01001M.xml (검체채취) / SP_IMG01001M.xml (영상)
-│   └── Transaction: (예시) SaveLabOrder.mhi
-│   └── Command: (예시) SaveLabOrderCMD.java
-│   └── PC: (예시) LabPC.java
-│   └── 다음: 결과조회
-│
-5단계: 조제/투약 (SP)
-├── SP_PHA01003M.xml (조제관리)
-│   └── Transaction: (예시) SaveDispense.mhi
-│   └── Command: (예시) SaveDispenseCMD.java
-│   └── PC: (예시) PharmacyPC.java
-│   └── 다음: 퇴원수납
-│
-6단계: 퇴원/수납 (MR)
-└── MR_COM01004M.xml (퇴원수납)
-    └── Transaction: (예시) DischargeReceipt.mhi
-    └── Command: (예시) DischargeReceiptCMD.java
-    └── PC: (예시) ReceiptPC.java
-    └── 종료
-```
+즉 이 문서 안에서는 화면 분포와 대표 진입점만 잡고, 실제 업무 여정은 별도 축에서 읽는 편이 맞다.
 
 ---
 
-*참고: 본 문서는 실제 NPH 프로젝트 소스코드를 기반으로 한 통계입니다.*
-
-
+*참고: 본 문서는 실제 NPH 프로젝트 소스코드를 기반으로 한 통계 및 reference 정리다.*

@@ -14,14 +14,14 @@
 
 | 솔루션 | 상태 | 문서 |
 |--------|------|------|
-| **MagicSSO** | ✅ 분석 완료 | [MagicSSO-인증흐름.md](./MagicSSO-인증흐름.md) |
+| **MagicSSO** | ✅ 분석 완료 | [B.MagicSSO-인증흐름.md](./B.MagicSSO-인증흐름.md) |
 | **DSToolkit** | ✅ 분석 완료 | MagicSSO 문서에 포함 |
-| **MagicSAML** | ✅ 분석 완료 | [OpenSAML-MagicSAML.md](./OpenSAML-MagicSAML.md) |
-| **OpenSAML** | ✅ 분석 완료 | [OpenSAML-MagicSAML.md](./OpenSAML-MagicSAML.md) |
+| **MagicSAML** | ✅ 분석 완료 | [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) |
+| **OpenSAML** | ✅ 분석 완료 | [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) |
 | **GPKI** | ✅ 분석 완료 | MagicSSO 문서에 포함 (37개 CA) |
-| **SignGate** | ✅ 분석 완료 | [SignGate-전자서명.md](./SignGate-전자서명.md) |
-| **Lucy XSS Filter** | ✅ 분석 완료 | [Lucy-XSS-Filter.md](./Lucy-XSS-Filter.md) |
-| **OWASP ESAPI** | ✅ 미사용 확인 | [OWASP-ESAPI-미사용.md](./OWASP-ESAPI-미사용.md) |
+| **SignGate** | ✅ 분석 완료 | [D.SignGate-전자서명.md](./D.SignGate-전자서명.md) |
+| **Lucy XSS Filter** | ✅ 분석 완료 | [E.Lucy-XSS-Filter.md](./E.Lucy-XSS-Filter.md) |
+| **OWASP ESAPI** | ✅ 미사용 확인 | [F.OWASP-ESAPI-미사용.md](./F.OWASP-ESAPI-미사용.md) |
 
 ---
 
@@ -227,11 +227,11 @@ Client (ActiveX)          Server (Java)
 
 ### 9.1 분석 문서
 
-- [MagicSSO-인증흐름.md](./MagicSSO-인증흐름.md) - MagicSSO 인증 흐름 상세 분석
-- [OpenSAML-MagicSAML.md](./OpenSAML-MagicSAML.md) - OpenSAML/MagicSAML SAML SP 분석
-- [SignGate-전자서명.md](./SignGate-전자서명.md) - SignGate 전자서명 분석
-- [Lucy-XSS-Filter.md](./Lucy-XSS-Filter.md) - Lucy XSS Filter 분석
-- [OWASP-ESAPI-미사용.md](./OWASP-ESAPI-미사용.md) - OWASP ESAPI 미사용 확인
+- [B.MagicSSO-인증흐름.md](./B.MagicSSO-인증흐름.md) - MagicSSO 인증 흐름 상세 분석
+- [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) - OpenSAML/MagicSAML SAML SP 분석
+- [D.SignGate-전자서명.md](./D.SignGate-전자서명.md) - SignGate 전자서명 분석
+- [E.Lucy-XSS-Filter.md](./E.Lucy-XSS-Filter.md) - Lucy XSS Filter 분석
+- [F.OWASP-ESAPI-미사용.md](./F.OWASP-ESAPI-미사용.md) - OWASP ESAPI 미사용 확인
 
 ### 9.2 연결 문서
 

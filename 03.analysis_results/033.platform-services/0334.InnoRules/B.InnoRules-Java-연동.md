@@ -655,3 +655,4 @@ SELECT * FROM rule_param WHERE rule_code LIKE '#S%';
 
 *본 문서는 NPH_HIS 소스 코드 분석을 바탕으로 작성되었습니다.*
 
+

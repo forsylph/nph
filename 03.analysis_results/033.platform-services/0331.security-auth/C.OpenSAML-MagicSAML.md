@@ -526,8 +526,8 @@ NPH_HIS/webapp/sso/
 
 ## 12. 연결 문서
 
-- [security-auth-개요.md](./security-auth-개요.md)
-- [MagicSSO-인증흐름.md](./MagicSSO-인증흐름.md)
+- [A.security-auth-개요.md](./A.security-auth-개요.md)
+- [B.MagicSSO-인증흐름.md](./B.MagicSSO-인증흐름.md)
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
 
 ---

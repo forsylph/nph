@@ -21,13 +21,13 @@
 
 ## 3. 이 폴더의 문서
 
-- [InnoRules-아키텍처-개요.md](./InnoRules-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B0%9C%EC%9A%94.md)
+- [A.InnoRules-아키텍처-개요.md](./A.InnoRules-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B0%9C%EC%9A%94.md)
   - `ruleEngine` 설정 파일, 저장소, JNDI, 초기화 모듈 구조
-- [InnoRules-Java-연동.md](./InnoRules-Java-%EC%97%B0%EB%8F%99.md)
+- [B.InnoRules-Java-연동.md](./B.InnoRules-Java-%EC%97%B0%EB%8F%99.md)
   - 실제 UC/코드에서 확인된 Java API 사용
-- [InnoRules-Rule-정의-IRL.md](./InnoRules-Rule-%EC%A0%95%EC%9D%98-IRL.md)
+- [D.InnoRules-Rule-정의-IRL.md](./D.InnoRules-Rule-%EC%A0%95%EC%9D%98-IRL.md)
   - Rule 코드 체계, 저장소, IRL 추정 구조
-- [InnoRules-Batch-연동.md](./InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
+- [C.InnoRules-Batch-연동.md](./C.InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
   - 배치/Job과 InnoRules의 결합 방식
 
 ## 4. 다른 폴더와의 경계
@@ -37,10 +37,12 @@
 
 ## 5. 읽는 순서
 
-1. [InnoRules-아키텍처-개요.md](./InnoRules-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B0%9C%EC%9A%94.md)
-2. [InnoRules-Java-연동.md](./InnoRules-Java-%EC%97%B0%EB%8F%99.md)
-3. [InnoRules-Batch-연동.md](./InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
-4. [InnoRules-Rule-정의-IRL.md](./InnoRules-Rule-%EC%A0%95%EC%9D%98-IRL.md)
+1. [A.InnoRules-아키텍처-개요.md](./A.InnoRules-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B0%9C%EC%9A%94.md)
+2. [B.InnoRules-Java-연동.md](./B.InnoRules-Java-%EC%97%B0%EB%8F%99.md)
+3. [C.InnoRules-Batch-연동.md](./C.InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
+4. [D.InnoRules-Rule-정의-IRL.md](./D.InnoRules-Rule-%EC%A0%95%EC%9D%98-IRL.md)
+
+
 
 
 
