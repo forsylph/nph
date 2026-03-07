@@ -21,10 +21,9 @@
 |--------|------|------|
 | **Rexpert** | ✅ 분석 완료 | [B.Rexpert-리포트엔진.md](./B.Rexpert-리포트엔진.md) |
 | **Quartz** | ✅ 분석 완료 | [C.Quartz-스케줄러.md](./C.Quartz-스케줄러.md) |
-| **TPR Report** | 🔲 미분석 | - |
-| **Apache POI** | 🔲 미분석 | - |
-| **JExcelApi** | 🔲 미분석 | - |
-| **iText XML Worker** | 🔲 미분석 | - |
+| **TPR Report** | ✅ 분석 완료 | [D.TPR-Report.md](./D.TPR-Report.md) |
+| **Excel 라이브러리** | ✅ 분석 완료 | [E.Excel-라이브러리.md](./E.Excel-라이브러리.md) |
+| **iText XML Worker** | ✅ 분석 완료 | [F.iText-PDF.md](./F.iText-PDF.md) |
 
 ---
 
@@ -36,6 +35,7 @@
 |------|------|--------|------|
 | **Rexpert** | 3.0 | (주)렉스퍼트 | 한국형 리포트 엔진 |
 | **Rexpert Viewer** | 1.0.0.57 | (주)렉스퍼트 | ActiveX/Plugin |
+| **TPR Report** | - | 자체 | EMR 뷰어 리포트 |
 
 ### 3.2 리포트 파일 형식
 
@@ -50,6 +50,19 @@
 |------|------|------|
 | **Quartz** | 1.6.1 | JAR 포함, 직접 사용 안함 |
 | **DEVON Batch Scheduler** | - | 실제 사용 구현체 |
+
+### 3.4 Excel 처리
+
+| 기술 | 버전 | 비고 |
+|------|------|------|
+| **Apache POI** | 3.2 (2008) | 엑셀 읽기/쓰기 |
+| **JExcelApi** | - | 엑셀 읽기/쓰기 (경량) |
+
+### 3.5 PDF 처리
+
+| 기술 | 버전 | 비고 |
+|------|------|------|
+| **iText XML Worker** | 1.2.0 | HTML to PDF 변환 |
 
 ---
 
@@ -142,10 +155,9 @@ DB 설정 → JobIF 구현체 → 스케줄러 실행 → 로그 기록
 ├── A.Solutions-개요.md              # 이 문서
 ├── B.Rexpert-리포트엔진.md          # ✅ 분석 완료
 ├── C.Quartz-스케줄러.md             # ✅ 분석 완료
-└── (예정)
-    ├── TPR-Report.md
-    ├── Apache-POI.md
-    └── JExcelApi.md
+├── D.TPR-Report.md                  # ✅ 분석 완료
+├── E.Excel-라이브러리.md            # ✅ 분석 완료
+└── F.iText-PDF.md                   # ✅ 분석 완료
 ```
 
 ---
@@ -158,12 +170,15 @@ DB 설정 → JobIF 구현체 → 스케줄러 실행 → 로그 기록
 
 ---
 
-## 8. 다음 단계
+## 8. 분석 완료
 
-1. ~~Quartz 스케줄러 분석~~ ✅ 완료
-2. TPR Report 분석
-3. Apache POI / JExcelApi 분석
-4. iText XML Worker 분석
+모든 주요 솔루션 분석이 완료되었습니다.
+
+1. ~~Rexpert 리포트 엔진~~ ✅ 완료
+2. ~~Quartz 스케줄러~~ ✅ 완료
+3. ~~TPR Report~~ ✅ 완료
+4. ~~Excel 라이브러리 (POI/JXL)~~ ✅ 완료
+5. ~~iText XML Worker~~ ✅ 완료
 
 ---
 
@@ -171,4 +186,7 @@ DB 설정 → JobIF 구현체 → 스케줄러 실행 → 로그 기록
 
 - [B.Rexpert-리포트엔진.md](./B.Rexpert-리포트엔진.md) - Rexpert 상세 분석
 - [C.Quartz-스케줄러.md](./C.Quartz-스케줄러.md) - Quartz/스케줄러 상세 분석
+- [D.TPR-Report.md](./D.TPR-Report.md) - TPR Report 상세 분석
+- [E.Excel-라이브러리.md](./E.Excel-라이브러리.md) - Apache POI/JExcelApi 분석
+- [F.iText-PDF.md](./F.iText-PDF.md) - iText XML Worker 분석
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
