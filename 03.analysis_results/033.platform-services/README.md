@@ -16,6 +16,8 @@
   - SOAP/REST 연동, HTTP/FTP/SFTP, 외부 시스템 연계
 - `0333.shared-solutions`
   - 공통 솔루션, 외부 라이브러리, 플랫폼 공통 서비스
+- `0334.InnoRules`
+  - 외부 의료 Rule 엔진 솔루션과 Java/Batch 연동 문서
 
 ## 3. 참고
 
