@@ -44,7 +44,13 @@ flowchart LR
     E --> F
 ```
 
-### 3.2 직접 확인된 xldap 사용 클래스`r`n`r`n- `UserMngmPC` -> `XLDAPUser``r`n- `EamIFUC` -> `XLDAPUser`, `XLDAPOrg`, `XLDAPRole`, `XLDAPPerm``r`n- `ComLoginUC`, `ReturnSessionCMD`, `MenuInfoCMD` -> `XLDAPRole``r`n`r`n### 3.3 디렉토리 서비스
+### 3.2 직접 확인된 xldap 사용 클래스
+
+- UserMngmPC -> XLDAPUser
+- EamIFUC -> XLDAPUser, XLDAPOrg, XLDAPRole, XLDAPPerm
+- ComLoginUC, ReturnSessionCMD, MenuInfoCMD -> XLDAPRole
+
+### 3.3 디렉토리 서비스
 
 | 구분 | 용도 |
 |------|------|
@@ -87,5 +93,6 @@ ldap://ldap.signgate.com:389
 
 - [README.md](./README.md)
 - [../0331.security-auth/D.SignGate-전자서명.md](../0331.security-auth/D.SignGate-전자서명.md)
+
 
 
