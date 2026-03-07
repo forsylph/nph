@@ -50,18 +50,17 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
  */
 public class HttpClientUtil {
     // HTTP GET/POST 요청 처리
+    // 커스텀 CA 인증서 지원
 }
 ```
 
-### 3.2 사용 패턴
+### 3.2 연동 사례
 
-```mermaid
-flowchart LR
-    A[NPH 시스템] --> B[HttpClientUtil]
-    B --> C[CloseableHttpClient]
-    C --> D[PoolingHttpClientConnectionManager]
-    D --> E[외부 API 서버]
-```
+| 파일 | 연동 대상 | URL |
+|------|----------|-----|
+| **RegistImgnExmnRsltPacsToDb.java** | eView EMR | `http://10.60.210.27/eView/document_interface.jsp` |
+| **SaveGwCMD.java** | 그룹웨어 메신저 | `http://10.60.210.29:12555` |
+| **SaveSgCMD.java** | SSO 인증 | `http://sso.nph.go.kr:40001/sso/kmich.jsp` |
 
 ---
 
@@ -71,8 +70,9 @@ flowchart LR
 
 | 구분 | 용도 |
 |------|------|
-| **보험연동** | 건강보험, 국민건강보험 API |
-| **외부 API** | 외부 기관 REST API 호출 |
+| **eView** | EMR 결과기록지 연동 |
+| **그룹웨어** | 메신저 연동 |
+| **SSO** | 단일 로그인 인증 |
 
 ### 4.2 내부 API
 
@@ -93,7 +93,22 @@ flowchart LR
 
 ---
 
-## 6. 관련 문서
+## 6. 아키텍처
+
+```mermaid
+flowchart LR
+    A[NPH 시스템] --> B[HttpClientUtil<br/>싱글톤]
+    B --> C[PoolingHttpClientConnectionManager]
+    C --> D{연동 대상}
+    D --> E[eView EMR]
+    D --> F[그룹웨어]
+    D --> G[SSO 서버]
+    D --> H[외부 API]
+```
+
+---
+
+## 7. 관련 문서
 
 - [README.md](./README.md)
 - [C.FTP-SSH-클라이언트.md](./C.FTP-SSH-클라이언트.md)
