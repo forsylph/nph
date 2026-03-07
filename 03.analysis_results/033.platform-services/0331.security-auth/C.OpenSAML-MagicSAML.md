@@ -7,7 +7,13 @@
 
 ## 1. 개요
 
-NPH 시스템은 **드림시큐리티 MagicSAML**과 **OpenSAML**을 함께 사용하여 SAML 2.0 기반 SSO를 구현한다. OpenSAML은 MagicSAML의 하위 라이브러리로 작동한다.
+NPH 시스템은 **MagicSAML**과 **OpenSAML**이 함께 배치된 SAML 기반 인증 구성을 가진다. 현재 로컬 코드/설정 기준으로는 `둘 다 존재하고 함께 관여한다`는 점은 확인되지만, **`OpenSAML이 MagicSAML의 하위 라이브러리로 작동한다`는 관계는 직접 증명되지 않았다.**
+
+### 1.0 리뷰 메모
+
+- `MagicSAMLSSO.lic`, `MagicSAML.js`, `magicsaml-sp-v1.3.3.jar`, `opensaml-2.6.4.jar`는 실제로 확인된다.
+- JSP에서는 `org.opensaml.saml2.*` import가 직접 보인다.
+- 따라서 현재 가장 안전한 표현은 `MagicSAML과 OpenSAML이 함께 배치되어 SAML 기능에 같이 관여한다`이다.
 
 ### 1.1 관련 솔루션
 
@@ -549,6 +555,8 @@ NPH_HIS/webapp/sso/
 ---
 
 *분석 완료: 2026-03-07*
+
+
 
 
 

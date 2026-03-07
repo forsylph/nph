@@ -7,7 +7,13 @@
 
 ## 1. 개요
 
-NPH 시스템은 **KIS(한국정보인증) SignGate** 솔루션을 사용하여 공인인증서 기반 전자서명 기능을 제공한다. SignGate는 의료 문서의 전자서명, 본인 확인, 데이터 암호화 등에 활용된다.
+NPH 시스템은 공인인증서/전자서명 계열 구성요소를 포함하고 있으며, `signgateCrypto.jar`, `signgate_common.jar`, `DSToolkit` 계열 설정과 네이티브 라이브러리, ActiveX/스크립트 자원이 함께 존재한다. 다만 **현재 로컬 코드/설정만으로 `SignGate`와 `DSToolkit`의 경계를 완전히 분리해서 닫기는 어렵다.** 이 문서는 전자서명/인증서 처리 스택을 통합적으로 설명하는 문서로 읽는 것이 더 정확하다.
+
+### 1.0 리뷰 메모
+
+- `signgateCrypto.jar`, `signgate_common.jar` 실물은 확인된다.
+- 설정과 운영 흔적은 `DSToolkitV30.conf`, `DSToolkitJni.dll`, `DSToolkitV30-v3.4.2.0.dll` 쪽이 더 직접적이다.
+- 따라서 현재 단계에서는 `KIS SignGate 단일 제품 설명`보다 `전자서명/인증서 스택 설명`으로 읽는 편이 안전하다.
 
 ### 1.1 관련 솔루션
 
@@ -898,6 +904,8 @@ var licenseCode = "D3x6TwYRVlctZok6yQhQOJaq+sjleJLGITAFxB3aGQk=";
 ---
 
 *분석 완료: 2026-03-07*
+
+
 
 
 
