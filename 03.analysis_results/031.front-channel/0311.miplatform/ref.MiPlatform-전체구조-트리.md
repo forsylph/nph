@@ -1,6 +1,5 @@
 # MiPlatform 전체 구조 트리
 
-> 이 문서는 `031.front-channel` 기준본을 보조하는 **reference 문서**다.
 > 목적은 MiPlatform 화면군의 큰 분포와 파일군 규모를 빠르게 훑는 것이며, 실제 유지보수 추적은 `A.Miplatform.md`, `B.MiPlatform-Transaction-패턴.md`, `B.화면XML-script-mhi-연결.md`를 먼저 보는 편이 빠르다.
 > 공식 MiPlatform 3.3 매뉴얼의 `Form = Design + Data + Event` 관점을 적용하면, 아래 트리는 `화면 수/분포`를 보는 지도이고 실제 추적은 개별 XML 안의 Dataset, Event, Transaction을 따라가는 방식으로 읽는 것이 맞다.
 
@@ -221,6 +220,7 @@ NPH_start.xml (ConnectGroup)
 ---
 
 *참고: 본 문서는 실제 NPH 프로젝트 소스코드를 기반으로 한 통계 및 reference 정리다.*
+
 
 
 
