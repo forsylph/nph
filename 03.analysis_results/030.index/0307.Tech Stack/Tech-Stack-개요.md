@@ -25,8 +25,8 @@
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
 | 프레임워크 | **DevOn Framework** | 4.0.0 | LG CNS | Struts 1.x 기반 |
-| 배치 프레임워크 | **DevOn Batch** | 1.1.0 | LG CNS | 배치 처리 |
-| DB 쿼리 | **DevOn XML Query** | - | LG CNS | XML 기반 SQL (LQueryService) |
+| 배치 프레임워크 | **DevOn Batch** | 1.1.0 | LG CNS | DevOn 계열 배치 코어 모듈 |
+| DB 쿼리 | **DevOn XML Query** | - | LG CNS | XML 기반 SQL, 현재 NPH 표면 API는 `LCommonDao` 중심 |
 
 ---
 
@@ -46,8 +46,8 @@
 |------|------|------|--------|------|
 | 리포트 엔진 | **Rexpert** | 3.2.4.1 | - | 엔터프라이즈 리포팅 ✅ 검증됨 |
 | 의료 리포트 | **TPR Report** | - | - | TPR 차트 리포트 ✅ 검증됨 |
-| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | Excel 읽기/쓰기 ✅ 검증됨 |
-| Excel 처리 | **JExcelApi** | - | - | Excel 처리 |
+| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | 외부 Excel 라이브러리, DevOn Excel API와 함께 존재 |
+| Excel 처리 | **JExcelApi** | - | - | 외부 Excel 라이브러리, DevOn Excel API와 함께 존재 |
 | PDF 생성 | **iText XML Worker** | 1.2.0 | iText | PDF 생성 |
 
 ---
@@ -65,7 +65,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | `quartz-1.6.1.jar` 확인 ✅ |
+| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 포함 JAR 확인, 직접 API 사용은 현재 미확인 |
 
 ---
 
@@ -228,7 +228,7 @@
 | ORM | **MyBatis** | 3.4.1 | NPH_BUILD 프로젝트에서만 사용 (테스트/마이그레이션 용도) |
 
 > **참고**: MyBatis는 메인 시스템(NPH_HIS, NPH_ECS, COMMON)에서 사용하지 않습니다.
-> DevOn Framework는 자체 **XML 기반 쿼리 시스템 (LQueryService)** 을 사용합니다.
+> DevOn Framework는 자체 XML 기반 쿼리 체계를 사용하며, 현재 NPH 운영 코드의 직접 표면 API는 `LCommonDao` 중심으로 확인된다.
 > 경로: `devonhome/xmlquery/**/*.xml`
 
 ---
@@ -320,5 +320,7 @@
 ---
 
 *피어리뷰 완료: 2026-03-05*
+
+
 
 

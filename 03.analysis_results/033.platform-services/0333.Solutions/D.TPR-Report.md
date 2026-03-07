@@ -229,6 +229,6 @@ flowchart TB
 
 ## 10. 관련 문서
 
-- [A.Solutions-개요.md](./A.Solutions-개요.md)
+- [README.md](./README.md)
 - [B.Rexpert-리포트엔진.md](./B.Rexpert-리포트엔진.md)
 - [F.iText-PDF.md](./F.iText-PDF.md)

@@ -6,7 +6,7 @@
 
 ## 1. 개요
 
-NPH 시스템은 Apache POI와 JExcelApi 두 가지 엑셀 처리 라이브러리를 사용하며, DEVON Framework가 이를 추상화하여 제공한다.
+NPH 시스템에는 Apache POI와 JExcelApi JAR이 포함되어 있으며, 동시에 DevOn Framework의 Excel API 문서도 존재한다. 다만 현재 코드베이스에서는 `org.apache.poi.*`, `jxl.*` 직접 사용 흔적이 강하지 않아, 이 문서는 외부 Excel 라이브러리와 DevOn Excel API 공존 구조를 설명하는 문서로 읽는 것이 안전하다.
 
 ---
 
@@ -29,7 +29,7 @@ NPH_HIS/webapp/WEB-INF/lib/
 
 ---
 
-## 3. DEVON Framework Excel API
+## 3. DevOn Framework Excel API
 
 ### 3.1 패키지 구조
 
@@ -56,31 +56,28 @@ devonframework/service/excel/
 └── common/                         # 공통 기능
 ```
 
-### 3.2 주요 클래스
+### 3.2 확인된 API 문서 기준 클래스
 
 | 클래스 | 패키지 | 설명 |
 |--------|--------|------|
 | `LPOIDao` | devonframework.service.excel.poi | POI 기반 DAO |
 | `LPOIConstants` | devonframework.service.excel.poi | POI 상수 정의 |
 | `LPOIException` | devonframework.service.excel.poi | 예외 처리 |
-| `LExcelBatchProcessor` | devonframework.service.excel.jxl | JXL 배치 처리 |
+| `LExcelBatchProcessor` | devonframework.service.excel.jxl | JXL 기반 배치 처리 (API 문서 기준) |
 | `LExcelConverter` | devonframework.service.excel.jxl | Excel 변환기 |
 
 ---
 
-## 4. 사용 패턴
+## 4. 현재 확인 기준
 
-### 4.1 엑셀 다운로드
+### 4.1 확인된 사실
 
-```mermaid
-flowchart LR
-    A[화면 Grid] --> B[JavaScript 함수]
-    B --> C[MiPlatform SaveExcel]
-    C --> D[엑셀 파일 생성]
-    D --> E[다운로드]
-```
+- poi-3.2-FINAL-20081019.jar, jxl.jar 실물은 존재한다.
+- devonframework/service/excel/* API 문서도 존재한다.
+- 현재 소스 스캔에서는 org.apache.poi.*, jxl.* 직접 import/use는 강하게 확인되지 않았다.
+- 따라서 현재 NPH 기준으로는 외부 Excel 라이브러리 + DevOn Excel API 공존으로 보는 것이 가장 안전하다.
 
-### 4.2 JavaScript 함수 (utilLib.js)
+### 4.2 화면 측 Excel 패턴
 
 | 함수명 | 용도 |
 |--------|------|
@@ -135,7 +132,7 @@ webapp/EMR_DATA/CCM_upload.xlsx    # CCM(임상경로관리) 업로드용 템플
 | **성능** | 상대적 느림 | 상대적 빠름 |
 | **특징** | 기능 풍부 | 가벼움 |
 
-### 6.2 DEVON 추상화
+### 6.2 DevOn Excel API 공존 구조
 
 ```
              ┌─────────────────────┐
@@ -217,7 +214,7 @@ webapp/
 | 구분 | 내용 |
 |------|------|
 | **주요 라이브러리** | Apache POI 3.2, JExcelApi |
-| **추상화 계층** | DEVON Framework Excel Service |
+| **정리** | 외부 Excel 라이브러리와 DevOn Excel API가 함께 존재, 직접 사용 경로는 추가 확인 필요 |
 | **사용 방식** | DEVON API 통해 POI/JXL 선택 사용 |
 | **업무** | 통계, 접수, 관리자 엑셀 다운로드 |
 | **버전** | POI 3.2 (2008년 버전) |
@@ -226,5 +223,7 @@ webapp/
 
 ## 10. 관련 문서
 
-- [A.Solutions-개요.md](./A.Solutions-개요.md)
+- [README.md](./README.md)
 - [D.TPR-Report.md](./D.TPR-Report.md)
+
+

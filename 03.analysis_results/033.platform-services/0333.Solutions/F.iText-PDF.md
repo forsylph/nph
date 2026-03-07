@@ -199,6 +199,6 @@ DB 데이터 → XML 변환 → HTML 생성 → XML Worker → PDF → Base64
 
 ## 11. 관련 문서
 
-- [A.Solutions-개요.md](./A.Solutions-개요.md)
+- [README.md](./README.md)
 - [D.TPR-Report.md](./D.TPR-Report.md)
 - [B.Rexpert-리포트엔진.md](./B.Rexpert-리포트엔진.md)
