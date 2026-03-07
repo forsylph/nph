@@ -25,7 +25,7 @@ flowchart LR
     F --> T[037.runtime-trace]
     C --> T
     D --> T
-    T --> R[039.refactoring-ideation]
+    T --> R[95.추가 검토 사항 및 계획/953.refactoring-ideation]
     F --> X[038.fact-todo-reference]
     C --> X
     P --> X
@@ -68,7 +68,7 @@ flowchart LR
   - 실제 사례 추적 문서
 - `038.fact-todo-reference`
   - 사실 확인, 미확인 항목, 근거 자료
-- `039.refactoring-ideation`
+- `95.추가 검토 사항 및 계획/953.refactoring-ideation`
   - 개선안, 리팩토링 우선순위
 
 ## 6. 운영 기준
@@ -78,3 +78,4 @@ flowchart LR
 - 미확인 정보는 `038`로 보낸다.
 - 개선안은 `039`로 분리한다.
 - old 자료는 `old Data`에서 직접 보존한다.
+
