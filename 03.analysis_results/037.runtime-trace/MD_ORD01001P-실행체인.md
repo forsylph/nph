@@ -8,9 +8,9 @@
 
 ## 2. 상위 구조에서 이 문서를 읽는 위치
 
-- 이 문서는 [../0311.overview/03.Architecture-overview.md](../0311.overview/03.Architecture-overview.md)의 대표 과밀 화면 사례다.
-- front dispatch 설명은 [../0312.front-channel/02.Command-Navigation-Dispatch.md](../0312.front-channel/02.Command-Navigation-Dispatch.md)를 먼저 보면 빠르다.
-- DAO/XML Query는 [../0313.data-access/02.LCommonDao-LQueryMaker.md](../0313.data-access/02.LCommonDao-LQueryMaker.md), [../0313.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 같이 읽는 것이 좋다.
+- 이 문서는 [../032.framework-core/0321.overview/03.Architecture-overview.md](../032.framework-core/0321.overview/03.Architecture-overview.md)의 대표 과밀 화면 사례다.
+- front dispatch 설명은 [../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)를 먼저 보면 빠르다.
+- DAO/XML Query는 [../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md](../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md), [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 같이 읽는 것이 좋다.
 
 ## 3. 대표 진입 경로
 
@@ -97,11 +97,23 @@ flowchart LR
 ## 7. 다시 올라갈 문서
 
 - 개요로 돌아가려면
-  - [../0311.overview/01.Framework-개요.md](../0311.overview/01.Framework-%EA%B0%9C%EC%9A%94.md)
+  - [../032.framework-core/0321.overview/01.Framework-개요.md](../0311.overview/01.Framework-%EA%B0%9C%EC%9A%94.md)
 - dispatch 기준으로 다시 보려면
-  - [../0312.front-channel/02.Command-Navigation-Dispatch.md](../0312.front-channel/02.Command-Navigation-Dispatch.md)
+  - [../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)
 - DAO/XML Query 기준으로 다시 보려면
-  - [../0313.data-access/02.LCommonDao-LQueryMaker.md](../0313.data-access/02.LCommonDao-LQueryMaker.md)
-  - [../0313.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
+  - [../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md](../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md)
+  - [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../0313.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
 - 설계평가와 연결해서 보려면
-  - [../0315.design-review/02.설계평가-상세.md](../0315.design-review/02.%EC%84%A4%EA%B3%84%ED%8F%89%EA%B0%80-%EC%83%81%EC%84%B8.md)
+  - [../../95.추가 검토 사항 및 계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md](../0315.design-review/02.%EC%84%A4%EA%B3%84%ED%8F%89%EA%B0%80-%EC%83%81%EC%84%B8.md)
+
+
+
+
+
+
+
+
+
+
+
+
