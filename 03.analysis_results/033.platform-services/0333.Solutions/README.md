@@ -1,4 +1,4 @@
-# shared-solutions 개요
+# Solutions 개요
 
 > 최종 수정: 2026-03-07
 
@@ -62,7 +62,7 @@ flowchart TB
         Templates[리포트 템플릿]
     end
 
-    subgraph Shared["0333.shared-solutions"]
+    subgraph Shared["0333.Solutions"]
         Rexpert[Rexpert 3.0]
     end
 
@@ -107,8 +107,8 @@ flowchart TB
 ## 6. 파일 구조
 
 ```
-0333.shared-solutions/
-├── A.shared-solutions-개요.md
+0333.Solutions/
+├── README.md
 ├── B.Rexpert-리포트엔진.md      # ✅ 분석 완료
 └── (예정)
     ├── Quartz-스케줄러.md
@@ -140,6 +140,9 @@ flowchart TB
 
 - [B.Rexpert-리포트엔진.md](./B.Rexpert-리포트엔진.md) - Rexpert 상세 분석
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
+
+
+
 
 
 

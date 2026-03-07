@@ -51,26 +51,49 @@ flowchart LR
 ```
 
 해석:
-- Rule 실행은 배치 컨테이너 내부 primitive가 아니라, 애플리케이션 UC가 외부 Rule API를 호출하는 형태다.
+- Rule 실행은 배치 컨테이너 primitive가 아니라, 애플리케이션 UC가 외부 Rule API를 호출하는 형태다.
 - 이 점이 중요하다. `0323`에서 엔진 자체 분석을 빼야 하는 이유이기도 하다.
 
-## 4. 무엇이 032에 남고, 무엇이 033으로 가는가
+## 4. 온라인 실행 경로와의 관계
 
-### 4.1 032에 남는 것
+온라인 실행 경로:
+- `BatchOnlineExecuteCMD`
+- `BatchInfoPC.executeOnlineBatch(...)`
+- `BatchInfoUC.executeOnlineBatch(...)`
+- `BatchExecutor.cmd -groupId ... -override ...`
+
+이 경로는 JobGroup 실행 자체를 담당한다.
+
+Rule 엔진 연동은 이 다음 단계에서,
+- 실제 Job class
+- 또는 Job이 호출하는 UC
+에서 발생한다.
+
+즉 온라인 배치 실행과 Rule 호출은 같은 층이 아니라:
+- 실행기 호출
+- Job 실행
+- UC 위임
+- Rule API 호출
+
+순서로 분리된다.
+
+## 5. 무엇이 032에 남고, 무엇이 033으로 가는가
+
+### 5.1 032에 남는 것
 
 - DevOn Batch 컨테이너 설정
 - Scheduler / Reader / Parser / Executor
 - Job이 외부 Rule 엔진을 호출하는 접점
 - Job/UC 체인에서 Rule이 끼어드는 위치
 
-### 4.2 033으로 가는 것
+### 5.2 033으로 가는 것
 
 - InnoRules 엔진 아키텍처
 - InnoRules Java API 구조
 - InnoRules Rule 저장소/IRL
 - InnoRules 초기화 모듈 세부
 
-## 5. 리뷰
+## 6. 리뷰
 
 현재 `0323.batch-rule`을 그대로 두면 `배치 실행 틀`과 `InnoRules 솔루션 분석`이 섞여 읽히게 된다.
 
@@ -82,10 +105,9 @@ flowchart LR
 
 이 구분이 실제 유지보수에서도 더 유용하다.
 
-## 6. 다음에 읽을 문서
+## 7. 다음에 읽을 문서
 
+- [D.현행-스케줄-운영방식.md](./D.%ED%98%84%ED%96%89-%EC%8A%A4%EC%BC%80%EC%A4%84-%EC%9A%B4%EC%98%81%EB%B0%A9%EC%8B%9D.md)
 - [../../033.platform-services/0334.InnoRules/README.md](../../033.platform-services/0334.InnoRules/README.md)
-- [../../033.platform-services/0334.InnoRules/InnoRules-Batch-연동.md](../../033.platform-services/0334.InnoRules/InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
-- [../../033.platform-services/0334.InnoRules/InnoRules-Java-연동.md](../../033.platform-services/0334.InnoRules/InnoRules-Java-%EC%97%B0%EB%8F%99.md)
-
-
+- [../../033.platform-services/0334.InnoRules/C.InnoRules-Batch-연동.md](../../033.platform-services/0334.InnoRules/C.InnoRules-Batch-%EC%97%B0%EB%8F%99.md)
+- [../../033.platform-services/0334.InnoRules/B.InnoRules-Java-연동.md](../../033.platform-services/0334.InnoRules/B.InnoRules-Java-%EC%97%B0%EB%8F%99.md)

@@ -609,7 +609,7 @@ oOOF.event.finishexport = function(oRexCtl, sEvent, oData) {
 
 ## 10. 연결 문서
 
-- [A.shared-solutions-개요.md](./A.shared-solutions-개요.md)
+- [README.md](./README.md)
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
 - [한컴이노스트림 기술지원](https://tech.hancomins.com)
 
@@ -632,3 +632,4 @@ oOOF.event.finishexport = function(oRexCtl, sEvent, oData) {
 ---
 
 *분석 완료: 2026-03-07*
+

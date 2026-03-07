@@ -14,7 +14,7 @@
   - SSO, SAML, 전자서명, XSS 방어 등
 - `0332.integration`
   - SOAP/REST 연동, HTTP/FTP/SFTP, 외부 시스템 연계
-- `0333.shared-solutions`
+- `0333.Solutions`
   - 공통 솔루션, 외부 라이브러리, 플랫폼 공통 서비스
 - `0334.InnoRules`
   - 외부 의료 Rule 엔진 솔루션과 Java/Batch 연동 문서
@@ -35,3 +35,4 @@
 - 의료업무 맥락은 [../035.Biz-medical-Domain](../035.Biz-medical-Domain)
 - 실제 사례는 [../037.runtime-trace/A.트레이스-읽는순서.md](../037.runtime-trace/A.트레이스-읽는순서.md)
 - 사실/미확인은 [../038.fact-todo-reference/0382.fact-check/00.fact-check.md](../038.fact-todo-reference/0382.fact-check/00.fact-check.md)
+

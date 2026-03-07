@@ -177,12 +177,13 @@ ESAPI 2.0.1은 오래된 버전으로 다음 취약점이 알려져 있음:
 
 ## 9. 연결 문서
 
-- [A.security-auth-개요.md](./A.security-auth-개요.md)
+- [README.md](./README.md)
 - [E.Lucy-XSS-Filter.md](./E.Lucy-XSS-Filter.md)
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
 
 ---
 
 *분석 완료: 2026-03-07*
+
 
 

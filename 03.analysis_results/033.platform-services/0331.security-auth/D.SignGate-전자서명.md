@@ -828,7 +828,7 @@ var licenseCode = "D3x6TwYRVlctZok6yQhQOJaq+sjleJLGITAFxB3aGQk=";
 
 ## 14. 연결 문서
 
-- [A.security-auth-개요.md](./A.security-auth-개요.md)
+- [README.md](./README.md)
 - [B.MagicSSO-인증흐름.md](./B.MagicSSO-인증흐름.md)
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
 
@@ -898,5 +898,6 @@ var licenseCode = "D3x6TwYRVlctZok6yQhQOJaq+sjleJLGITAFxB3aGQk=";
 ---
 
 *분석 완료: 2026-03-07*
+
 
 
