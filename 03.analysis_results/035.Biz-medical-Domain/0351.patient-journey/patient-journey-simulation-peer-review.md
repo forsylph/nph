@@ -140,8 +140,11 @@ devonhome/navigation/mhi/
 
 - **README.md**: 시스템 전체 개요
 - **tech-stack.md**: 기술 스택 상세
-- **03.analysis_results/032.framework-core/0321.overview/detailed-analysis.md**: 상세 분석 (다이어그램 포함)
+- **03.analysis_results/032.framework-core/0321.overview/E.detailed-analysis.md**: 상세 분석 (다이어그램 포함)
 
 ---
 
 *피어리뷰 완료: 2026-03-06*
+
+
+

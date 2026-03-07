@@ -75,7 +75,9 @@ flowchart LR
 
 ## 9. 연결 문서
 
-- [02.LCommonDao-LQueryMaker.md](./02.LCommonDao-LQueryMaker.md)
-- [04.Connection-Pool-TX.md](./04.Connection-Pool-TX.md)
+- [B.LCommonDao-LQueryMaker.md](./B.LCommonDao-LQueryMaker.md)
+- [D.Connection-Pool-TX.md](./D.Connection-Pool-TX.md)
 - [../../037.runtime-trace](../../037.runtime-trace)
 - 참고 보존본: `../../old Data/031.Architecture - Framework/old/0313.data-access/03.XML-Query-내부동작.md`
+
+

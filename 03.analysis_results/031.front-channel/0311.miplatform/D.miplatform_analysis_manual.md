@@ -3,9 +3,9 @@
 이 문서는 `031.front-channel` 기준본을 보조하는 **reference 문서**다. 목표는 Tobesoft MiPlatform 3.3 공식 문서와 NPH 실제 소스를 함께 놓고, 화면 구성과 추적 방법을 차분히 설명하는 것이다.
 
 - 기준본 문서:
-  - [Miplatform.md](./Miplatform.md)
-  - [MiPlatform-Transaction-패턴.md](./MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
-  - [Dataset-입출력.md](./Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
+  - [A.Miplatform.md](./A.Miplatform.md)
+  - [B.MiPlatform-Transaction-패턴.md](./B.MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+  - [C.Dataset-입출력.md](./C.Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
 - 이 문서의 역할:
   - 개념 정리
   - 공식 매뉴얼 관점 보조
@@ -195,12 +195,12 @@ NPH에선 이 관점이 그대로 적용된다.
 
 ## 9. 연결 문서
 
-- [Miplatform.md](./Miplatform.md)
-- [MiPlatform-Transaction-패턴.md](./MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
-- [Dataset-입출력.md](./Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
-- [Front-Channel-개요.md](../0313.ui-entry/Front-Channel-%EA%B0%9C%EC%9A%94.md)
-- [화면XML-script-mhi-연결.md](../0313.ui-entry/%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
-- [대표화면-EDI-수신-패턴.md](../0313.ui-entry/%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-EDI-%EC%88%98%EC%8B%A0-%ED%8C%A8%ED%84%B4.md)
+- [A.Miplatform.md](./A.Miplatform.md)
+- [B.MiPlatform-Transaction-패턴.md](./B.MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [C.Dataset-입출력.md](./C.Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
+- [A.Front-Channel-개요.md](../0313.ui-entry/A.Front-Channel-%EA%B0%9C%EC%9A%94.md)
+- [B.화면XML-script-mhi-연결.md](../0313.ui-entry/B.%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
+- [E.대표화면-EDI-수신-패턴.md](../0313.ui-entry/E.%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-EDI-%EC%88%98%EC%8B%A0-%ED%8C%A8%ED%84%B4.md)
 
 ## 8. 일반 CRUD형에 가까운 대표 패턴
 
@@ -217,3 +217,6 @@ NPH에선 이 관점이 그대로 적용된다.
 - 의미:
   - 의료 특화 로직이 거의 없는 공통 팝업형 화면이라, MiPlatform의 기본 추적 패턴을 연습하기에 좋다.
   - `Design + Data + Event`가 한 XML 안에 모여 있고, `Dataset -> Grid binding -> callback`까지 짧게 닫힌다.
+
+
+

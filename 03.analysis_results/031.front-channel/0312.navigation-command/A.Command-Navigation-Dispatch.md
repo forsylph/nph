@@ -78,17 +78,20 @@ flowchart LR
 
 ## 6. 연결 문서
 
-- [Front-Channel-개요.md](../0313.ui-entry/Front-Channel-%EA%B0%9C%EC%9A%94.md)
-- [MiPlatform-Transaction-패턴.md](../0311.miplatform/MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
-- [032.framework-core overview](../../032.framework-core/0321.overview/03.Architecture-overview.md)
-- [MD_ORD01001P trace](../../037.runtime-trace/MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
+- [A.Front-Channel-개요.md](../0313.ui-entry/A.Front-Channel-%EA%B0%9C%EC%9A%94.md)
+- [B.MiPlatform-Transaction-패턴.md](../0311.miplatform/B.MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [032.framework-core overview](../../032.framework-core/0321.overview/C.Architecture-overview.md)
+- [MD_ORD01001P trace](../../037.runtime-trace/B.MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
 
 
 ## 연결 문서
 
-- [공통코드조회-체인-기준패턴.md](./%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
+- [D.공통코드조회-체인-기준패턴.md](./D.%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
 
 
 
-- [로그인-체인-기준패턴.md](./%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
+- [C.로그인-체인-기준패턴.md](./C.%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
+
+
+
 

@@ -89,7 +89,7 @@ flowchart LR
 
 ## 6. 왜 이 문서가 필요한가
 
-`대표화면-공통코드조회-패턴.md`는 `화면 XML -> .mhi` 중심 문서다.
+`D.대표화면-공통코드조회-패턴.md`는 `화면 XML -> .mhi` 중심 문서다.
 이 문서는 그 다음 단계인 `navigation -> command -> PC -> EC -> xmlquery`를 짧게 이어 붙여 보여준다.
 
 그래서 두 문서를 같이 보면 아래 체인이 한 번에 닫힌다.
@@ -103,8 +103,11 @@ flowchart LR
 
 ## 7. 연결 문서
 
-- [대표화면-공통코드조회-패턴.md](../0313.ui-entry/%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%ED%8C%A8%ED%84%B4.md)
-- [Command-Navigation-Dispatch.md](./Command-Navigation-Dispatch.md)
-- [02.LCommonDao-LQueryMaker.md](../../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md)
-- [03.XML-Query-실행구조.md](../../032.framework-core/0322.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
+- [D.대표화면-공통코드조회-패턴.md](../0313.ui-entry/D.%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%ED%8C%A8%ED%84%B4.md)
+- [A.Command-Navigation-Dispatch.md](./A.Command-Navigation-Dispatch.md)
+- [B.LCommonDao-LQueryMaker.md](../../032.framework-core/0322.data-access/B.LCommonDao-LQueryMaker.md)
+- [C.XML-Query-실행구조.md](../../032.framework-core/0322.data-access/C.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
+
+
+
 

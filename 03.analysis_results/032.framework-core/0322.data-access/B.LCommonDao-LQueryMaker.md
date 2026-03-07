@@ -86,10 +86,12 @@ flowchart LR
 
 ## 8. 연결 문서
 
-- [01.Data-Access-개요.md](./01.Data-Access-%EA%B0%9C%EC%9A%94.md)
-- [03.XML-Query-실행구조.md](./03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
+- [A.Data-Access-개요.md](./A.Data-Access-%EA%B0%9C%EC%9A%94.md)
+- [C.XML-Query-실행구조.md](./C.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)
 - [../../95.추가 검토 사항 및 계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md](../../95.%EC%B6%94%EA%B0%80%20%EA%B2%80%ED%86%A0%20%EC%82%AC%ED%95%AD%20%EB%B0%8F%20%EA%B3%84%ED%9A%8D/953.refactoring-ideation/rep.%EB%8C%80%ED%98%95%ED%99%94%EB%A9%B43%EC%A2%85-%EA%B5%AC%EC%A1%B0%EB%B9%84%EA%B5%90.md)
 - 참고 보존본: `../../old Data/031.Architecture - Framework/old/0313.data-access/01.DAO-DataAccess-TX-JDBC-Pool.md`
+
+
 
 
 

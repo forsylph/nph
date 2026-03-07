@@ -236,7 +236,7 @@ Client (ActiveX)          Server (Java)
 ### 9.2 연결 문서
 
 - [Tech-Stack-개요.md](../../030.index/0307.Tech%20Stack/Tech-Stack-개요.md)
-- [Command-Navigation-Dispatch.md](../../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)
+- [A.Command-Navigation-Dispatch.md](../../031.front-channel/0312.navigation-command/A.Command-Navigation-Dispatch.md)
 
 ---
 
@@ -267,3 +267,6 @@ Client (ActiveX)          Server (Java)
 1. SignPad 하드웨어 연동 분석
 2. ESAPI JAR 제거 검토 (의존성 확인 후)
 3. `035.Biz-medical-Domain`의 의료업무 인증 시나리오와 링크
+
+
+

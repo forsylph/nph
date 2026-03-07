@@ -1,7 +1,7 @@
 # MiPlatform 전체 구조 트리
 
 > 이 문서는 `031.front-channel` 기준본을 보조하는 **reference 문서**다.
-> 목적은 MiPlatform 화면군의 큰 분포와 파일군 규모를 빠르게 훑는 것이며, 실제 유지보수 추적은 `Miplatform.md`, `MiPlatform-Transaction-패턴.md`, `화면XML-script-mhi-연결.md`를 먼저 보는 편이 빠르다.
+> 목적은 MiPlatform 화면군의 큰 분포와 파일군 규모를 빠르게 훑는 것이며, 실제 유지보수 추적은 `A.Miplatform.md`, `B.MiPlatform-Transaction-패턴.md`, `B.화면XML-script-mhi-연결.md`를 먼저 보는 편이 빠르다.
 > 공식 MiPlatform 3.3 매뉴얼의 `Form = Design + Data + Event` 관점을 적용하면, 아래 트리는 `화면 수/분포`를 보는 지도이고 실제 추적은 개별 XML 안의 Dataset, Event, Transaction을 따라가는 방식으로 읽는 것이 맞다.
 
 > NPH 프로젝트 MiPlatform 화면 및 구성요소 섹션별 트리 구조
@@ -146,11 +146,11 @@ NPH_HIS/
 
 | 업무군 | 직접 검증한 대표 화면 | 먼저 볼 문서 |
 |------|------|------|
-| AZ 공통/유틸 | `AZ_UTL01002P.xml` | `031.front-channel/0313.ui-entry/대표화면-공통코드조회-패턴.md` |
-| AZ 로그인 | `Login3.xml` | `031.front-channel/0312.navigation-command/로그인-체인-기준패턴.md` |
-| MD 처방 | `MD_ORD01001P.xml` | `037.runtime-trace/MD_ORD01001P-실행체인.md` |
-| HP DMS EDI | `HP_DMS01303M.xml` | `031.front-channel/0313.ui-entry/대표화면-EDI-수신-패턴.md` |
-| HP DMS DRG | `HP_DMS02204M.xml` | `037.runtime-trace/HP_DMS02204M-실행체인.md` |
+| AZ 공통/유틸 | `AZ_UTL01002P.xml` | `031.front-channel/0313.ui-entry/D.대표화면-공통코드조회-패턴.md` |
+| AZ 로그인 | `Login3.xml` | `031.front-channel/0312.navigation-command/C.로그인-체인-기준패턴.md` |
+| MD 처방 | `MD_ORD01001P.xml` | `037.runtime-trace/B.MD_ORD01001P-실행체인.md` |
+| HP DMS EDI | `HP_DMS01303M.xml` | `031.front-channel/0313.ui-entry/E.대표화면-EDI-수신-패턴.md` |
+| HP DMS DRG | `HP_DMS02204M.xml` | `037.runtime-trace/C.HP_DMS02204M-실행체인.md` |
 
 기존 업무별 예시 화면명, Command명, PC명은 분포를 설명하는 보조 예시에 가깝다. 실제 유지보수에서 바로 따라갈 값은 위 표의 화면/XML/.mhi/navigation/command 체인을 우선한다.
 
@@ -221,3 +221,6 @@ NPH_start.xml (ConnectGroup)
 ---
 
 *참고: 본 문서는 실제 NPH 프로젝트 소스코드를 기반으로 한 통계 및 reference 정리다.*
+
+
+

@@ -55,9 +55,9 @@
 
 영향 문서:
 - `README.md`
-- `03.analysis_results/032.framework-core/0321.overview/detailed-analysis.md`
-- `03.analysis_results/032.framework-core/0321.overview/02.DevOn-vs-Struts1.md`
-- `03.analysis_results/032.framework-core/0322.data-access/03.XML-Query-실행구조.md`
+- `03.analysis_results/032.framework-core/0321.overview/E.detailed-analysis.md`
+- `03.analysis_results/032.framework-core/0321.overview/B.DevOn-vs-Struts1.md`
+- `03.analysis_results/032.framework-core/0322.data-access/C.XML-Query-실행구조.md`
 
 판단:
 - `LQueryService`는 현재 코드베이스 기준 실존 확인 실패
@@ -112,7 +112,7 @@
 판단:
 - README는 입문 문서이므로, 가장 먼저 `실제 확인됨 / 개념 설명 / 미확인` 구분이 필요함
 
-### 4.2 `03.analysis_results/032.framework-core/0321.overview/detailed-analysis.md`의 실제 흐름 예시
+### 4.2 `03.analysis_results/032.framework-core/0321.overview/E.detailed-analysis.md`의 실제 흐름 예시
 
 `CheckLoginUser.mhi`, `SaveDetail.mhi`, `convertToLMultiDataWithJobType(Dataset ds)` 형태 등 일부 예시가 실구현과 다르다.
 
@@ -170,7 +170,7 @@
 
 ### 5.2 MiplatformConverter 문서
 
-- `03.analysis_results/031.front-channel/0311.miplatform/Miplatform.md`
+- `03.analysis_results/031.front-channel/0311.miplatform/A.Miplatform.md`
 
 이유:
 - 실제 `MiplatformConverter.java` 실파일 기반
@@ -192,7 +192,7 @@
 | `patient-journey-simulation.md` | 중하 | 개념 문서로만 사용 권장 |
 | `ref.MiPlatform-전체구조-트리.md` | 중하 | 대표 예시 비중 큼 |
 | `README.md` | 중하 | 입문 문서지만 XML Query 단정 수정 필요 |
-| `03.analysis_results/032.framework-core/0321.overview/detailed-analysis.md` | 중하 | 흐름 설명은 유효, 예시 시그니처/액션 오차 존재 |
+| `03.analysis_results/032.framework-core/0321.overview/E.detailed-analysis.md` | 중하 | 흐름 설명은 유효, 예시 시그니처/액션 오차 존재 |
 | `03.analysis_results/031.front-channel/*`, `032.framework-core/*` | 중 | 해설 문서로는 유효, 실구현 문서로는 주의 |
 | 대형화면 심층분석 3종 | 중상 | 방향성 유효, 실측 수치 갱신 반영 |
 | `97.Reference - 읽어볼거리/*` | 참고용 | 코드베이스 1:1 문서 아님 |
@@ -201,7 +201,7 @@
 
 ## 7. 다음 우선순위 권고
 
-1. `README.md`와 `03.analysis_results/032.framework-core/0321.overview/detailed-analysis.md`에 `LCommonDao` 중심 XML Query 설명을 더 직접적인 실코드 예시로 보강
+1. `README.md`와 `03.analysis_results/032.framework-core/0321.overview/E.detailed-analysis.md`에 `LCommonDao` 중심 XML Query 설명을 더 직접적인 실코드 예시로 보강
 2. `03.analysis_results`의 나머지 하위 폴더도 동일 기준으로 전수 보정
 3. `patient-journey-simulation.md`의 대표 예시 블록을 실제 검증된 transaction/command 사례로 일부 치환
 
@@ -233,4 +233,7 @@
 ---
 
 *본 보고서는 기존 문서를 최대한 보존하고, 전수 점검 결과만 별도 산출물로 추가한 것이다.*
+
+
+
 

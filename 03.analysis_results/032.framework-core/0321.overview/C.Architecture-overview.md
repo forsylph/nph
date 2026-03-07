@@ -69,7 +69,10 @@ flowchart LR
 
 ## 7. 바로 이어서 볼 문서
 
-- [../../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)
-- [../0322.data-access/03.XML-Query-실행구조.md](../0322.data-access/03.XML-Query-실행구조.md)
-- [../../037.runtime-trace/MD_ORD01001P-실행체인.md](../../037.runtime-trace/MD_ORD01001P-실행체인.md)
+- [../../031.front-channel/0312.navigation-command/A.Command-Navigation-Dispatch.md](../../031.front-channel/0312.navigation-command/A.Command-Navigation-Dispatch.md)
+- [../0322.data-access/C.XML-Query-실행구조.md](../0322.data-access/C.XML-Query-실행구조.md)
+- [../../037.runtime-trace/B.MD_ORD01001P-실행체인.md](../../037.runtime-trace/B.MD_ORD01001P-실행체인.md)
 - 참고 원본: `../../old Data/031.Architecture - Framework/old/0311.overview/02.DevOn-Architecture-overview.md`
+
+
+

@@ -413,3 +413,5 @@ public LMultiData retrieveEmrData(String docId) {
 ---
 
 *병원 운영을 해치지 않으면서 EDViewer 의존성을 줄이는 현실적인 전략입니다.*
+
+

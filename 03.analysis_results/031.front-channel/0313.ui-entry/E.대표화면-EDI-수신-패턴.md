@@ -62,6 +62,9 @@ flowchart LR
 
 ## 6. 다음에 내려갈 문서
 
-- [Command-Navigation-Dispatch.md](../0312.navigation-command/Command-Navigation-Dispatch.md)
-- [EdiMngmPC-분기구조.md](../../037.runtime-trace/EdiMngmPC-%EB%B6%84%EA%B8%B0%EA%B5%AC%EC%A1%B0.md)
+- [A.Command-Navigation-Dispatch.md](../0312.navigation-command/A.Command-Navigation-Dispatch.md)
+- [D.EdiMngmPC-분기구조.md](../../037.runtime-trace/D.EdiMngmPC-%EB%B6%84%EA%B8%B0%EA%B5%AC%EC%A1%B0.md)
 - [035.Biz-medical-Domain EDI/보험심사 문서군](../../035.Biz-medical-Domain)
+
+
+

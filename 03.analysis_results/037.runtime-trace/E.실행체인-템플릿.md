@@ -8,9 +8,9 @@
 
 ## 2. 상위 구조에서 이 문서를 읽는 위치
 
-- 이 문서는 [../032.framework-core/0321.overview/03.Architecture-overview.md](../032.framework-core/0321.overview/03.Architecture-overview.md)의 `[사례 분류]` 사례다.
-- front dispatch는 [../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/Command-Navigation-Dispatch.md)를 같이 본다.
-- data-access는 [../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md](../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md), [../032.framework-core/0322.data-access/03.XML-Query-실행구조.md](../032.framework-core/0322.data-access/03.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 같이 본다.
+- 이 문서는 [../032.framework-core/0321.overview/C.Architecture-overview.md](../032.framework-core/0321.overview/C.Architecture-overview.md)의 `[사례 분류]` 사례다.
+- front dispatch는 [../031.front-channel/0312.navigation-command/A.Command-Navigation-Dispatch.md](../031.front-channel/0312.navigation-command/A.Command-Navigation-Dispatch.md)를 같이 본다.
+- data-access는 [../032.framework-core/0322.data-access/B.LCommonDao-LQueryMaker.md](../032.framework-core/0322.data-access/B.LCommonDao-LQueryMaker.md), [../032.framework-core/0322.data-access/C.XML-Query-실행구조.md](../032.framework-core/0322.data-access/C.XML-Query-%EC%8B%A4%ED%96%89%EA%B5%AC%EC%A1%B0.md)와 같이 본다.
 
 ## 3. 대표 진입 경로
 
@@ -65,6 +65,9 @@ flowchart LR
 - front-channel
 - data-access
 - design-review
+
+
+
 
 
 

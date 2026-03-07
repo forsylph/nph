@@ -94,7 +94,7 @@ flowchart LR
 
 ## 7. 왜 이 문서가 필요한가
 
-`공통코드조회-체인-기준패턴.md`가 가장 얇은 조회형 기준이라면,
+`D.공통코드조회-체인-기준패턴.md`가 가장 얇은 조회형 기준이라면,
 이 문서는 로그인형처럼 `검증 + 초기화 + 권한`이 섞인 command 체인의 기준 패턴이다.
 
 둘을 같이 보면 `031.front-channel`에서 자주 만나는 두 부류가 분리된다.
@@ -104,8 +104,11 @@ flowchart LR
 
 ## 8. 연결 문서
 
-- [Command-Navigation-Dispatch.md](./Command-Navigation-Dispatch.md)
-- [공통코드조회-체인-기준패턴.md](./%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
-- [MiPlatform-Transaction-패턴.md](../0311.miplatform/MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
-- [화면XML-script-mhi-연결.md](../0313.ui-entry/%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
-- [02.LCommonDao-LQueryMaker.md](../../032.framework-core/0322.data-access/02.LCommonDao-LQueryMaker.md)
+- [A.Command-Navigation-Dispatch.md](./A.Command-Navigation-Dispatch.md)
+- [D.공통코드조회-체인-기준패턴.md](./D.%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%A4%80%ED%8C%A8%ED%84%B4.md)
+- [B.MiPlatform-Transaction-패턴.md](../0311.miplatform/B.MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [B.화면XML-script-mhi-연결.md](../0313.ui-entry/B.%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
+- [B.LCommonDao-LQueryMaker.md](../../032.framework-core/0322.data-access/B.LCommonDao-LQueryMaker.md)
+
+
+

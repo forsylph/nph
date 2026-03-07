@@ -82,24 +82,27 @@ flowchart LR
 
 ## 6. 추천 읽기 순서
 
-1. [../../031.front-channel/0313.ui-entry/Front-Channel-개요.md](../../031.front-channel/0313.ui-entry/Front-Channel-개요.md)
-2. [../0322.data-access/01.Data-Access-개요.md](../0322.data-access/01.Data-Access-개요.md)
-3. [../../037.runtime-trace/MD_ORD01001P-실행체인.md](../../037.runtime-trace/MD_ORD01001P-실행체인.md)
-4. [../../037.runtime-trace/HP_DMS02204M-실행체인.md](../../037.runtime-trace/HP_DMS02204M-실행체인.md)
-5. [../../037.runtime-trace/EdiMngmPC-분기구조.md](../../037.runtime-trace/EdiMngmPC-분기구조.md)
+1. [../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md](../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md)
+2. [../0322.data-access/A.Data-Access-개요.md](../0322.data-access/A.Data-Access-개요.md)
+3. [../../037.runtime-trace/B.MD_ORD01001P-실행체인.md](../../037.runtime-trace/B.MD_ORD01001P-실행체인.md)
+4. [../../037.runtime-trace/C.HP_DMS02204M-실행체인.md](../../037.runtime-trace/C.HP_DMS02204M-실행체인.md)
+5. [../../037.runtime-trace/D.EdiMngmPC-분기구조.md](../../037.runtime-trace/D.EdiMngmPC-분기구조.md)
 6. [../../95.추가 검토 사항 및 계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md](../../95.추가%20검토%20사항%20및%20계획/953.refactoring-ideation/rep.대형화면3종-구조비교.md)
 
 ## 7. 다음 문서
 
 - 구조를 먼저 알고 싶으면
-  - [03.Architecture-overview.md](./03.Architecture-overview.md)
+  - [C.Architecture-overview.md](./C.Architecture-overview.md)
 - 컴포넌트 트리로 보고 싶으면
-  - [04.Tree-구성요소.md](./04.Tree-구성요소.md)
+  - [D.Tree-구성요소.md](./D.Tree-구성요소.md)
 - Struts와 차이를 먼저 보고 싶으면
-  - [02.DevOn-vs-Struts1.md](./02.DevOn-vs-Struts1.md)
+  - [B.DevOn-vs-Struts1.md](./B.DevOn-vs-Struts1.md)
 
 ## 8. 참고 원본
 
 - `../../old Data/031.Architecture - Framework/old/0311.overview/*`
 - `../../old Data/031.Architecture - Framework/old/0312.front-channel/*`
 - `../../old Data/031.Architecture - Framework/old/0313.data-access/*`
+
+
+

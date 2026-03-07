@@ -90,5 +90,7 @@ MiPlatform 3.3 PID Developer 가이드의 `화면(Form) 개발` 문서는 Datase
 ## 5. 현재 문서가 말하는 범위
 
 이 문서는 Dataset의 `형식`과 `변환층`을 설명한다.
-- 개별 화면의 실제 trace는 [037.runtime-trace](../../037.runtime-trace/%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%8A%A4-%EC%9D%BD%EB%8A%94%EC%88%9C%EC%84%9C.md)에서 본다.
-- command 이후 구조는 [032.framework-core](../../032.framework-core/0321.overview/03.Architecture-overview.md)에서 본다.
+- 개별 화면의 실제 trace는 [037.runtime-trace](../../037.runtime-trace/A.%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%8A%A4-%EC%9D%BD%EB%8A%94%EC%88%9C%EC%84%9C.md)에서 본다.
+- command 이후 구조는 [032.framework-core](../../032.framework-core/0321.overview/C.Architecture-overview.md)에서 본다.
+
+

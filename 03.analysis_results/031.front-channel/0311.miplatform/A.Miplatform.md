@@ -74,24 +74,27 @@ NPH의 대표 MiPlatform 화면(`Login3.xml`, `MD_ORD01001P.xml`, `HP_DMS02204M.
 
 ## 4. 이 폴더에서 먼저 봐야 할 문서
 
-- [MiPlatform-Transaction-패턴.md](./MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
+- [B.MiPlatform-Transaction-패턴.md](./B.MiPlatform-Transaction-%ED%8C%A8%ED%84%B4.md)
   - `Transaction()` 호출 패턴과 `.mhi` 연결을 본다.
-- [Dataset-입출력.md](./Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
+- [C.Dataset-입출력.md](./C.Dataset-%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
   - Dataset이 입력/출력에서 어떻게 쓰이는지 본다.
-- [화면XML-script-mhi-연결.md](../0313.ui-entry/%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
+- [B.화면XML-script-mhi-연결.md](../0313.ui-entry/B.%ED%99%94%EB%A9%B4XML-script-mhi-%EC%97%B0%EA%B2%B0.md)
   - 화면 XML과 script, `.mhi` 매핑을 화면 기준으로 본다.
-- [JSP-브라우저-ActiveX-접점.md](../0313.ui-entry/JSP-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-ActiveX-%EC%A0%91%EC%A0%90.md)
+- [C.JSP-브라우저-ActiveX-접점.md](../0313.ui-entry/C.JSP-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-ActiveX-%EC%A0%91%EC%A0%90.md)
   - JSP/브라우저/OCX 접점을 본다.
 
 ## 5. 다음에 바로 올라갈 문서
 
-- [032.framework-core 개요](../../032.framework-core/0321.overview/01.Framework-%EA%B0%9C%EC%9A%94.md)
-- [032 Command/Navigation 해석](../../032.framework-core/0321.overview/03.Architecture-overview.md)
-- [037 MD_ORD01001P trace](../../037.runtime-trace/MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
+- [032.framework-core 개요](../../032.framework-core/0321.overview/A.Framework-%EA%B0%9C%EC%9A%94.md)
+- [032 Command/Navigation 해석](../../032.framework-core/0321.overview/C.Architecture-overview.md)
+- [037 MD_ORD01001P trace](../../037.runtime-trace/B.MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
 
 
 ## 연결 문서
 
-- [대표화면-공통코드조회-패턴.md](../0313.ui-entry/%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%ED%8C%A8%ED%84%B4.md)
+- [D.대표화면-공통코드조회-패턴.md](../0313.ui-entry/D.%EB%8C%80%ED%91%9C%ED%99%94%EB%A9%B4-%EA%B3%B5%ED%86%B5%EC%BD%94%EB%93%9C%EC%A1%B0%ED%9A%8C-%ED%8C%A8%ED%84%B4.md)
+
+
+
 
 

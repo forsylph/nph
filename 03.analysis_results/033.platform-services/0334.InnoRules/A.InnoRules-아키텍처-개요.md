@@ -12,7 +12,7 @@
 
 > **리뷰 메모**
 > - 이 문서는 `devonhome/conf/ruleEngine` 및 관련 설정을 기준으로 InnoRules 솔루션 자체를 설명한다.
-> - DevOn Batch 컨테이너 자체 설명은 `../../032.framework-core/0323.batch-rule/DevOn-Batch-컨테이너-개요.md`로 분리했다.
+> - DevOn Batch 컨테이너 자체 설명은 `../../032.framework-core/0323.batch-rule/A.DevOn-Batch-컨테이너-개요.md`로 분리했다.
 > - 본문 중 사용 목적 추정은 그대로 남겨두되, 현재 코드에서 직접 확인된 InnoRules 사용은 청구/심사, 임상 Rule, 인사 Rule UC 쪽이 중심이다.
 
 ---
@@ -470,6 +470,9 @@ SELECT rule_code, rule_content, version, status FROM rule_master;
 ---
 
 *본 문서는 설정 파일 분석만을 기반으로 작성되었습니다.*
+
+
+
 
 
 

@@ -9,7 +9,7 @@
 
 > **리뷰 메모**
 > - 이 문서는 InnoRules가 배치와 어떻게 붙는지를 설명한다.
-> - 하지만 DevOn Batch 컨테이너 일반 구조 문서로 보기에는 범위가 좁다. 컨테이너 설명은 `../../032.framework-core/0323.batch-rule/DevOn-Batch-컨테이너-개요.md`와 `DevOn-Batch-스케줄러-파이프라인.md`로 분리했다.
+> - 하지만 DevOn Batch 컨테이너 일반 구조 문서로 보기에는 범위가 좁다. 컨테이너 설명은 `../../032.framework-core/0323.batch-rule/A.DevOn-Batch-컨테이너-개요.md`와 `B.DevOn-Batch-스케줄러-파이프라인.md`로 분리했다.
 > - 즉 이 문서는 `배치에서 InnoRules를 어떻게 붙였는가`를 다루는 솔루션 문서다.
 
 ---
@@ -511,5 +511,8 @@ NPH Batch                       Spring Batch
 ---
 
 *본 문서는 NPH_HIS 소스 코드 분석을 바탕으로 작성되었습니다.*
+
+
+
 
 
