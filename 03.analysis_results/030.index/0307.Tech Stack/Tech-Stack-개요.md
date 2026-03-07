@@ -44,11 +44,11 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 리포트 엔진 | **Rexpert** | 3.2.4.1 | - | `rexservice.jsp`, `rexpert.js`, `cf_PreviewReport()` 기준 검증됨 |
-| 의료 리포트 | **TPR Report** | - | - | `TprServlet`, `TprReport.jsp`, `sql.xml/sqlParameter.xml`, `TPRreport.jar` 기준 검증됨 |
-| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | 외부 Excel 라이브러리, JAR 존재 확인. 화면 Excel 기능은 `utilLib.js`/MiPlatform Grid 중심이며 서버측 직접 POI 사용은 현재 미확인 |
-| Excel 처리 | **JExcelApi** | - | - | 외부 Excel 라이브러리, JAR 존재 확인. DevOn Excel API 문서 공존, 서버측 직접 JXL 사용은 현재 미확인 |
-| PDF 생성 | **iText XML Worker** | 1.2.0 | iText | `emrtopdf.jsp` import, `xmlworker-1.2.0.jar` 기준 EMR PDF 변환 경로 확인 |
+| 리포트 엔진 | **Rexpert** | 3.x 계열 | - | `rexservice.jsp`, `rexpert.js`, 다수 화면의 `cf_PreviewReport()/cf_ViewReport()` 기준 검증됨 |
+| 의료 리포트 | **TPR Report** | Version 76 흔적 | - | `TprServlet`, `TprReport.jsp`, `TPRReportBohum_2.jsp`, `sql.xml/sqlParameter.xml`, `TPRreport.jar`, `TPRsetup.XML` 기준 검증됨 |
+| Excel 처리 | **Apache POI** | 3.2-FINAL-20081019 | Apache | 외부 Excel 라이브러리, JAR 존재 확인. 현재 강한 사용 근거는 `utilLib.js`와 MiPlatform Grid 기반 화면 기능이며 서버측 직접 POI 사용은 미확인 |
+| Excel 처리 | **JExcelApi** | - | - | 외부 Excel 라이브러리, JAR 존재 확인. DevOn Excel API 문서 공존, 서버측 직접 JXL 사용은 미확인 |
+| PDF 생성 | **iText XML Worker** | 1.2.0 | iText | `eView/emrtopdf.jsp` 의 `com.itextpdf.*`, `XMLWorkerHelper` import와 `xmlworker-1.2.0.jar` 기준 확인 |
 
 ---
 
@@ -65,7 +65,7 @@
 
 | 구분 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|------|--------|------|
-| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 포함 JAR 확인, 직접 API 사용은 현재 미확인 |
+| 작업 스케줄러 | **Quartz** | 1.6.1 | Terracotta | 포함 JAR 확인. 현재 코드베이스에서 `org.quartz` 직접 API 사용은 미확인 |
 
 ---
 
@@ -320,6 +320,7 @@
 ---
 
 *피어리뷰 완료: 2026-03-05*
+
 
 
 

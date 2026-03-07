@@ -75,7 +75,7 @@ devonframework/service/excel/
 - poi-3.2-FINAL-20081019.jar, jxl.jar 실물은 존재한다.
 - devonframework/service/excel/* API 문서도 존재한다.
 - 현재 소스 스캔에서는 org.apache.poi.*, jxl.* 직접 import/use는 강하게 확인되지 않았다.
-- 따라서 현재 NPH 기준으로는 외부 Excel 라이브러리 + DevOn Excel API 공존으로 보는 것이 가장 안전하다.
+- 따라서 현재 NPH 기준으로는 외부 Excel 라이브러리 + DevOn Excel API 문서 + MiPlatform 화면 유틸 공존 구조로 보는 것이 가장 안전하다.
 
 ### 4.2 화면 측 Excel 패턴
 
@@ -136,12 +136,16 @@ webapp/EMR_DATA/CCM_upload.xlsx    # CCM(임상경로관리) 업로드용 템플
 
 ```
              ┌─────────────────────┐
-             │   Application Code  │
+             │   NPH Screen Code   │
+             └─────────┬───────────┘
+                       │
+             ┌─────────▼───────────┐
+             │ utilLib.js / Grid   │
              └─────────┬───────────┘
                        │
              ┌─────────▼───────────┐
              │  DEVON Excel API    │
-             │  (추상화 계층)       │
+             │  (문서상 API 계층)   │
              └─────────┬───────────┘
            ┌───────────┴───────────┐
            │                       │
@@ -215,7 +219,7 @@ webapp/
 |------|------|
 | **주요 라이브러리** | Apache POI 3.2, JExcelApi |
 | **정리** | 외부 Excel 라이브러리와 DevOn Excel API가 함께 존재, 직접 사용 경로는 추가 확인 필요 |
-| **사용 방식** | DEVON API 통해 POI/JXL 선택 사용 |
+| **사용 방식** | 현재 강한 근거는 `utilLib.js` + MiPlatform Grid 기반 화면 기능, 서버측 POI/JXL 직접 사용은 추가 확인 필요 |
 | **업무** | 통계, 접수, 관리자 엑셀 다운로드 |
 | **버전** | POI 3.2 (2008년 버전) |
 
@@ -225,5 +229,7 @@ webapp/
 
 - [README.md](./README.md)
 - [D.TPR-Report.md](./D.TPR-Report.md)
+
+
 
 

@@ -12,7 +12,7 @@
 ### 1.0 리뷰 메모
 
 - `quartz-1.6.1.jar` 실물은 존재한다.
-- 하지만 `SchedulerFactory`, `JobDetail`, `Trigger`, `@Scheduled` 직접 사용은 현재 코드베이스에서 확인되지 않았다.
+- 하지만 `org.quartz`, `SchedulerFactory`, `JobDetail`, `Trigger`, `@Scheduled` 직접 사용은 현재 코드베이스에서 확인되지 않았다.
 - 현행 운영 분석의 주 근거는 `devon-batch-scheduler.xml`, `BatchExecutor.cmd`, `BatchOnlineExecuteCMD`, `BatchInfoUC`, `navigation/batch/navigation.xml` 쪽이다.
 - 따라서 이 문서는 `Quartz 실운영 분석`보다 `Quartz JAR이 포함된 배치 운영 구조 검토`로 읽는 것이 더 정확하다.
 
@@ -461,5 +461,6 @@ public class EisMartDailyJob implements JobIF {
 ---
 
 *분석 완료: 2026-03-07*
+
 
 
