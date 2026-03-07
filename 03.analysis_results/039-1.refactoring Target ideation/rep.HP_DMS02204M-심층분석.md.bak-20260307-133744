@@ -161,28 +161,6 @@ function ds_DRGRevwPtSlct_OnColumnChanged(obj) {
 
 즉 이 화면의 조회는 일반화된 `/hp/dms/retrieveDRGRevwPt.mhi` 같은 단일 엔드포인트가 아니라, `drgNavi`와 `DrgPostRevwMngmPC` 체인으로 연결된다.
 
-### 2.4.1 실제 서버 처리 체인
-
-- 조회 URL: `/hp/dms/drgNavi/RetrieveDrgRevwPtList.mhi`
-- navigation: `devonhome/navigation/mhi/hp/dms/drgNavi.xml`
-- command: `RetrieveDrgRevwPtListCMD`
-- service 진입: `TxServiceUtil.getNTxService("hp.dms.DrgPostRevwMngmPC")`
-- PC: `DrgPostRevwMngmPC.retrieveDrgRevwPtList(data)`
-- EC: `PostRevwEC.retrieveDrgRevwPtList(data)`
-- query path: `/hp/dms/hpdmhdmbs/retrieveDrgRevwPtList`
-- xmlquery: `devonhome/xmlquery/hp/dms/hpdmhdmbs.xml`
-- statement: `retrieveDrgRevwPtList`
-
-### 2.4.2 왜 이 화면도 프레임워크 구조를 탔는가
-
-이 화면은 `EdiMngmPC`처럼 파일유형/버전 분기가 폭발하는 유형은 아니다. 대신 다른 복잡도가 있다.
-
-- `DrgPostRevwMngmPC` 내부에 `ROW_STATUS_CREATE`, `ROW_STATUS_UPDATE`, `ROW_STATUS_DELETE` 분기가 반복된다
-- `PostRevwEC`는 조회 하나만 갖고 있지 않고, 같은 `hpdmhdmbs` 계열에 저장/수정/삭제 후처리 query를 다수 보유한다
-- `hpdmhdmbs.xml`에도 `retrieveDrgRevwPtList` 외에 `saveDrgPostRevw`, 다수 `update*`, `delete*` statement가 함께 존재한다
-
-즉 이 화면은 조회 화면처럼 보이지만, 실제로는 심사/후처리 도메인의 중심 파일군 위에 올라가 있다. 그래서 당시 설계자가 `command -> PC -> EC -> xmlquery` 구조를 택한 이유가 이해되는 사례다.
-
 
 | 통신 유형 | 개수 | 주요 용도 |
 |-----------|------|-----------|
@@ -565,4 +543,3 @@ HP_DMS02204M은 **DRG 심사 화면**으로:
 
 *분석 완료: 2026-03-06*
 *분석 대상: `/mnt/n/99.SourceCode Backup/NPH/AADEV_NPH/workspace/NPH_HIS/webapp/ui/HP/DMS/HP_DMS02204M.xml`*
-
