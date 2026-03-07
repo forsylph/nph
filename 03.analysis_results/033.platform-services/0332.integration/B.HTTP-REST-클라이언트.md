@@ -96,5 +96,5 @@ flowchart LR
 ## 6. 관련 문서
 
 - [README.md](./README.md)
-- [B.FTP-클라이언트.md](./B.FTP-클라이언트.md)
-- [C.SOAP-웹서비스.md](./C.SOAP-웹서비스.md)
+- [C.FTP-SSH-클라이언트.md](./C.FTP-SSH-클라이언트.md)
+- [E.SOAP-웹서비스.md](./E.SOAP-웹서비스.md)
