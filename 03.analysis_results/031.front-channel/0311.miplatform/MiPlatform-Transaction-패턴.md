@@ -32,7 +32,7 @@ flowchart LR
 flowchart LR
     Login3[Login3.xml] --> GLogin[G_Login_OnLoadCompleted / btn_Login_OnClick]
     GLogin --> Tx[Transaction]
-    Tx --> LoginMhi[/az/bizcom/authNavi/CheckLoginUser-new1.mhi]
+    Tx --> LoginMhi["az/bizcom/authNavi/CheckLoginUser-new1.mhi"]
     LoginMhi --> AuthNavi[authNavi.xml]
 ```
 
