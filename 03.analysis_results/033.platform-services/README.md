@@ -31,11 +31,11 @@
 
 | 기술 | 버전 | 공급사 | 용도 |
 |------|------|--------|------|
-| **MagicSSO** | 3.5 | 드림시큐리티 | SSO 핵심 솔루션 |
+| **MagicSSO** | 버전 미확인 | 드림시큐리티 계열 | SSO 계열 구성요소 |
 | **DSToolkit** | 3.4.2.0 | 드림시큐리티 | 인증 툴킷 |
 | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML SP |
 | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 |
-| **SignGate** | - | KIS | 전자서명 |
+| **SignGate** | 버전 미확인 | 공급사 단정 보류 | 전자서명 계열 JAR/스크립트 확인 |
 | **Lucy XSS Filter** | 1.1.2 | 네이버 | XSS 방어 |
 
 ### 3.2 연동 (0332.integration)
@@ -53,7 +53,7 @@
 
 | 기술 | 버전 | 용도 |
 |------|------|------|
-| **Rexpert** | 3.0 | 한국형 리포트 엔진 |
+| **Rexpert** | 3.x 계열 | 직접 근거 파일 기준 사용 확인 |
 | **Quartz** | 1.6.1 | 스케줄러 JAR |
 | **Apache POI** | 3.2 | Excel 처리 |
 | **iText XML Worker** | 1.2.0 | HTML to PDF 변환 |
@@ -149,8 +149,6 @@ flowchart TB
 | [Front Channel 개요](../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md) | 화면 진입점 |
 | [Framework 개요](../032.framework-core/0321.overview/A.Framework-개요.md) | DevOn 코어 |
 | [Data Access 개요](../032.framework-core/0322.data-access/A.Data-Access-개요.md) | 데이터 접근 |
-| [의료업무 도메인](../035.Biz-medical-Domain) | 업무 맥락 |
-| [트레이스 읽는 순서](../037.runtime-trace/A.트레이스-읽는순서.md) | 실제 사례 |
 | [Fact Check](../038.fact-todo-reference/0382.fact-check/00.fact-check.md) | 사실/미확인 |
 
 ---
@@ -166,5 +164,5 @@ flowchart TB
 
 ## 7. 참고
 
-- 의료 특화 솔루션의 기준본은 `035.Biz-medical-Domain`에 둔다.
-- 예: `EDViewer`는 여기서 언급될 수 있지만 기준 분석 문서는 `035`에 둔다.
+- 의료 특화 솔루션 자체 분석은 이 폴더에서 다루되, 업무 맥락 설명은 별도 도메인 문서가 준비되면 분리한다.
+- 예: `EDViewer`는 기술 접점은 여기서 언급될 수 있지만, 업무 의미 중심 설명은 별도 문서로 분리하는 것이 적절하다.

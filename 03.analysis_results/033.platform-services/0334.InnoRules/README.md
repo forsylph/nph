@@ -33,7 +33,7 @@
 ## 4. 다른 폴더와의 경계
 
 - DevOn Batch 컨테이너 자체는 [../../032.framework-core/0323.batch-rule](../../032.framework-core/0323.batch-rule)
-- 의료업무/심사/청구의 도메인 의미는 이후 `035.Biz-medical-Domain`에서 별도로 정리
+- 의료업무/심사/청구의 도메인 의미는 별도 업무 문서가 준비되면 분리 정리
 
 ## 5. 읽는 순서
 

@@ -83,3 +83,23 @@
 - `JSch`는 관리자 업로드 JSP 기준 직접 사용이 확인된다.
 - `JCAOS`는 설정/JAR 기준 관여는 확인되지만, 앱 소스 직접 호출은 아직 미확인이다.
 
+---
+
+## 6. 빌드 시스템 참고
+
+### 6.1 Ant 사용 현황
+
+| 파일 | 위치 | 용도 |
+|------|------|------|
+| `build.xml` | `NPH_BUILD/` | 배치 모듈 컴파일 |
+| `build-wstest.xml` | `NPH_HIS/ant/` | JAR 패키징 |
+
+NPH는 Ant를 사용하나 **Axis 전용 태스크는 미사용**이다. 일반 Ant 태스크(`<javac>`, `<jar>`, `<copy>`)만 사용.
+
+### 6.2 미사용 JAR
+
+| JAR 파일 | 원래 용도 | 미사용 사유 |
+|----------|----------|-------------|
+| **axis-ant.jar** | Ant용 Axis 태스크 (`axis-java2wsdl`, `axis-wsdl2java`) | NPH는 Axis 전용 태스크 미사용, 런타임에 불필요 |
+
+**상세 분석**: [Minority Report/NPH-빌드-배포-분석.md](../../038.fact-todo-reference/0389.Minority%20Report/NPH-빌드-배포-분석.md)
