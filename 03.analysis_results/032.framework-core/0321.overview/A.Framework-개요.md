@@ -112,5 +112,6 @@ flowchart LR
 - 화면 진입은 [../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md](../../031.front-channel/0313.ui-entry/A.Front-Channel-개요.md)
 - MiPlatform 해석은 [../../031.front-channel/0311.miplatform/A.Miplatform.md](../../031.front-channel/0311.miplatform/A.Miplatform.md)
 - Data Access 상세는 [../0322.data-access/A.Data-Access-개요.md](../0322.data-access/A.Data-Access-개요.md)
+- 버전관리/배포 draft는 [../0325.Version Control and Deployment/Draft.버전관리-배포관리-드래프트.md](../0325.Version%20Control%20and%20Deployment/Draft.%EB%B2%84%EC%A0%84%EA%B4%80%EB%A6%AC-%EB%B0%B0%ED%8F%AC%EA%B4%80%EB%A6%AC-%EB%93%9C%EB%9E%98%ED%94%84%ED%8A%B8.md)
 - 외부 솔루션/패키지는 [../../033.platform-services/README.md](../../033.platform-services/README.md)
 - 사실/미확인은 [../../038.fact-todo-reference/0382.fact-check/00.fact-check.md](../../038.fact-todo-reference/0382.fact-check/00.fact-check.md)
