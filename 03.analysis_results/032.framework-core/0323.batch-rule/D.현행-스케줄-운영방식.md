@@ -87,6 +87,8 @@ flowchart LR
 - 로그 기준으로는 JobGroup/Job 구조가 실제 운영에서 사용되고 있다.
 - 그리고 실행 흐름은 `JobGroup -> Job -> Reader -> Parser -> Job class` 순서로 남는다.
 - 다만 현재 로그만으로는 `HP_BAT01206B01`이 어떤 Java Job 클래스로 연결되는지는 닫히지 않는다.
+- 추가로 `20260202AMdbwrap.log`와 `devonbatch/core_query.default.xml`, `az/com/olbJobGroupExecTx.xml`을 함께 보면, 현재 운영은 `GROUP_ID`, `JOB_ID` 기준 DB 메타 조회를 통해 Job 설정/실행 로그를 읽는 구조라는 점이 더 강하게 확인된다.
+- 즉 지금 닫힌 것은 `JobGroup/Job/override/exec log` 구조이고, 아직 안 닫힌 것은 `JOB_ID -> Java class` 마지막 매핑이다.
 
 ## 6. 자동 스케줄러와 수동/온라인 실행의 분리
 

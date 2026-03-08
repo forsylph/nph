@@ -22,6 +22,8 @@
 
 추가 검증 결과 `JSch`는 `Admin/temp/uploadFile.jsp`에서 직접 사용이 확인되었고, `xldap`는 `UserMngmPC`, `EamIFUC`, `ComLoginUC`, `MenuInfoCMD` 등에서 직접 사용이 확인되었다. `JCAOS`는 애플리케이션 소스 import는 미확인이지만 `dsagent.properties`의 `crypto.type=JCAOS`, `magicsaml-sp-v1.3.3.jar`의 `JCAOSCryptoApi`, `jcaos-1.4.7.7.jar`의 `JCAOSProvider` 기준으로 런타임 구성 관여는 확인된다.
 
+`2026-03-04` 운영 로그 기준으로는 `AsyncWorkContextListener` 초기화, `HttpClientUtil` 인증서 로드, `LST`/`POLNET` 핸들러 등록이 직접 확인된다. 즉 `0332.integration`에 정리된 외부 연동 계층은 단순 라이브러리 보유가 아니라 실제 사이트 기동 과정에 참여한다.
+
 ---
 
 ## 1B. 직접 확인 근거 파일
@@ -35,6 +37,7 @@
 | SOAP/Axis | `SavekimsCMD.java`, `SelectkimsCMD.java`, `KIMSMngmPC.java`, `MedicalInfoSoapStub.java`, `log4j.properties` |
 | JCAOS | `webapp/WEB-INF/homepath/cfg/dsagent.properties`, `magicsaml-sp-v1.3.3.jar`, `jcaos-1.4.7.7.jar` |
 | SVNKit | `SvnLogPC.java`, `SvnLogIFPC.java`, `instance_az.properties` |
+| 운영 로그 | `devonhome/logs/20260304PMinfo.log`, `devonhome/logs/20260304PMdebug.log` |
 
 ---
 
