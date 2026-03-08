@@ -8,8 +8,6 @@
 
 - 이 폴더의 기준 설명은 [../README.md](../README.md) 를 먼저 본다.
 - DevOn 코어는 [../../032.framework-core/0321.overview/A.Framework-개요.md](../../032.framework-core/0321.overview/A.Framework-개요.md) 와 같이 본다.
-- 의료업무 맥락은 [../../035.Biz-medical-Domain](../../035.Biz-medical-Domain) 으로 이어진다.
-- 실제 사례는 [../../037.runtime-trace/트레이스-읽는순서.md](../../037.runtime-trace/트레이스-읽는순서.md) 를 본다.
 
 이 문서는 `033.platform-services` 중 보안/인증 계열 솔루션을 정리하는 기준본이다.
 
@@ -54,7 +52,19 @@
 
 ---
 
-## 4. 아키텍처 위치
+## 4. 문서별 한 줄 요약
+
+| 문서 | 한 줄 요약 |
+|------|------------|
+| [B.MagicSSO-인증흐름.md](./B.MagicSSO-인증흐름.md) | JSP 기반 SSO 처리 파이프라인과 EAM/LDAP 관여 범위를 정리한 문서 |
+| [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) | OpenSAML과 MagicSAML의 공존 및 현재 확인된 사용 표면을 정리한 문서 |
+| [D.SignGate-전자서명.md](./D.SignGate-전자서명.md) | 전자서명/인증서 처리 스택을 통합적으로 설명한 문서 |
+| [E.Lucy-XSS-Filter.md](./E.Lucy-XSS-Filter.md) | Lucy XSS Filter의 실제 적용 범위와 사용 패턴을 정리한 문서 |
+| [F.OWASP-ESAPI-미사용.md](./F.OWASP-ESAPI-미사용.md) | ESAPI JAR 존재와 현재 미사용 판단 근거를 정리한 문서 |
+
+---
+
+## 5. 아키텍처 위치
 
 ```mermaid
 flowchart TB
@@ -100,7 +110,7 @@ flowchart TB
 
 ---
 
-## 4A. 직접 확인 근거 파일
+## 5A. 직접 확인 근거 파일
 
 | 구분 | 직접 확인 근거 |
 |------|----------------|
@@ -109,7 +119,7 @@ flowchart TB
 | 라이브러리 | `magicsaml-sp-v1.3.3.jar`, `opensaml-2.6.4.jar`, `DSToolkit-v3.4.2.0.jar`, `SsoEam_v1.0.6.jar` |
 | LDAP/EAM | `ComLoginUC.java`, `MenuInfoCMD.java`, `ReturnSessionCMD.java`, `EamIFUC.java`, `UserMngmPC.java` |
 
-## 5. 인증 경로
+## 6. 인증 경로
 
 NPH는 세 가지 인증 경로를 제공한다:
 
@@ -133,7 +143,7 @@ NPH는 세 가지 인증 경로를 제공한다:
 
 ---
 
-## 6. 전자서명 흐름
+## 7. 전자서명 흐름
 
 ### 6.1 SignGate 구조
 
@@ -200,7 +210,7 @@ Client (ActiveX)          Server (Java)
 
 ---
 
-## 7. 설정 위치
+## 8. 설정 위치
 
 | 설정 파일 | 경로 | 용도 |
 |-----------|------|------|
@@ -212,7 +222,7 @@ Client (ActiveX)          Server (Java)
 
 ---
 
-## 8. 주요 클래스
+## 9. 주요 클래스
 
 ### 8.1 SSO/인증
 
@@ -237,7 +247,16 @@ Client (ActiveX)          Server (Java)
 
 ---
 
-## 9. 관련 문서
+## 10. 빠른 판단
+
+- `MagicSAML`, `OpenSAML`, `DSToolkit`, `SsoEam`은 JAR/설정/JSP 기준 직접 근거가 있다.
+- `MagicSSO`는 계열 구성요소로 읽는 것이 안전하며, 서버 내부 구현/버전은 현재 미확인이다.
+- `SignGate`는 단일 제품보다 전자서명/인증서 처리 스택 관점으로 읽는 것이 맞다.
+- `Lucy`는 직접 사용 근거가 강하고, `ESAPI`는 현재 배포물 존재 대비 미사용 판단이 타당하다.
+
+---
+
+## 11. 관련 문서
 
 ### 9.1 분석 문서
 
@@ -254,7 +273,7 @@ Client (ActiveX)          Server (Java)
 
 ---
 
-## 10. 분석 필요 항목
+## 12. 분석 필요 항목
 
 ### 10.1 SignPad 하드웨어
 
@@ -276,11 +295,11 @@ Client (ActiveX)          Server (Java)
 
 ---
 
-## 11. 다음 단계
+## 13. 다음 단계
 
 1. SignPad 하드웨어 연동 분석
 2. ESAPI JAR 제거 검토 (의존성 확인 후)
-3. `035.Biz-medical-Domain`의 의료업무 인증 시나리오와 링크
+3. 실제 운영 인증 흐름의 직접 근거 추가 확보
 
 
 
