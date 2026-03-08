@@ -41,14 +41,27 @@
 
 ## 2. 업무 영역 네이밍 룰
 
-| 약어 | 의미 | 설명 | 파일 수 (UI XML) |
-|------|------|------|-----------------|
-| **AZ** | Admission Zone | 입원/공통업무 | 409 |
-| **MD** | Medical | 진료 (외래/입원) | 969 |
-| **MR** | Medical Record | 의무기록/원무 | 246 |
-| **SP** | Special | 특수진료 (검사/방사선/약제) | 910 |
-| **ER** | Emergency Room | 응급의료 | 1,262 |
-| **HP** | Hospital/Health Plan | 병원관리/보험심사 | 547 |
+### 2.1 약어 정의 (NPH_start.xml 기준)
+
+| 약어 | 의미 | 하위 모듈 | 근거 |
+|------|------|-----------|------|
+| **AZ** | Admission Zone (입원/공통) | COM, UTL, INF, STA, CRT, SYS | `NPH_start.xml`: `AZ_COM`, `AZ_UTL`<br>화면: "수납환자", "미수납현황" |
+| **ER** | Emergency Room (응급) | ACC, ADU, COM, COS, NUR, MED, PAY | `NPH_start.xml`: `ER_ACC`, `ER_NUR`<br>화면: "결의서작성", "간호사인사정보" |
+| **HP** | Hospital/Health Plan (병원/심사) | BAS, COM, CTF, DMS, FEE, PAT | `NPH_start.xml`: `HP_DMS`, `HP_FEE`<br>화면: "사후심사마감", "보험조합관리" |
+| **MD** | Medical (진료) | AKR, BAS, ERN, OPN, OPR, ORD, IPN | `NPH_start.xml`: `MD_ORD`, `MD_OPR`<br>화면: "처방", "수술신청" |
+| **MR** | Medical Record (의무기록) | COM, RCH, RDI, STA | `NPH_start.xml`: `MR_RCH`, `MR_RDI`<br>화면: "개인정보보호요청등록" |
+| **SP** | Special (특수진료) | LAB, RAY, PHA, REH, CEL, DEN, HBC | `NPH_start.xml`: `SP_LAB`, `SP_RAY`<br>화면: "외래채혈", "영상의학과 초기화면" |
+
+### 2.2 파일 수 요약
+
+| 약어 | UI XML | Java | 설명 |
+|------|--------|------|------|
+| **AZ** | 409 | 671 | 입원/공통업무 |
+| **MD** | 969 | 2,453 | 진료 (외래/입원) |
+| **MR** | 246 | 600 | 의무기록/원무 |
+| **SP** | 910 | 2,193 | 특수진료 (검사/방사선/약제) |
+| **ER** | 1,262 | 2,215 | 응급의료 |
+| **HP** | 547 | 1,453 | 병원관리/보험심사 |
 
 ## 3. Form 파일 네이밍 룰
 
@@ -141,7 +154,197 @@ HP_DMS02204M.xml  → HP(심사) + DMS(DRG) + 02204 + M(메인화면)
 | ER | 762 (5위) | 85 (4위) | 중간 |
 | AZ | 452 (6위) | 74 (6위) | **낮음** |
 
-## 6. 관련 문서
+## 6. 기술적 아키텍처
+
+### 6.1 MiPlatform 3계층 구조
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Client (MiPlatform)                            │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  UI Layer - 화면 XML                                                 │    │
+│  │  • Form 정의 (Design + Data + Event)                                │    │
+│  │  • Dataset 바인딩                                                    │    │
+│  │  • JavaScript 이벤트 핸들러                                          │    │
+│  │  • Transaction() 호출 → .mhi URL                                     │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │ HTTP/HTTPS
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Server (DEVON Framework)                        │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  Navigation Layer - mhi XML                                          │    │
+│  │  • 화면 요청 URL 매핑                                                │    │
+│  │  • Command 클래스 지정                                               │    │
+│  │  • 요청/응답 Dataset 정의                                            │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                      │                                      │
+│                                      ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  Command Layer - Java                                                │    │
+│  │  • 요청 전처리/검증                                                  │    │
+│  │  • PC (Process Component) 호출                                      │    │
+│  │  • 응답 Dataset 생성                                                 │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                      │                                      │
+│                                      ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  Business Layer - PC/UC/EC                                           │    │
+│  │  • PC (Process Component): 업무 로직                                 │    │
+│  │  • UC (Use Case): 유스케이스                                         │    │
+│  │  • EC (Entity Component): 데이터 접근                               │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                      │                                      │
+│                                      ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  Data Access Layer - xmlquery XML                                    │    │
+│  │  • SQL 문 정의                                                      │    │
+│  │  • 파라미터 매핑                                                    │    │
+│  │  • 결과셋 변환                                                      │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │ JDBC
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Database (Oracle)                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 6.2 요청 흐름 상세
+
+```
+[화면 XML]                    [mhi XML]                    [Java]
+    │                             │                           │
+    │  Transaction(               │                           │
+    │    "RetrievePtOrder",       │                           │
+    │    "/md/ord/ptmdcrNavi/     │                           │
+    │     RetrievePtOrder.mhi"    │                           │
+    │  )                          │                           │
+    │────────────────────────────▶│                           │
+    │                             │  <action name="Retrieve  │
+    │                             │   PtOrder">               │
+    │                             │    <command>nph.his.md.   │
+    │                             │     ord.ptmdcr.cmd.      │
+    │                             │     RetrievePtOrderCMD   │
+    │                             │    </command>            │
+    │                             │  </action>                │
+    │                             │──────────────────────────▶│
+    │                             │                           │  RetrievePtOrderCMD
+    │                             │                           │    .execute()
+    │                             │                           │      │
+    │                             │                           │      ▼
+    │                             │                           │  PtmdcrPC
+    │                             │                           │    .retrievePtOrder()
+    │                             │                           │      │
+    │                             │                           │      ▼
+    │                             │                           │  [xmlquery]
+    │                             │                           │    retrievePtOrder
+    │                             │                           │      │
+    │                             │                           │      ▼
+    │                             │                           │  [Database]
+    │                             │                           │      │
+    │                             │                           │      ▼
+    │                             │                           │  Dataset 반환
+    │◀────────────────────────────│◀──────────────────────────│
+    │  callback 함수 실행         │  Dataset XML 응답         │
+    │                             │                           │
+```
+
+### 6.3 파일 유형별 역할
+
+| 파일 유형 | 위치 | 역할 | 예시 |
+|-----------|------|------|------|
+| **화면 XML** | `ui/*.xml` | UI 정의, Dataset, Event | `MD_ORD01001P.xml` |
+| **mhi XML** | `navigation/mhi/*.xml` | URL → Command 매핑 | `ptmdcrNavi.xml` |
+| **Java** | `src/nph/his/*/cmd/` | 요청 처리, PC 호출 | `RetrievePtOrderCMD.java` |
+| **PC Java** | `src/nph/his/*/pc/` | 업무 로직 | `PtmdcrPC.java` |
+| **xmlquery XML** | `xmlquery/*.xml` | SQL 정의 | `mdord.xml` |
+
+### 6.4 mhi 구조 상세
+
+```xml
+<!-- navigation/mhi/md/ord/ptmdcrNavi.xml 예시 -->
+<navigator>
+  <action name="RetrievePtOrder">
+    <command>nph.his.md.ord.ptmdcr.cmd.RetrievePtOrderCMD</command>
+    <dataset>ds_input</dataset>
+    <dataset>ds_output</dataset>
+  </action>
+
+  <action name="SavePtOrder">
+    <command>nph.his.md.ord.ptmdcr.cmd.SavePtOrderCMD</command>
+    <dataset>ds_input</dataset>
+    <dataset>ds_output</dataset>
+  </action>
+</navigator>
+```
+
+### 6.5 xmlquery 구조 상세
+
+```xml
+<!-- xmlquery/md/ord/mdord.xml 예시 -->
+<querys>
+  <select id="retrievePtOrder">
+    <statement>
+      SELECT PT_NO, PT_NM, ORD_DT, ORD_CD
+      FROM   PT_ORDER
+      WHERE  PT_NO = :ptNo
+      AND    ORD_DT BETWEEN :frDt AND :toDt
+    </statement>
+    <param name="ptNo" type="VARCHAR"/>
+    <param name="frDt" type="VARCHAR"/>
+    <param name="toDt" type="VARCHAR"/>
+  </select>
+</querys>
+```
+
+### 6.6 Java 계층 구조
+
+```
+nph.his.{업무}.{하위}.{계층}
+       │      │      │
+       │      │      ├── cmd/    (Command)
+       │      │      │           - 요청 진입점
+       │      │      │           - Dataset 변환
+       │      │      │
+       │      │      ├── pc/     (Process Component)
+       │      │      │           - 업무 로직
+       │      │      │           - 트랜잭션 관리
+       │      │      │
+       │      │      ├── uc/     (Use Case)
+       │      │      │           - 유스케이스 단위
+       │      │      │
+       │      │      └── ec/     (Entity Component)
+       │      │                  - 데이터 접근
+       │      │                  - xmlquery 호출
+       │      │
+       │      └── 하위 모듈 (예: ord, opr, ipn)
+       │
+       └── 업무 영역 (az, md, mr, sp, er, hp)
+
+예시:
+nph.his.md.ord.ptmdcr.cmd.RetrievePtOrderCMD    (Command)
+nph.his.md.ord.ptmdcr.pc.PtmdcrPC                (Process Component)
+nph.his.md.ord.ptmdcr.ec.PtmdcrEC                (Entity Component)
+```
+
+### 6.7 요약: 기술 스택 연결
+
+| 계층 | 기술 | 파일 위치 | 호출 관계 |
+|------|------|-----------|----------|
+| **Presentation** | MiPlatform XML | `ui/*.xml` | `Transaction()` → mhi URL |
+| **Navigation** | mhi XML | `navigation/mhi/*.xml` | URL → Command 클래스 매핑 |
+| **Controller** | Java Command | `cmd/*.java` | PC 호출 |
+| **Business** | Java PC/UC | `pc/*.java`, `uc/*.java` | EC 호출 |
+| **Data Access** | Java EC + xmlquery | `ec/*.java`, `xmlquery/*.xml` | SQL 실행 |
+| **Database** | Oracle | - | - |
+
+---
+
+## 7. 관련 문서
 
 - [ref.MiPlatform-전체구조-트리.md](./0311.miplatform/ref.MiPlatform-전체구조-트리.md) - 상세 구조
 - [A.Miplatform.md](./0311.miplatform/A.Miplatform.md) - MiPlatform 개요
