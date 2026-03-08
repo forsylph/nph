@@ -8,6 +8,14 @@
 
 NPH 시스템은 Apache HttpClient와 Jersey를 사용한다. 현재 소스 기준으로는 `Jersey = 내부 REST 서버/API`, `Apache HttpClient = 외부/내부 HTTP 호출 클라이언트` 역할이 직접 확인된다.
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| Jersey/JAX-RS | `NPH_HIS/src/com/rest/api/*`, `NPH_HIS/webapp/WEB-INF/web.xml` |
+| HttpClient 공통 유틸 | `NPH_HIS/src/com/rest/util/HttpClientUtil.java` |
+| 실제 호출 | `NPH_HIS/src/nph/his/hp/com/uc/PolNetUC.java`, `LstUC.java`, `RegistImgnExmnRsltPacsToDb.java`, `SaveGwCMD.java`, `SaveSgCMD.java` |
+
 ---
 
 ## 2. JAR 파일

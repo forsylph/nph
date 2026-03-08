@@ -56,9 +56,9 @@ flowchart TB
 
     UI --> |로그인 요청| Login
     Login --> |SSO 인증| SSO
-    SSO --> |토큰 검증| MagicSSO
-    MagicSSO --> |인증서 검증| GPKI
-    GPKI --> |CA 조회| CA
+    SSO --> |토큰 검증 요청| MagicSSO
+    MagicSSO --> |인증서 검증 관련 구성| GPKI
+    GPKI --> |설정상 CA 정보 참조| CA
     SSO --> |역할 조회| EAM
     EAM --> |메뉴 권한| Login
     Login --> |세션 설정| UserManager
@@ -85,6 +85,15 @@ flowchart LR
 ---
 
 ## 3. 설정 파일
+
+### 3.0 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| SAML 처리 JSP | `CreateRequest.jsp`, `CreateRequestAuth.jsp`, `Response.jsp`, `Response.db.jsp`, `Response.ldap.jsp`, `SPLogout.jsp`, `TimeoutLogout.jsp`, `check3.jsp` |
+| 스크립트/설정 | `MagicSAML.js`, `metadata.xml`, `dsagent.properties`, `DSToolkitV30.conf`, `his.xml` |
+| 라이브러리 | `magicsaml-sp-v1.3.3.jar`, `opensaml-2.6.4.jar`, `DSToolkit-v3.4.2.0.jar`, `SsoEam_v1.0.6.jar` |
+| EAM/LDAP 클래스 | `ComLoginUC.java`, `MenuInfoCMD.java`, `ReturnSessionCMD.java`, `EamIFUC.java`, `UserMngmPC.java` |
 
 ### 3.1 DSToolkit 설정 (DSToolkitV30.conf)
 
@@ -208,11 +217,17 @@ int lastError = sso.getLastError();
 ```
 1. 사용자 로그인 요청
    └─> CheckLoginNewCMD.execute()
-       └─> SSO 토큰 검증 (verifyToken)
-           └─> EAM 역할 조회 (getRoleList)
+       └─> SSO 토큰 검증 호출
+           └─> EAM 역할 조회
                └─> DB 부서 정보 조회
                    └─> 세션 설정 (UserManager.setUserData())
 ```
+
+### 5.1A 현재 해석 한계
+
+- `MagicSSO 계열 서버` 내부 구현과 실제 운영 배치 구조는 현재 워크스페이스만으로 닫히지 않는다.
+- 현재 직접 확인 가능한 범위는 `JSP/SP 처리`, `WiseAccess.SSO`, `DSToolkit`, `xldap/EAM`이 함께 관여한다는 수준이다.
+- 따라서 서버 내부의 세부 토큰 검증/인증서 검증 절차는 제품/설정 해석이며, 애플리케이션 코드의 직접 흐름과는 구분해서 읽어야 한다.
 
 ### 5.2 인증 경로 분기 (LoginPC.retrieveUserRoleList)
 

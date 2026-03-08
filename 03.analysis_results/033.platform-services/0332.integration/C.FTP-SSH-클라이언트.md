@@ -8,6 +8,14 @@
 
 NPH 시스템은 edtFTPj를 사용한 FTP 전송 흔적이 강하게 확인된다. `JSch`는 JAR 포함에 그치지 않고 `NPH_HIS/webapp/Admin/temp/uploadFile.jsp`에서 직접 import 및 `new JSch()` 호출이 확인된다. 다만 현재 확인된 사용처는 관리자/임시 업로드 유틸 성격이며, 광범위한 운영 경로까지 확인된 것은 아니다.
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| FTP 배치 | `nph/bat/sample/FtpUploadJob.java`, `FtpDownloadJob.java`, `nph/bat/hp/job/FtpUploadJob.java` |
+| JSch 직접 사용 | `webapp/Admin/temp/uploadFile.jsp` |
+| JAR | `edtftpj-2.0.1.jar`, `commons-net-2.0.jar`, `jsch-0.1.54.jar` |
+
 ---
 
 ## 2. JAR 파일

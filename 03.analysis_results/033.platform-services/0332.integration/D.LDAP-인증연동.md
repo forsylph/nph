@@ -8,6 +8,14 @@
 
 NPH 시스템은 LDAP 기반 설정 흔적을 분명히 가지며, 현재 소스베이스에서는 `xldap` 직접 사용도 확인된다. `ldapjdk`는 JAR 실체는 확인되지만 애플리케이션 코드의 직접 import는 아직 찾지 못했다. 따라서 현재 가장 강한 근거는 `xldap` 직접 사용과 `DSToolkitV30.conf`의 LDAP URL 설정이다.
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| xldap 직접 사용 | `UserMngmPC.java`, `EamIFUC.java`, `ComLoginUC.java`, `MenuInfoCMD.java`, `ReturnSessionCMD.java` |
+| LDAP 설정 | `webapp/WEB-INF/homepath/cfg/DSToolkitV30.conf` |
+| JAR | `ldapjdk.jar`, `xldap.jar` |
+
 ---
 
 ## 2. JAR 파일

@@ -88,6 +88,18 @@ NPH_HIS/webapp/sga/      # 바코드 서명 모듈
 
 ---
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| JAR | `signgateCrypto.jar`, `signgate_common.jar` |
+| 네이티브/라이선스 | `DSToolkitJni-v3.4.2.0.dll`, `DSToolkitV30-v3.4.2.0.dll`, `DSToolkit32.lic` |
+| ActiveX/스크립트 | `SG_CAppAtx.ocx`, `sg_basic.js`, `sg_cert.js`, `sg_sign.js` |
+| 서버 설정 | `DSToolkitV30.conf`, `his.xml`, `CertKit/cert/*` |
+| 서버 측 예시 | `serverCert.jsp`, `Certification.java`, `PublicCertUC.java` |
+
+---
+
 ## 2. 아키텍처
 
 ### 2.1 전자서명 흐름
@@ -163,6 +175,12 @@ signgate.provider 패키지
 ---
 
 ## 3. 인증서 등록 절차
+
+### 3.0 현재 해석 한계
+
+- `SignGate`와 `DSToolkit`의 경계를 현재 로컬 근거만으로 완전히 분리할 수는 없다.
+- 현재 더 직접적인 운영 흔적은 `DSToolkitV30.conf`, `DSToolkit*.dll`, `CertKit/cert`, `serverCert.jsp` 쪽이다.
+- 따라서 이 문서는 `SignGate 단일 제품 분석`보다 `전자서명/인증서 처리 스택` 문서로 읽는 것이 맞다.
 
 ### 3.1 서버 인증서 등록 스크립트
 

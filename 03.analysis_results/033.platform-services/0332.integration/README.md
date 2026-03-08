@@ -39,3 +39,15 @@
 - `HTTP/REST`, `FTP`, `SOAP/Axis`, `SVNKit`은 현재 코드 근거가 강하다.
 - `JSch`는 관리자 업로드 JSP 기준 직접 사용이 확인된다.
 
+## 1A. 직접 확인 근거 파일
+
+| 기술 | 직접 확인 근거 |
+|------|----------------|
+| HTTP/REST | `com/rest/api/*`, `com/rest/util/HttpClientUtil.java`, `PolNetUC.java`, `LstUC.java`, `web.xml`의 Jersey servlet |
+| FTP | `nph/bat/sample/FtpUploadJob.java`, `FtpDownloadJob.java`, `nph/bat/hp/job/FtpUploadJob.java` |
+| JSch | `webapp/Admin/temp/uploadFile.jsp` |
+| xldap | `UserMngmPC.java`, `EamIFUC.java`, `ComLoginUC.java`, `MenuInfoCMD.java`, `ReturnSessionCMD.java` |
+| SOAP/Axis | `SavekimsCMD.java`, `SelectkimsCMD.java`, `KIMSMngmPC.java`, `MedicalInfoSoapStub.java`, `log4j.properties` |
+| JCAOS | `webapp/WEB-INF/homepath/cfg/dsagent.properties`, `magicsaml-sp-v1.3.3.jar`, `jcaos-1.4.7.7.jar` |
+| SVNKit | `SvnLogPC.java`, `SvnLogIFPC.java`, `instance_az.properties` |
+

@@ -8,6 +8,13 @@
 
 NPH 시스템은 `SVNKit`의 직접 사용 흔적이 확인된다. `JCAOS`는 JAR과 라이선스 파일 존재 수준을 넘어서 SSO/암호화 구성 관여가 확인된다. 다만 현재 애플리케이션 소스에서 `com.dreamsecurity.jcaos.*` 직접 import는 확인되지 않았다.
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| JCAOS 설정/런타임 | `webapp/WEB-INF/homepath/cfg/dsagent.properties`, `magicsaml-sp-v1.3.3.jar`, `jcaos-1.4.7.7.jar` |
+| SVNKit 직접 사용 | `SvnLogPC.java`, `SvnLogIFPC.java`, `devonhome/instance/instance_az.properties` |
+
 ---
 
 ## 2. JAR 파일

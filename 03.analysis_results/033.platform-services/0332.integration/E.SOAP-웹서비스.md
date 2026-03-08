@@ -8,6 +8,15 @@
 
 NPH 시스템은 Apache Axis를 사용하여 SOAP 웹서비스 통신을 수행한다. 주요 연동 대상은 KIMS(약품정보/DUR 시스템)이다.
 
+## 1A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| Axis JAR | `axis.jar`, `jaxrpc.jar`, `saaj.jar`, `wsdl4j-1.5.1.jar` |
+| 생성/프록시 코드 | `MedicalInfoSoapStub.java`, `MedicalInfoSoapProxy.java` |
+| 직접 사용 클래스 | `SavekimsCMD.java`, `SelectkimsCMD.java`, `KIMSMngmPC.java`, `PrintDrugFdisInfoCMD.java`, `SaveDrugMstCMD.java` |
+| 운영 설정 흔적 | `COMMON/libs/log4j.properties`, `NPH_HIS/webapp/WEB-INF/lib/log4j.properties` |
+
 ---
 
 ## 2. JAR 파일

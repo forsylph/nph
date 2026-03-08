@@ -9,7 +9,7 @@
 - 이 폴더의 기준 설명은 [../README.md](../README.md) 를 먼저 본다.
 - DevOn 코어는 [../../032.framework-core/0321.overview/A.Framework-개요.md](../../032.framework-core/0321.overview/A.Framework-개요.md) 와 같이 본다.
 - 의료업무 맥락은 [../../035.Biz-medical-Domain](../../035.Biz-medical-Domain) 으로 이어진다.
-- 실제 사례는 [../../037.runtime-trace/A.트레이스-읽는순서.md](../../037.runtime-trace/A.트레이스-읽는순서.md) 를 본다.
+- 실제 사례는 [../../037.runtime-trace/트레이스-읽는순서.md](../../037.runtime-trace/트레이스-읽는순서.md) 를 본다.
 
 이 문서는 `033.platform-services` 중 보안/인증 계열 솔루션을 정리하는 기준본이다.
 
@@ -23,7 +23,7 @@
 | **DSToolkit** | ✅ 분석 완료 | MagicSSO 문서에 포함 |
 | **MagicSAML** | ✅ 분석 완료 | [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) |
 | **OpenSAML** | ✅ 분석 완료 | [C.OpenSAML-MagicSAML.md](./C.OpenSAML-MagicSAML.md) |
-| **GPKI** | ✅ 분석 완료 | MagicSSO 문서에 포함 (37개 CA) |
+| **GPKI** | ✅ 분석 완료 | MagicSSO 문서에 포함 (DSToolkit 설정상 CA 정보 37개) |
 | **SignGate** | ✅ 분석 완료 | [D.SignGate-전자서명.md](./D.SignGate-전자서명.md) |
 | **Lucy XSS Filter** | ✅ 분석 완료 | [E.Lucy-XSS-Filter.md](./E.Lucy-XSS-Filter.md) |
 | **OWASP ESAPI** | ✅ 미사용 확인 | [F.OWASP-ESAPI-미사용.md](./F.OWASP-ESAPI-미사용.md) |
@@ -36,12 +36,12 @@
 
 | 기술 | 버전 | 공급사 | 비고 |
 |------|------|--------|------|
-| **MagicSSO** | 3.5 | 드림시큐리티 | SSO 핵심 솔루션 ✅ |
+| **MagicSSO** | 버전 미확인 | 드림시큐리티 계열 | SSO 계열 구성요소, 버전 단정 보류 |
 | **DSToolkit** | 3.4.2.0 | 드림시큐리티 | 인증 툴킷 ✅ |
 | **MagicSAML** | 1.3.3 | 드림시큐리티 | SAML SP ✅ |
 | **OpenSAML** | 2.6.4 | Shibboleth | SAML 라이브러리 |
-| **GPKI** | - | KISA | 공인인증서 (37개 CA) ✅ |
-| **SignGate** | - | KIS | 전자서명 ✅ |
+| **GPKI** | - | 공공 인증 인프라 | DSToolkit 설정상 CA 정보 37개 확인 |
+| **SignGate** | 버전 미확인 | 공급사 단정 보류 | 전자서명 계열 JAR/스크립트 확인 |
 | **SsoEam** | 1.0.6 | - | EAM 연동 ✅ |
 
 ### 3.2 보안
@@ -76,9 +76,9 @@ flowchart TB
     subgraph "033.platform-services"
         subgraph "0331.security-auth"
             subgraph SSO["SSO/인증"]
-                MagicSSO[MagicSSO 3.5]
+                MagicSSO[MagicSSO]
                 DSToolkit[DSToolkit 3.4.2]
-                GPKI[GPKI 37 CA]
+                GPKI[GPKI/CA]
             end
             subgraph Sign["전자서명"]
                 SignGate[SignGate]
@@ -99,6 +99,15 @@ flowchart TB
 ```
 
 ---
+
+## 4A. 직접 확인 근거 파일
+
+| 구분 | 직접 확인 근거 |
+|------|----------------|
+| SAML JSP | `webapp/sso/CreateRequest.jsp`, `CreateRequestAuth.jsp`, `Response.jsp`, `Response.db.jsp`, `Response.ldap.jsp`, `SPLogout.jsp`, `TimeoutLogout.jsp` |
+| 스크립트/설정 | `webapp/sso/MagicSAML.js`, `webapp/WEB-INF/homepath/cfg/dsagent.properties`, `webapp/WEB-INF/homepath/cfg/DSToolkitV30.conf` |
+| 라이브러리 | `magicsaml-sp-v1.3.3.jar`, `opensaml-2.6.4.jar`, `DSToolkit-v3.4.2.0.jar`, `SsoEam_v1.0.6.jar` |
+| LDAP/EAM | `ComLoginUC.java`, `MenuInfoCMD.java`, `ReturnSessionCMD.java`, `EamIFUC.java`, `UserMngmPC.java` |
 
 ## 5. 인증 경로
 
@@ -148,7 +157,7 @@ Client (ActiveX)          Server (Java)
      │                        │
 ```
 
-### 6.2 SignGate 컴포넌트
+### 6.2 전자서명/인증서 처리 컴포넌트
 
 | 컴포넌트 | 위치 | 용도 |
 |----------|------|------|
