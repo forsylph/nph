@@ -4,7 +4,7 @@
 
 약어/용어는 [약어-용어집.md](../030.index/0303.약어-용어집/약어-용어집.md) 를 먼저 보면 빠르다.
 
-이 문서는 `037.runtime-trace`의 세 문서를 어떤 순서로 읽으면 좋은지 정리한 짧은 안내문이다.
+이 문서는 `037.runtime-trace`의 대표 문서를 어떤 순서로 읽으면 좋은지 정리한 짧은 안내문이다.
 
 ## 2. 추천 순서
 
@@ -12,6 +12,7 @@
 flowchart LR
     A[MD_ORD01001P] --> B[HP_DMS02204M]
     B --> C[EdiMngmPC]
+    C --> D[SVN Log]
 ```
 
 1. [B.MD_ORD01001P-실행체인.md](./B.MD_ORD01001P-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
@@ -21,6 +22,9 @@ flowchart LR
    - 조회형처럼 보이지만 심사 후처리 도메인 파일군이 함께 묶인 사례
 3. [D.EdiMngmPC-분기구조.md](./D.EdiMngmPC-%EB%B6%84%EA%B8%B0%EA%B5%AC%EC%A1%B0.md)
    - 분기형 PC가 왜 생겼는지 보여주는 사례
+4. [F.AZ_SYS03100M-SVN로그조회-실행체인.md](./F.AZ_SYS03100M-SVN%EB%A1%9C%EA%B7%B8%EC%A1%B0%ED%9A%8C-%EC%8B%A4%ED%96%89%EC%B2%B4%EC%9D%B8.md)
+   - 업무 DB 대신 SVN 저장소를 직접 조회하는 특수 사례
+   - 버전관리/배포관리 문서와 가장 직접적으로 연결된다
 
 ## 3. 세 문서의 공통 템플릿
 
@@ -43,6 +47,7 @@ flowchart LR
 | `MD_ORD01001P` | 과밀 화면 | 시나리오 과적재, 다중 query family |
 | `HP_DMS02204M` | 심사/후처리형 | 조회 화면처럼 보여도 도메인 파일군이 두꺼움 |
 | `EdiMngmPC` | 분기형 PC | 파일유형/버전 분기를 화면 밖으로 밀어낸 구조 |
+| `AZ_SYS03100M` | 운영 도구형 | DevOn 화면이 SVN 저장소 조회 기능까지 감싼 사례 |
 
 ## 5. 상위 문서로 돌아가기
 

@@ -72,16 +72,21 @@ flowchart LR
 - `devonhome/logs/20260202AMdebug.log`
 - `devonhome/logs/batch-file-log/devon-batch-syslog`
 - `devonhome/logs/batch-file-log/batchLog`
+- `devonhome/logs/batch-file-log/2026-02-02/HP_BAT01206B-86.log`
+- `devonhome/logs/batch-file-log/2026-02-02/HP_BAT01206B-86-HP_BAT01206B01.log`
 
 직접 확인된 예:
-- `BatchExecutor.cmd -groupId HP_BAT01206B -executorId 8990004 -override HP_BAT01206B01={job:{...}}`
 - `작업그룹 HP_BAT01206B를 [동기]로 실행합니다.`
 - `작업 [HP_BAT01206B01] 설정이 override될 예정입니다.`
-- 이후 `리더 생성 -> 파서 생성 -> 작업 생성 -> 작업 실행 -> 종료` 로그
+- `batchLog`에 `초기화 -> 처리 중 -> 리더 생성 -> 파서 생성 -> 리더-파서 검증 -> 작업 생성 -> 작업 실행 -> 작업 종료 -> 작업 정리` 상태 전이
+- `devon.batch.core.exception.exec.JobGroupExecutionException`
+- `작업 [HP_BAT01206B01] devon.batch.core.exception.exec.BatchStackedException`
+- 개별 로그 파일명 `HP_BAT01206B-86`, `HP_BAT01206B-86-HP_BAT01206B01`
 
 해석:
 - 로그 기준으로는 JobGroup/Job 구조가 실제 운영에서 사용되고 있다.
 - 그리고 실행 흐름은 `JobGroup -> Job -> Reader -> Parser -> Job class` 순서로 남는다.
+- 다만 현재 로그만으로는 `HP_BAT01206B01`이 어떤 Java Job 클래스로 연결되는지는 닫히지 않는다.
 
 ## 6. 자동 스케줄러와 수동/온라인 실행의 분리
 
@@ -102,6 +107,7 @@ flowchart LR
 - 실제 DB에 저장된 전체 JobGroup 목록
 - 개별 Job의 cron 식 또는 예약 주기
 - 현재 운영 중인 활성 스케줄 전체
+- `HP_BAT01206B01`의 최종 Java Job 클래스 매핑
 
 즉 현행 설정의 틀과 실행 방식은 확인됐지만, `전체 예약표` 자체는 DB 없이는 닫히지 않는다.
 

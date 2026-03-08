@@ -112,7 +112,26 @@ flowchart LR
 - 배치는 `cmd`와 `devonhome_batch` 설정을 별도로 가진다.
 - 현재 백업 기준으로는 상주형 스케줄러보다 `UI/DB 메타데이터/스크립트 조합`이 더 강하다.
 
-### 5.3 배포 단위 초안
+### 5.3 로그 기준 현행 운영 흔적
+추가 확인 로그:
+- `devonhome/logs/batch-file-log/devon-batch-syslog`
+- `devonhome/logs/batch-file-log/batchLog`
+- `devonhome/logs/batch-file-log/2026-02-02/HP_BAT01206B-86.log`
+- `devonhome/logs/batch-file-log/2026-02-02/HP_BAT01206B-86-HP_BAT01206B01.log`
+
+직접 확인된 사실:
+- `작업그룹 HP_BAT01206B를 [동기]로 실행합니다.`
+- `작업[HP_BAT01206B01] 설정이 다음과 같이 override될 예정입니다.`
+- `batchLog`에는 `초기화 -> 처리 중 -> 리더 생성 -> 파서 생성 -> 리더-파서 검증 -> 작업 생성 -> 작업 실행 -> 작업 종료 -> 작업 정리` 상태 전이가 남아 있다.
+- 같은 로그에 `JobGroupExecutionException`, `BatchStackedException`이 함께 남아 있어 `JobGroup -> Job` 계층 실행이 실제로 동작한 흔적이 강하다.
+- 로그 파일명 자체가 `HP_BAT01206B-86`, `HP_BAT01206B-86-HP_BAT01206B01` 형태라서 `작업그룹 실행번호`와 `개별 Job`이 분리되어 기록됨을 보여준다.
+
+해석:
+- 이 로그들은 현재 배치 운영이 단순 XML 예약표가 아니라 `JobGroup/Job 메타데이터 + override 파라미터 + 실행기` 구조로 움직인다는 점을 뒷받침한다.
+- 즉 `batchMgr UI + DB 메타데이터 + BatchExecutor.cmd` 조합이라는 현재 결론은 로그 기준으로도 맞다.
+- 다만 `HP_BAT01206B01`이 어떤 Java Job 클래스로 최종 매핑되는지는 아직 로그만으로 닫히지 않는다.
+
+### 5.4 배포 단위 초안
 이 프로젝트에서 실제 배포 단위로 같이 움직였을 가능성이 높은 것은 아래 조합이다.
 
 1. `WEB-INF/lib` 의 JAR 묶음
@@ -144,6 +163,22 @@ flowchart LR
 - 코드만 바뀌고 `instance_*.properties`가 같이 안 바뀌면, 새 PC 구현체가 런타임에서 안 보일 수 있다.
 - 즉 이 파일들은 `설정`이면서 동시에 `런타임 wiring 산출물`이다.
 - 배포 관점에서 보면, `JAR + devonhome 설정 + instance_*.properties`는 같은 묶음으로 다뤄야 한다.
+
+### 6.4 도메인별 instance 파일 비교
+
+| 파일 | 대표 키 예시 | 해석 |
+|---|---|---|
+| `instance_app.properties` | `pat.auth.LoginPC` | 대외/앱 계열 진입점 매핑 |
+| `instance_az.properties` | `az.comn.SvnLogPC`, `az.comn.BatchInfoPC` | 공통/운영도구/배치관리 성격 |
+| `instance_hp.properties` | `hp.dms.PostRevwMngmPC`, `hp.dms.EdiMngmPC` | 보험심사/EDI/청구 도메인 매핑 |
+| `instance_md.properties` | `md.ord.PrscMngmPC` | 처방/진료 핵심 도메인 매핑 |
+| `instance_er.properties` | 다수 `er.*PC` | 행정/원무/회계/자원 등 폭넓은 업무군 |
+| `instance_mr.properties` | 다수 `mr.*PC` | 의무기록/진단기록 계열 매핑 |
+| `instance_sp.properties` | 다수 `sp.*PC` | 검사/약제/영상/특수부서 계열 매핑 |
+
+판단:
+- `instance_*.properties`는 단순 환경설정 파일이 아니라, 도메인별 PC wiring을 담은 런타임 핵심 산출물이다.
+- 따라서 신규 PC 추가, 클래스 이동, 패키지 변경이 있으면 코드 반영과 함께 이 파일도 배포 단위로 같이 관리해야 한다.
 
 ## 7. 현재까지의 초안 판단
 

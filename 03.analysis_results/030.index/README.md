@@ -38,10 +38,6 @@ flowchart LR
   - 운영 규칙, 문서맵, 재배치 계획
 - `0303.약어-용어집`
   - 약어, 클래스명, 파일군, 대표 command/PC/EC
-- `0304.읽는순서`
-  - 상황별 탐색 순서
-- `0305.process journey`
-  - 환자 여정, 사용자/부서 여정 프리뷰
 - `0307.Tech Stack`
   - 기술 목록과 단계별 분석 로드맵
 
@@ -50,9 +46,8 @@ flowchart LR
 1. [운영규칙.md](./0301.%EC%9A%B4%EC%98%81%EA%B7%9C%EC%B9%99%20%EB%B0%8F%20%EB%AC%B8%EC%84%9C%EB%A7%B5/%EC%9A%B4%EC%98%81%EA%B7%9C%EC%B9%99.md)
 2. [문서맵.md](./0301.%EC%9A%B4%EC%98%81%EA%B7%9C%EC%B9%99%20%EB%B0%8F%20%EB%AC%B8%EC%84%9C%EB%A7%B5/%EB%AC%B8%EC%84%9C%EB%A7%B5.md)
 3. [약어-용어집.md](./0303.%EC%95%BD%EC%96%B4-%EC%9A%A9%EC%96%B4%EC%A7%91/%EC%95%BD%EC%96%B4-%EC%9A%A9%EC%96%B4%EC%A7%91.md)
-4. [읽는순서.md](./0304.%EC%9D%BD%EB%8A%94%EC%88%9C%EC%84%9C/%EC%9D%BD%EB%8A%94%EC%88%9C%EC%84%9C.md)
-5. [Tech-Stack-개요.md](./0307.Tech%20Stack/Tech-Stack-%EA%B0%9C%EC%9A%94.md)
-6. [Tech-Stack-분석로드맵.md](./0307.Tech%20Stack/Tech-Stack-%EB%B6%84%EC%84%9D%EB%A1%9C%EB%93%9C%EB%A7%B5.md)
+4. [Tech-Stack-개요.md](./0307.Tech%20Stack/Tech-Stack-%EA%B0%9C%EC%9A%94.md)
+5. [Tech-Stack-분석로드맵.md](./0307.Tech%20Stack/Tech-Stack-%EB%B6%84%EC%84%9D%EB%A1%9C%EB%93%9C%EB%A7%B5.md)
 
 ## 5. 폴더별 의미
 
