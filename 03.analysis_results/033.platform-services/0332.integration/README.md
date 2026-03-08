@@ -8,8 +8,6 @@
 
 - 이 폴더의 기준 설명은 [../README.md](../README.md) 를 먼저 본다.
 - DevOn 코어는 [../../032.framework-core/0321.overview/A.Framework-개요.md](../../032.framework-core/0321.overview/A.Framework-개요.md) 와 같이 본다.
-- 의료업무 맥락은 [../../035.Biz-medical-Domain](../../035.Biz-medical-Domain) 으로 이어진다.
-- 실제 사례는 [../../037.runtime-trace/트레이스-읽는순서.md](../../037.runtime-trace/트레이스-읽는순서.md) 를 본다.
 
 이 문서는 외부 시스템과의 공통 연동에 사용되는 솔루션과 패키지를 정리하는 기준본이다.
 
@@ -52,8 +50,36 @@
 
 ---
 
-## 3. 빠른 판단
+## 3. 기술 스택 요약
+
+| 기술 | 상태 | 비고 |
+|------|------|------|
+| **Apache HttpClient** | ✅ 직접 사용 확인 | `HttpClientUtil`, `PolNetUC`, `LstUC` |
+| **Jersey/JAX-RS** | ✅ 직접 사용 확인 | `com.rest.api.*`, `web.xml` |
+| **edtFTPj** | ✅ 직접 사용 확인 | 배치 FTP 전송 |
+| **JSch** | ✅ 직접 사용 확인 | 관리자 업로드 JSP 1건 |
+| **xldap** | ✅ 직접 사용 확인 | EAM/권한/사용자 관리 |
+| **Apache Axis** | ✅ 직접 사용 확인 | KIMS SOAP 연동 |
+| **JCAOS** | ⚠️ 런타임 구성 관여 확인 | 앱 소스 직접 import 미확인 |
+| **SVNKit** | ✅ 직접 사용 확인 | `SvnLogPC`, `SvnLogIFPC` |
+
+---
+
+## 4. 문서별 한 줄 요약
+
+| 문서 | 한 줄 요약 |
+|------|------------|
+| [B.HTTP-REST-클라이언트.md](./B.HTTP-REST-클라이언트.md) | 내부 REST 서버와 외부 HTTP 호출 클라이언트를 함께 정리한 문서 |
+| [C.FTP-SSH-클라이언트.md](./C.FTP-SSH-클라이언트.md) | 배치 FTP 전송과 관리자 JSP 기반 JSch 사용 흔적을 정리한 문서 |
+| [D.LDAP-인증연동.md](./D.LDAP-인증연동.md) | xldap 직접 사용과 LDAP 설정 흔적을 기준으로 정리한 문서 |
+| [E.SOAP-웹서비스.md](./E.SOAP-웹서비스.md) | KIMS 중심 SOAP/Axis 호출 패턴과 생성 프록시 사용을 정리한 문서 |
+| [F.JCAOS-SVNKit.md](./F.JCAOS-SVNKit.md) | JCAOS의 런타임 구성 관여와 SVNKit 직접 사용을 함께 정리한 문서 |
+
+---
+
+## 5. 빠른 판단
 
 - `HTTP/REST`, `FTP`, `SOAP/Axis`, `SVNKit`은 현재 코드 근거가 강하다.
 - `JSch`는 관리자 업로드 JSP 기준 직접 사용이 확인된다.
+- `JCAOS`는 설정/JAR 기준 관여는 확인되지만, 앱 소스 직접 호출은 아직 미확인이다.
 
